@@ -21,7 +21,7 @@
 			background: #fff5c0;
 			position: sticky;
 			top: 0;
-			z-index: 1000;
+			z-index: 100000;
 			border-radius: 0.4em;
 			box-shadow: 0em 0em 1em;
 		}
@@ -47,7 +47,7 @@
 		transform: scale(1.15)
 	}
 	
-	button:active {transform: scale(0.85)}
+	button#click-btn:active {transform: scale(0.85)}
 
 	.addDonut {border-radius: 50%;
 		  width: 300px;
@@ -325,6 +325,15 @@ pointer-events: none;
 hr {
 	color: black
 }
+#changelog {
+	opacity: 0;
+	position: sticky;
+	top: 0;
+	margin: -50px 0px 0px 0px;
+	z-index: 100000;
+	background-color:#b47542;
+	font-size: 0px;
+}
 </style>
 </head>
 <body>
@@ -336,6 +345,7 @@ hr {
 <div class="inner-circle">
 	+1 Donut
 </div>
+
 <div class="pill1" style="opacity: 0"></div>
 <div class="pill2" style="opacity: 0"></div>
 <div class="pill3" style="opacity: 0"></div>
@@ -387,11 +397,15 @@ hr {
 	RESET YOUR PROGRESS
 </button>
 <br>
-<br>
-<br>
-<br>
-<br>
-<div>
+<hr>
+<button onclick="opens();" id="openbutton" style="opacity: 1;z-index: 999999;pointer-events: all;position: relative;">
+	Open Changelog.
+</button>
+<div id="changelog">
+	<button onclick="closes()" style="z-index: 9999999">
+		Close Changelog
+	</button>
+	<br>
 	CHANGELOG:
 	<hr>
 	<div id="entry">
@@ -413,13 +427,50 @@ hr {
 		v6.1.3.2:
 		Spacing reformatted.
 	</div>
+	<hr>
 	<div id="entry">
 		v6.2:
 		Prestige added.
 	</div>
+	<hr>
+	<div id="entry">
+		v6.3: 
+		Changelog moved, Buttons to close and open changelog added.
+	</div>
+	<hr>
+	<div id="entry">
+		v6.3.1:
+		Changelog margin changed, white space of invisible changelog removed.
+	</div>
+	<hr>
 </div>
 <script>
+	function opens() {
+		const changelog = document.getElementById("changelog");
+		changelog.style.opacity = "1";
+		changelog.style.fontSize = "1rem";
+		const openbutton = document.getElementById("openbutton");
+		openbutton.style.opacity = "0";
+		openbutton.style.zIndex = "0";
+		console.log("open");
+	};
+	function closes() {
+		const changelog = document.getElementById("changelog");
+		changelog.style.opacity = "0";
+		changelog.style.fontSize = "0px";
+		const openbutton = document.getElementById("openbutton");
+		openbutton.style.opacity = "1";
+		openbutton.style.zIndex = "999999";
+		console.log("close");
+	};
+	const entries = [
+		{name: "v6.1.2", details: "Changelog added."},
+		{name: "v6.1.3", details: "Bug fix: Reset now resets rebirth display."},
+		{name: "v6.1.3.1", details: "Changelog reformatted."},
+		{name: "v6.2", details: "Prestige added."},
 
+	];
+	console.log(entries);
 	let generators = [
 	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 1, scale: 1.07, rating: 1},
 	{name: "Glazed Donut", amount: 0, baseCost: 30, donutGain: 4, scale: 1.05, rating: 2},
@@ -446,7 +497,7 @@ hr {
   const donuty = document.createElement('div');
   donuty.classList.add('falling-donut');
   donuty.innerHTML = "🍩";
-  donuty.style.width = "3px";
+  donuty.style.width = "2px";
   donuty.style.height = "3px";
   console.log("Donut Created.");
   donuts++;
@@ -503,10 +554,10 @@ if (maxrating != 0) {
 	
 	let rsf = (localStorage.getItem("Rebirth") !== null && !isNaN(parseInt(localStorage.getItem("Rebirth")))) ? parseInt(localStorage.getItem("Rebirth")) : 0;
 	let prestiges = (localStorage.getItem("Prestige") !== null && !isNaN(parseInt(localStorage.getItem("Prestige")))) ? parseInt(localStorage.getItem("Prestige")) : 0;
+	let rebirthpoints = (localStorage.getItem("RP") !== null && !isNaN(parseInt(localStorage.getItem("RP")))) ? parseInt(localStorage.getItem("RP")) : rsf;
 	if (rsf != 0) {
 		rebirthing()
 	}
-	let rebirthpoints = rsf;
 	for (let k = 0; k < 18; k++) {
 		let s = generators[k];
 		s.amount = (localStorage.getItem(s.name) !== null && !isNaN(parseInt(localStorage.getItem(s.name)))) ? parseInt(localStorage.getItem(s.name)) : 0;
@@ -514,6 +565,9 @@ if (maxrating != 0) {
 	for (let k = 0; k < 12; k++) {
 		let m = upgrades[k];
 		m.bought = (localStorage.getItem(m.name) !== null && localStorage.getItem(m.name)) ? localStorage.getItem(m.name) : false;
+		if (m.bought == "true") {
+			m.effect();
+		}
 	};
 	const stocks = [
 	{name: "Donut Corp", price: 100, high: 1000, low: 100, last: 100},
@@ -942,6 +996,7 @@ if (maxrating != 0) {
 	let newcost = newsquare * 500000000000;
 	rebirtharea2.innerHTML = newcost;
 	rebirthpoints++;
+	localStorage.setItem("RP", rebirthpoints)
 	}else{
 		alert("You do not have enough donuts to rebirth to rebirth" + (rsf + 1) + "!");
 	}};
@@ -994,6 +1049,7 @@ if (maxrating != 0) {
 	let newcost = newsquare * 500000000000;
 	rebirtharea2.innerHTML = newcost;
 	rebirthpoints++;
+	localStorage.setItem("RP", rebirthpoints);
 	updateUI();};
 	function prestige() {
 		if (rebirthpoints >= 30 && prompt("Are you sure you want to prestige? This action will cost 30 rebirth points!").toLowerCase() === "yes") {
@@ -1014,6 +1070,8 @@ if (maxrating != 0) {
 	prestigearea1.innerHTML = prestiges + 1;
 	const prestigearea2 = document.getElementById("ptc");
 	prestigearea2.innerHTML = 30;
+		}else{
+			alert("You do not have enough rebirth points to prestige!")
 		}}
 	function rebirthb(boolean) {
 	if (boolean === true) {
@@ -1074,6 +1132,7 @@ if (maxrating != 0) {
 	rebirtharea2.innerHTML = newcost;
 	rebirthpoints++;
 	rebirthpoints++;
+	localStorage.setItem("RP", rebirthpoints)
 	}else{
 		alert("You do not have enough donuts to rebirth to rebirth " + (rsf + 1) + "!");
 	}};
