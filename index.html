@@ -381,12 +381,13 @@ hr {
 	</div>
 </div>
 <br>
+<!--
 <button onclick="prestige()" style="background-image: linear-gradient(270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 10%, rgba(255, 123, 0, 1) 19%, rgba(255, 226, 35, 1) 28%, rgba(177, 255, 67, 1) 37%, rgba(107, 212, 97, 1) 46%, rgba(0, 255, 242, 1) 55%, rgba(60, 160, 242, 1) 64%, rgba(115, 108, 242, 1) 73%, rgba(164, 70, 242, 1) 82%, rgba(218, 29, 242, 1) 91%, rgba(255, 0, 242, 1) 100%);">
 	PRESTIGE TO PRESTIGE LEVEL <span id="ptn">1</span>
 	<br>
 	Cost: <span id="ptc">30</span> Rebirth Points
-</button>
-<button onclick="if(rebirthb()) {rebirthb()}else{rebirth()}" style="background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 10%, rgba(255, 123, 0, 1) 19%, rgba(255, 226, 35, 1) 28%, rgba(177, 255, 67, 1) 37%, rgba(107, 212, 97, 1) 46%, rgba(0, 255, 242, 1) 55%, rgba(60, 160, 242, 1) 64%, rgba(115, 108, 242, 1) 73%, rgba(164, 70, 242, 1) 82%, rgba(218, 29, 242, 1) 91%, rgba(255, 0, 242, 1) 100%);">
+</button>-->
+<button onclick="rebirth()" style="background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 10%, rgba(255, 123, 0, 1) 19%, rgba(255, 226, 35, 1) 28%, rgba(177, 255, 67, 1) 37%, rgba(107, 212, 97, 1) 46%, rgba(0, 255, 242, 1) 55%, rgba(60, 160, 242, 1) 64%, rgba(115, 108, 242, 1) 73%, rgba(164, 70, 242, 1) 82%, rgba(218, 29, 242, 1) 91%, rgba(255, 0, 242, 1) 100%);">
 	REBIRTH TO REBIRTH <span id="rbn">1</span>
 	<br>
 	Cost: <span id="rbc">500000000000</span>🍩
@@ -407,41 +408,6 @@ hr {
 	</button>
 	<br>
 	CHANGELOG:
-	<hr>
-	<div id="entry">
-		v6.1.2:
-		Changelog added.
-	</div>
-	<hr>
-	<div id="entry">
-		v6.1.3:
-		Bug fix: Reset now resets rebirth display.
-	</div>
-	<hr>
-	<div id="entry">
-		v6.1.3.1:
-		Changelog reformatted.
-	</div>
-	<hr>
-	<div id="entry">
-		v6.1.3.2:
-		Spacing reformatted.
-	</div>
-	<hr>
-	<div id="entry">
-		v6.2:
-		Prestige added.
-	</div>
-	<hr>
-	<div id="entry">
-		v6.3: 
-		Changelog moved, Buttons to close and open changelog added.
-	</div>
-	<hr>
-	<div id="entry">
-		v6.3.1:
-		Changelog margin changed, white space of invisible changelog removed.
-	</div>
 	<hr>
 </div>
 <script>
@@ -468,28 +434,36 @@ hr {
 		{name: "v6.1.3", details: "Bug fix: Reset now resets rebirth display."},
 		{name: "v6.1.3.1", details: "Changelog reformatted."},
 		{name: "v6.2", details: "Prestige added."},
-
+		{name: "v6.3", details: "Changelog moved, buttons to close and open changelog added."},
+		{name: "v6.3.1", details: "Changelog margin changed, white space of invisible changelog removed."},
+		{name: "v6.2", details: "Prestige temporarily removed, changelog code compacted to save space and make display easier."}
 	];
+	for (let i = 0; i < entries.length; i++) {
+		const eachentry = document.createElement("div");
+		eachentry.innerHTML = entries[i].name + "<br>" + entries[i].details + "<hr>";
+		const changelogsection = document.getElementById("changelog");
+		changelogsection.appendChild(eachentry);
+	}
 	console.log(entries);
 	let generators = [
-	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 1, scale: 1.07, rating: 1},
-	{name: "Glazed Donut", amount: 0, baseCost: 30, donutGain: 4, scale: 1.05, rating: 2},
-	{name: "Glazed Donut II", amount: 0, baseCost: 90, donutGain: 12, scale: 1.045, rating: 3},
-	{name: "Sugar Donut ", amount: 0, baseCost: 250, donutGain: 24, scale: 1.05, rating: 4},
-	{name: "Sugar Donut II", amount: 0, baseCost: 700, donutGain: 70, scale: 1.04, rating: 5},
-	{name: "Vanilla Donut", amount: 0, baseCost: 1800, donutGain: 150, scale: 1.035, rating: 6},
-	{name: "Vanilla Donut II", amount: 0, baseCost: 4000, donutGain: 300, scale: 1.035, rating: 7},
-	{name: "Chocolate Donut", amount: 0, baseCost: 9000, donutGain: 750, scale: 1.03, rating: 8},
-	{name: "Chocolate Donut II", amount: 0, baseCost: 25000, donutGain: 1000, scale: 1.025, rating: 9},
-	{name: "Strawberry Donut", amount: 0, baseCost: 75000, donutGain: 2500, scale: 1.02, rating: 10},
-	{name: "Strawberry Donut II", amount: 0, baseCost: 250000, donutGain: 10000, scale: 1.03, rating: 11},
-	{name: "Double Chocolate Donut", amount: 0, baseCost: 1000000, donutGain: 30000, scale: 1.028, rating: 12},
-	{name: "Double Chocolate Donut II", amount: 0, baseCost: 5000000, donutGain: 100000, scale: 1.025, rating: 13},
-	{name: "Christmas Donut", amount: 0, baseCost: 120000000, donutGain: 500000, scale: 1.025, rating: 14},
-	{name: "Christmas Donut II", amount: 0, baseCost: 1500000000, donutGain: 5000000, scale: 1.0225, rating: 15},
-	{name: "Rainbow Donut", amount: 0, baseCost: 5000000000000, donutGain: 100000000, scale: 1.02, rating: 16},
-	{name: "Rainbow Donut II", amount: 0, baseCost: 800000000000000, donutGain: 100000000000, scale: 1.0185, rating: 17},
-	{name: "Blueberry Donut", amount: 0, baseCost: 50000000000000000, donutGain: 5000000000000, scale: 1.015, rating: 18},
+	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 0.1, scale: 1.05, rating: 1},
+	{name: "Glazed Donut", amount: 0, baseCost: 40, donutGain: 0.5, scale: 1.0475, rating: 2},
+	{name: "Glazed Donut II", amount: 0, baseCost: 100, donutGain: 1.8, scale: 1.045, rating: 3},
+	{name: "Sugar Donut ", amount: 0, baseCost: 300, donutGain: 5, scale: 1.0425, rating: 4},
+	{name: "Sugar Donut II", amount: 0, baseCost: 1000, donutGain: 30, scale: 1.04, rating: 5},
+	{name: "Vanilla Donut", amount: 0, baseCost: 4000, donutGain: 100, scale: 1.0375, rating: 6},
+	{name: "Vanilla Donut II", amount: 0, baseCost: 12000, donutGain: 750, scale: 1.035, rating: 7},
+	{name: "Chocolate Donut", amount: 0, baseCost: 50000, donutGain: 4000, scale: 1.0325, rating: 8},
+	{name: "Chocolate Donut II", amount: 0, baseCost: 250000, donutGain: 24000, scale: 1.03, rating: 9},
+	{name: "Strawberry Donut", amount: 0, baseCost: 1000000, donutGain: 110000, scale: 1.02875, rating: 10},
+	{name: "Strawberry Donut II", amount: 0, baseCost: 5000000, donutGain: 700000, scale: 1.0275, rating: 11},
+	{name: "Double Chocolate Donut", amount: 0, baseCost: 30000000, donutGain: 4500000, scale: 1.025, rating: 12},
+	{name: "Double Chocolate Donut II", amount: 0, baseCost: 200000000, donutGain: 35000000, scale: 1.02275, rating: 13},
+	{name: "Christmas Donut", amount: 0, baseCost: 120000000, donutGain: 500000, scale: 1.02075, rating: 14},
+	{name: "Christmas Donut II", amount: 0, baseCost: 1500000000, donutGain: 5000000, scale: 1.02, rating: 15},
+	{name: "Rainbow Donut", amount: 0, baseCost: 5000000000000, donutGain: 100000000, scale: 1.019, rating: 16},
+	{name: "Rainbow Donut II", amount: 0, baseCost: 800000000000000, donutGain: 100000000000, scale: 1.018, rating: 17},
+	{name: "Blueberry Donut", amount: 0, baseCost: 50000000000000000, donutGain: 5000000000000, scale: 1.0175, rating: 18},
 	];
 	let donuts = 0
 	function spawnFallingDonut() {
@@ -501,27 +475,21 @@ hr {
   donuty.style.height = "3px";
   console.log("Donut Created.");
   donuts++;
-
-  // Random horizontal start position
   donuty.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
   donuty.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
-
-  // Random fall duration
   const duration = 1 + Math.random() * 2; // 1–3 seconds
   donuty.style.animationDuration = duration + 's';
-
   document.body.appendChild(donuty);
-
-  // Remove donut after animation
   setTimeout(() => {
     donuty.remove();
 	donuts--;
-  }, duration * 1000);} else{donuts -= 0.25 }
+  }, duration * 1000);} else{donuts -= 0.125;
+	console.log("TOO MANY DONUTS SPAWNED!")
+   }
 }
 
 	let donut;
 	const stored = localStorage.getItem("donut");
-
 
 donut = (stored !== null && !isNaN(parseInt(stored))) ? parseInt(stored) : 0;
 let donutPerClick = 1;
@@ -531,11 +499,7 @@ let lastClickTimes = [];
 let maxrating = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
 if (maxrating != 0) {
 	maxratings(maxrating)
-}
-
-
-
-
+};
 	
 	let upgrades = [
 	{name: "Donut Cart (x2 click)", cost: 1000, bought: false, effect: () => donutPerClick *= 2},
@@ -557,7 +521,7 @@ if (maxrating != 0) {
 	let rebirthpoints = (localStorage.getItem("RP") !== null && !isNaN(parseInt(localStorage.getItem("RP")))) ? parseInt(localStorage.getItem("RP")) : rsf;
 	if (rsf != 0) {
 		rebirthing()
-	}
+	};
 	for (let k = 0; k < 18; k++) {
 		let s = generators[k];
 		s.amount = (localStorage.getItem(s.name) !== null && !isNaN(parseInt(localStorage.getItem(s.name)))) ? parseInt(localStorage.getItem(s.name)) : 0;
@@ -770,7 +734,7 @@ if (maxrating != 0) {
 	
 	function updateUI() {
 		document.getElementById("donut-display").textContent =
-		`Donut: ${Math.floor(donut)} (DPS: ${Math.round(donutPerSecond)})`;
+		`Donut: ${Math.round(donut * 10) / 10} (DPS: ${Math.round(donutPerSecond * 10) / 10})`;
 		
 		document.querySelector(".inner-circle").textContent = `+${donutPerClick} Donut`;
 		
@@ -871,7 +835,7 @@ if (maxrating != 0) {
 	setInterval(() => {
 		donut += donutPerSecond / 10;
 		document.getElementById("donut-display").textContent =
-		`Donut: ${Math.floor(donut)} (DPS: ${Math.round(donutPerSecond)})`;
+		`Donut: ${Math.round(donut * 10) / 10} (DPS: ${Math.round(donutPerSecond * 10) / 10})`;
 		
 		document.getElementById("click-btn").textContent = `+${donutPerClick} Donut`;
 		renderStocks();
@@ -957,6 +921,7 @@ if (maxrating != 0) {
 		for (let k = 0; k < 18; k++) {
 		const s = generators[k];
 		s.amount = 0;
+		s.donutGain *= (rsf + 1);
 		localStorage.clear()
 	};
 	for (let k = 0; k < 12; k++) {
@@ -965,28 +930,8 @@ if (maxrating != 0) {
 	};
 	let mrbeast = document.querySelector(".mr");
 	mrbeast.innerHTML = "0";} else {};
-	rsf++
+	rsf++;
 	let rst = rsf + 1
-	generators = [
-	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 1 * rst, scale: 1.07, rating: 1},
-	{name: "Glazed Donut", amount: 0, baseCost: 30, donutGain: 4 * rst, scale: 1.05, rating: 2},
-	{name: "Glazed Donut II", amount: 0, baseCost: 90, donutGain: 12 * rst, scale: 1.045, rating: 3},
-	{name: "Sugar Donut ", amount: 0, baseCost: 250, donutGain: 24 * rst, scale: 1.05, rating: 4},
-	{name: "Sugar Donut II", amount: 0, baseCost: 700, donutGain: 70 * rst, scale: 1.04, rating: 5},
-	{name: "Vanilla Donut", amount: 0, baseCost: 1800, donutGain: 150 * rst, scale: 1.035, rating: 6},
-	{name: "Vanilla Donut II", amount: 0, baseCost: 4000, donutGain: 300 * rst, scale: 1.035, rating: 7},
-	{name: "Chocolate Donut", amount: 0, baseCost: 9000, donutGain: 750 * rst, scale: 1.03, rating: 8},
-	{name: "Chocolate Donut II", amount: 0, baseCost: 25000, donutGain: 1000 * rst, scale: 1.025, rating: 9},
-	{name: "Strawberry Donut", amount: 0, baseCost: 75000, donutGain: 2500 * rst, scale: 1.02, rating: 10},
-	{name: "Strawberry Donut II", amount: 0, baseCost: 250000, donutGain: 10000 * rst, scale: 1.03, rating: 11},
-	{name: "Double Chocolate Donut", amount: 0, baseCost: 1000000, donutGain: 30000 * rst, scale: 1.028, rating: 12},
-	{name: "Double Chocolate Donut II", amount: 0, baseCost: 5000000, donutGain: 100000 * rst, scale: 1.025, rating: 13},
-	{name: "Christmas Donut", amount: 0, baseCost: 120000000, donutGain: 500000 * rst, scale: 1.025, rating: 14},
-	{name: "Christmas Donut II", amount: 0, baseCost: 1500000000, donutGain: 5000000 * rst, scale: 1.0225, rating: 15},
-	{name: "Rainbow Donut", amount: 0, baseCost: 5000000000000, donutGain: 100000000 * rst, scale: 1.02, rating: 16},
-	{name: "Rainbow Donut II", amount: 0, baseCost: 800000000000000, donutGain: 100000000000 * rst, scale: 1.0185, rating: 17},
-	{name: "Blueberry Donut", amount: 0, baseCost: 50000000000000000, donutGain: 5000000000000 * rst, scale: 1.015, rating: 18},
-	];
 	localStorage.setItem("Rebirth", rsf);
 	updateUI();
 	const rebirtharea1 = document.getElementById("rbn");
@@ -996,9 +941,10 @@ if (maxrating != 0) {
 	let newcost = newsquare * 500000000000;
 	rebirtharea2.innerHTML = newcost;
 	rebirthpoints++;
-	localStorage.setItem("RP", rebirthpoints)
+	localStorage.setItem("RP", rebirthpoints);
+	localStorage.setItem("Prestige", prestiges);
 	}else{
-		alert("You do not have enough donuts to rebirth to rebirth" + (rsf + 1) + "!");
+		alert("You do not have enough donuts to rebirth to rebirth " + (rsf + 1) + "!");
 	}};
 	function rebirthing() {
 		donut = 0;
@@ -1050,93 +996,11 @@ if (maxrating != 0) {
 	rebirtharea2.innerHTML = newcost;
 	rebirthpoints++;
 	localStorage.setItem("RP", rebirthpoints);
+	localStorage.setItem("Prestige", prestiges);
 	updateUI();};
 	function prestige() {
-		if (rebirthpoints >= 30 && prompt("Are you sure you want to prestige? This action will cost 30 rebirth points!").toLowerCase() === "yes") {
-			rebirthpoints -= 30;
-			let unlock = true; 
-			prestiges++;
-			const rebirtharea1 = document.getElementById("rbn");
-			let ast = parseInt(rebirtharea1.innerHTML);
-			ast++;
-			rebirtharea1.innerHTML = ast;
-	const rebirtharea2 = document.getElementById("rbc");
-	let asg = parseInt(rebirtharea2.innerHTML);
-	asg++;
-	let newsquare = asg ** 2;
-	let newcost = newsquare * 500000000000;
-	rebirtharea2.innerHTML = newcost;
-	const prestigearea1 = document.getElementById("ptn");
-	prestigearea1.innerHTML = prestiges + 1;
-	const prestigearea2 = document.getElementById("ptc");
-	prestigearea2.innerHTML = 30;
-		}else{
-			alert("You do not have enough rebirth points to prestige!")
-		}}
-	function rebirthb(boolean) {
-	if (boolean === true) {
-			let square = rsf + 2;
-			square *= square;
-			if (donut >= 500000000000 * square) {
-		let sigma = prompt("ARE YOU SURE YOU WANT TO REBIRTH?! ALL YOUR STATS WILL BE RESET! TYPE YES (NOT CASE SENSITIVE TO CONFIRM!)").toLowerCase()
-		if (sigma === "yes") {
-		donut = 0;
-		donutPerClick = 1;
-		donutPerSecond = 0;
-		maxrating = 0;
-		const thedonut = document.getElementById("click-btn");
-		thedonut.style.backgroundImage = "";
-		thedonut.style.backgroundColor = "#df8c43";
-		thedonut.style.color = "transparent";
-		for (let k = 0; k < 18; k++) {
-		const s = generators[k];
-		s.amount = 0;
-		localStorage.clear()
-	};
-	for (let k = 0; k < 12; k++) {
-		let m = upgrades[k];
-		m.bought = false;
-	};
-	let mrbeast = document.querySelector(".mr");
-	mrbeast.innerHTML = "0";} else {};
-	rsf++;
-	rsf++;
-	let rst = rsf + 1
-	generators = [
-	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 1 * rst, scale: 1.07, rating: 1},
-	{name: "Glazed Donut", amount: 0, baseCost: 30, donutGain: 4 * rst, scale: 1.05, rating: 2},
-	{name: "Glazed Donut II", amount: 0, baseCost: 90, donutGain: 12 * rst, scale: 1.045, rating: 3},
-	{name: "Sugar Donut ", amount: 0, baseCost: 250, donutGain: 24 * rst, scale: 1.05, rating: 4},
-	{name: "Sugar Donut II", amount: 0, baseCost: 700, donutGain: 70 * rst, scale: 1.04, rating: 5},
-	{name: "Vanilla Donut", amount: 0, baseCost: 1800, donutGain: 150 * rst, scale: 1.035, rating: 6},
-	{name: "Vanilla Donut II", amount: 0, baseCost: 4000, donutGain: 300 * rst, scale: 1.035, rating: 7},
-	{name: "Chocolate Donut", amount: 0, baseCost: 9000, donutGain: 750 * rst, scale: 1.03, rating: 8},
-	{name: "Chocolate Donut II", amount: 0, baseCost: 25000, donutGain: 1000 * rst, scale: 1.025, rating: 9},
-	{name: "Strawberry Donut", amount: 0, baseCost: 75000, donutGain: 2500 * rst, scale: 1.02, rating: 10},
-	{name: "Strawberry Donut II", amount: 0, baseCost: 250000, donutGain: 10000 * rst, scale: 1.03, rating: 11},
-	{name: "Double Chocolate Donut", amount: 0, baseCost: 1000000, donutGain: 30000 * rst, scale: 1.028, rating: 12},
-	{name: "Double Chocolate Donut II", amount: 0, baseCost: 5000000, donutGain: 100000 * rst, scale: 1.025, rating: 13},
-	{name: "Christmas Donut", amount: 0, baseCost: 120000000, donutGain: 500000 * rst, scale: 1.025, rating: 14},
-	{name: "Christmas Donut II", amount: 0, baseCost: 1500000000, donutGain: 5000000 * rst, scale: 1.0225, rating: 15},
-	{name: "Rainbow Donut", amount: 0, baseCost: 5000000000000, donutGain: 100000000 * rst, scale: 1.02, rating: 16},
-	{name: "Rainbow Donut II", amount: 0, baseCost: 800000000000000, donutGain: 100000000000 * rst, scale: 1.0185, rating: 17},
-	{name: "Blueberry Donut", amount: 0, baseCost: 50000000000000000, donutGain: 5000000000000 * rst, scale: 1.015, rating: 18},
-	];
-	localStorage.setItem("Rebirth", rsf);
-	updateUI();
-	const rebirtharea1 = document.getElementById("rbn");
-	rebirtharea1.innerHTML = rst;
-	const rebirtharea2 = document.getElementById("rbc");
-	let newsquare = rst ** 2;
-	let newcost = newsquare * 500000000000;
-	rebirtharea2.innerHTML = newcost;
-	rebirthpoints++;
-	rebirthpoints++;
-	localStorage.setItem("RP", rebirthpoints)
-	}else{
-		alert("You do not have enough donuts to rebirth to rebirth " + (rsf + 1) + "!");
-	}};
-}
+		
+	}
 </script>
 </body>
 </html>
