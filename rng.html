@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            RNG Simulator
+        </title>
+        <style>
+            button {
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                border: 1px solid blanchedalmond;
+                border-radius: 20px;
+                margin: 20px;
+                padding: 20px;
+            }
+            body {
+                background-color: beige;
+            }
+            div {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <button onclick="increaseluck()">
+            Increase Luck
+        </button>
+        <button onclick="luckprocessor()">
+            Roll
+        </button>
+        <div id="container">
+        <br>
+        </div>
+        <hr>
+        <div id="list">
+            <br>
+
+        </div>
+        <hr>
+        <div id="lucks">
+<br>    
+        </div>
+        <div id="luckupgrades">
+            <div id="u1">
+                Each click is +2 Luck
+                <br>
+                Costs: 20 Common / 20 Unusual
+                <button onclick="upgradea()">
+                    Buy
+                </button>
+            </div>
+        </div>
+        <script>
+    let common = (localStorage.getItem("common") !== null && !isNaN(parseInt(localStorage.getItem("common")))) ? parseInt(localStorage.getItem("common")) : 0;
+    let unusual = (localStorage.getItem("unusual") !== null && !isNaN(parseInt(localStorage.getItem("unusual")))) ? parseInt(localStorage.getItem("unusual")) : 0;
+    let rare = (localStorage.getItem("rare") !== null && !isNaN(parseInt(localStorage.getItem("rare")))) ? parseInt(localStorage.getItem("rare")) : 0;
+    let epic = (localStorage.getItem("epic") !== null && !isNaN(parseInt(localStorage.getItem("epic")))) ? parseInt(localStorage.getItem("epic")) : 0;
+    let legendary = (localStorage.getItem("legendary") !== null && !isNaN(parseInt(localStorage.getItem("legendary")))) ? parseInt(localStorage.getItem("legendary")) : 0;
+    let mythical = (localStorage.getItem("mythical") !== null && !isNaN(parseInt(localStorage.getItem("mythical")))) ? parseInt(localStorage.getItem("mythical")) : 0;
+    let ultra = (localStorage.getItem("ultra") !== null && !isNaN(parseInt(localStorage.getItem("ultra")))) ? parseInt(localStorage.getItem("ultra")) : 0;
+    let supers = (localStorage.getItem("supers") !== null && !isNaN(parseInt(localStorage.getItem("super")))) ? parseInt(localStorage.getItem("super")) : 0;
+    let ultimate = (localStorage.getItem("ultimates") !== null && !isNaN(parseInt(localStorage.getItem("ultimate")))) ? parseInt(localStorage.getItem("ultimate")) : 0;
+    let secret = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let master = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let quantum = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let rebirth = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let prestige = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let best = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let medium = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let luck = (localStorage.getItem("luck") !== null && !isNaN(parseInt(localStorage.getItem("luck")))) ? parseInt(localStorage.getItem("luck")) : 0;;
+    function updateUI() {
+        const vy = document.getElementById("lucks");
+        vy.textContent = luck;
+        const vx = document.getElementById("list");
+        vx.textContent = "Commons: " 
+        + common + "\n\nUnusuals: " 
+        + unusual + "\n\nRares: " 
+        + rare + "\n\nEpics: " 
+        + epic + "\n\nLegendaries: " 
+        + legendary + "\n\nMythicals: "
+        + mythical + "\n\nUltras: "
+        + ultra + "\n\nSupers: "
+        + supers + "\n\nUltimates: "
+        + ultimate + "\n\nSecrets: "
+        + secret + "\n\nMasters: "
+        + master + "\n\nQuantums: "
+        + quantum + "\n\nRebirths: "
+        + rebirth + "\n\nPrestige: "
+        + prestige + "\n\nMini: "
+        + best + "\n\nMedium: "
+        + medium;
+        localStorage.setItem("common", common);
+        localStorage.setItem("unusual", unusual);
+        localStorage.setItem("rare", rare);
+        localStorage.setItem("epic", epic);
+        localStorage.setItem("legendary", legendary);
+        localStorage.setItem("mythical", mythical);
+        localStorage.setItem("ultra", ultra);
+        localStorage.setItem("supers", supers);
+        localStorage.setItem("ultimate", ultimate);
+        localStorage.setItem("secret", secret);
+        localStorage.setItem("master", master);
+        localStorage.setItem("quantum", quantum);
+        localStorage.setItem("luck", luck);
+    }
+    updateUI();
+    let luckgainamount = 1;
+    function clickbetter(i) {
+        luckgainamount = i
+    }
+    function upgradea() {
+        if (common >= 20) {
+            clickbetter(2);
+            common -= 20;
+            const upgradecontainer = document.getElementById("luckupgrades");
+            const area = document.getElementById("u1");
+            upgradecontainer.removeChild(area);
+            updateUI();
+        } else if (unusual >= 20) {
+            clickbetter(2);
+            unusual -= 20;
+            const upgradecontainer = document.getElementById("luckupgrades");
+            const area = document.getElementById("u1");
+            upgradecontainer.removeChild(area);
+            updateUI();
+        }
+    }
+    function increaseluck() {
+        if (luck < 5000000) {
+        luck += luckgainamount;
+        luck = Math.floor(luck);
+        updateUI();}
+    }
+    function redorblue() {
+        const a = Math.floor(Math.random() * 2 + 1);
+        if (a == 1) {   
+            return "blue";
+        } else if (a == 2) {
+            return "red";
+        } else {
+            return "invalid";
+        }
+    }
+    function rcg(i) {
+        while (i >= 0) {
+            const bn = document.getElementById("luckupgrades");
+            let red = Math.floor(Math.random() * 255);
+            let blue = Math.floor(Math.random() * 255); 
+            let green = Math.floor(Math.random() * 255);
+            let color = [red, green, blue];
+            const lung = document.createElement("button");
+            lung.style.backgroundColor =  "rgb(" + color + ")";
+            lung.style.zIndex = "999999";
+            bn.append(lung);
+            return color;
+            i--;
+        }
+    }
+    function rng(i) {
+        if (!isNaN(parseInt(i))) {
+            let s = parseInt(i);
+            const b = Math.floor((Math.random()) * s + 1);
+            return b;
+        }
+    };
+function luckprocessor() {
+    const vw = document.getElementById("container");
+    if (rng(50000000) <= luck) {
+        vw.textContent = "You rolled a medium! Chance: " + luck + " in 5M"
+        medium++;
+    } else if (rng(10000000) <= luck) {
+        vw.textContent = "You rolled a mini! Chance: " + luck + " in 1M"
+        best++;
+    } else if (rng(300000) <= luck) {
+        vw.textContent = "You rolled a prestige! Chance: " + luck + " in 300K";
+        prestige++;
+    } else if (rng(150000) <= luck) {
+        vw.textContent = "You rolled a rebirth! Chance: " + luck + " in 150K";
+        rebirth++;
+    } else if (rng(100000) <= luck) {
+        vw.textContent = "You rolled a quantum! Chance: " + luck + " in 100K";
+        quantum++;
+    } else if (rng(50000) <= luck) {
+        vw.textContent = "You rolled a master! Chance: " + luck + " in 50K";
+        master++;
+    } else if(rng(30000) <= luck) {
+        vw.textContent = "You rolled a secret! Chance: " + luck + " in 30K";
+        secret++;
+    } else if(rng(20000) <= luck) {
+        vw.textContent = "You rolled an ultimate! Chance: " + luck + " in 20K";
+        ultimate++;
+    } else if(rng(10000) <= luck) {
+        vw.textContent = "You rolled a super! Chance: " + luck + " in 10K";
+        supers++;
+    } else if(rng(5000) <= luck) {
+        vw.textContent = "You rolled an ultra! Chance: " + luck + " in 5K";
+        ultra++;
+    } else if(rng(2500) <= luck) {
+        vw.textContent = "You rolled a mythical! Chance: " + luck + " in 2.5K";
+        mythical++;
+    } else if(rng(1000) <= luck) {
+        vw.textContent = "You rolled a legendary! Chance: " + luck + " in 1000";
+        legendary++; 
+    } else if(rng(500) <= luck) {
+        vw.textContent = "You rolled an epic! Chance: " + luck + " in 500";
+        epic++;
+    } else if(rng(200) <= luck) {
+        vw.textContent = "You rolled an rare! Chance: " + luck + " in 200";
+        rare++;
+    } else if(rng(50) <= luck) {
+        vw.textContent = "You rolled an unusual! Chance: " + luck + " in 50";
+        unusual++;
+    } else {
+        vw.textContent = "You rolled a common! Chance: " + luck + " in 2";
+        common++;
+    }
+    updateUI();
+}
+function longenid(id, num) { 
+    if (document.getElementById(id)) {
+        const short = document.getElementById(id);
+        if (!isNaN(short.style.length)) {
+            let v = parseInt(short.style.length);
+            v += num;
+            short.style.length = v + "px";
+            console.log("Element with id " + id + " was lengthened by " + v + " px");
+        }
+    }
+};
+        </script>
+    </body>
+</html>
