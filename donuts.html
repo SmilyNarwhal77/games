@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+ <html lang="en-GB">
+ <head>
+ 	<meta charset="UTF-8">
+ 	<title>Donut Clicker Game</title>
+ 	<style>
+ 		body {
+ 			font-family: 'Bahnschrift' ,'Comic Sans MS', sans-serif;
+ 			background: linear-gradient(to right, #dbc49d, #ceb472);
+ 			text-align: center;
+ 			padding: 30px;
+ 			color: #333;
+ 		}
+ 		h1 {
+ 			font-size: 2.5rem;
+ 		}
+ 		#donut-display {
+ 			font-size: 2rem;
+ 			margin: 0;
+ 			padding: 15px;
+ 			background: #fff5c0;
+ 			position: sticky;
+ 			top: 0;
+ 			z-index: 100000;
+ 			border-radius: 0.4em;
+ 			box-shadow: 0em 0em 1em;
+ 		}
+ 		#stock-mode {
+ 			border-radius: 0.5em;
+ 		}
+ 		button {
+ 			background-color: #57ffcf;
+ 			color: black;
+ 			padding: 12px 20px;
+ 			font-size: 1rem;
+ 			font-family: 'Bahnschrift' ,'Comic Sans MS', sans-serif;
+ 			border: none;
+ 			border-radius: 10px;
+ 			cursor: pointer;
+ 			margin: 8px;
+ 			box-shadow: 0 0 8px black;
+ 			transition: all 0.1s;
+ 		}
+ 
+ 
+ 	button#click-btn:hover {
+ 		transform: scale(1.15)
+ 	}
+ 	
+ 	button#click-btn:active {transform: scale(0.85)}
+ 
+ 	.addDonut {border-radius: 50%;
+ 		  width: 300px;
+ 		  height: 300px;
+ 		  padding: 0px 0px 0px 0px;
+ 		  opacity: 0.5;
+ 		  }
+ 	#click-btn {
+ 		box-shadow: 0em 0em 1em;
+ 		color: transparent;
+ 		background-color: #df8c43;
+ 		border: 1px solid black;
+ 	}
+ 	.card {
+ 		background: white;
+ 		border-radius: 15px;
+ 		padding: 20px;
+ 		margin: 30px auto;
+ 		max-width: 750px;
+ 		box-shadow: 0 0 10px rgba(0,0,0,0.1);
+ 	}
+ 	.item, .upgrade, .stock {
+ 		background: #dfe6e9;
+ 		margin: 10px 0;
+ 		padding: 10px;
+ 		border-radius: 8px;
+ 		display: flex;
+ 		justify-content: space-between;
+ 		align-items: center;
+ 		flex-wrap: wrap;
+ 	}
+ 	.item div, .upgrade div {
+ 		text-align: left;
+ 		flex: 1;
+ 	}
+ 	.item button, .upgrade button {
+ 		font-size: 0.9rem;
+ 		padding: 6px 12px;
+ 		border-radius: 8px;
+ 		background-color: #55efc4;
+ 		box-shadow: 0em 0em 1em;
+ 		border: none;
+ 		cursor: pointer;
+ 	}
+ 	.stock-arrow.up {color: green;}
+ 	.stock-arrow.down {color: red;}
+ 	#login-logo {
+ 		border-radius: 1em;
+ 		width: 82vw;
+ 		max-width: 49em;
+ 		box-shadow: 0em 0em 1em black;
+ 	}
+ 	#sd {
+ 		border-radius: 0.5em;
+ 		height: 3em;
+ 		box-shadow: 0em 0em 1em black;
+ 	}
+ 	@media (prefers-color-scheme: dark) {
+ 		.card {background: #2e3b8f}
+ 		h2 {color: #dfe6e9;}
+ 		#buycrypto {color: white;}
+ 	}
+ 	
+ 	.triple-container {
+ 		display: flex;
+ 		flex-wrap: wrap;
+ 		justify-content: space-between;
+ 		gap: 20px;
+ 		box-shadow: 0em 0em 1em;
+ 	}
+ 	
+ 	.third {
+ 		flex: 1 1 32%;
+ 		min-width: 250px;
+ 	}
+ 	.hole {
+ 		background-color:#ceb472;
+ 	}
+ 	.inner-circle {
+   width: 80px;
+   height: 80px;
+   background-color: #d5bc88;
+   border-radius: 50%;
+   position: absolute;
+   top: 85%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   pointer-events: none; 
+   opacity: 1;
+   justify-content: center;
+   align-items: center;
+   display: flex;
+ }
+ .pill1 {
+ background-color: #d372b6;
+ color: white;
+ padding: 20px 10px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 55%;
+ left: 43%;
+ transform: rotate(30deg); 
+ pointer-events: none;
+ }
+ .pill2 {
+ background-color: #ad6e65;
+ color: white;
+ padding: 20px 10px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 53%;
+ left: 55%;
+ transform: rotate(65deg); 
+ pointer-events: none;
+ }
+ .pill3 {
+ background-color: #6f9f97;
+ color: white;
+ padding: 20px 10px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 48%;
+ left: 52.7%;
+ transform: rotate(94deg); 
+ pointer-events: none;
+ }
+ .pill4 {
+ background-color: #c37bd0;
+ color: white;
+ padding: 20px 10px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 59%;
+ left: 53.7%;
+ transform: rotate(8deg);
+ pointer-events: none; 
+ }
+ .pill5 {
+ background-color: #618b68;
+ color: white;
+ padding: 20px 10px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 69.2%;
+ left: 50.8%;
+ transform: rotate(94deg); 
+ pointer-events: none;
+ }
+ .pill6 {
+ background-color: #cabd71;
+ color: white;
+ padding: 20px 10px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 69.2%;
+ left: 43.8%;
+ transform: rotate(243deg); 
+ pointer-events: none;
+ }
+ .pill7 {
+ background-color: #b47542;
+ color: white;
+ padding: 20px 10px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 47.2%;
+ left: 46.8%;
+ transform: rotate(94deg); 
+ pointer-events: none;
+ }
+ .pill8 {
+ background-color: 	#33FF57;
+ color: white;
+ padding: 20px 12px;
+ border-radius: 40px;
+ display: inline-block;
+ font-size: 0px;
+ position: absolute;
+ top: 53%;
+ left: 57%;
+ transform: rotate(65deg); 
+ pointer-events: none;
+ }
+ .pill9 {
+ 	background-color: #FF5733;
+ 	top: 55%;
+ 	left: 52%;
+ 	transform: rotate(15deg);
+ 	padding: 20px 12px;
+ 	border-radius: 40px;
+ 	display: inline-block;
+ 	font-size: 0px;
+ 	position: absolute;
+ 	pointer-events: none;
+ }
+ .pill10 {
+ 	background-color: #33FF57;
+ 	top: 43%;
+ 	left: 50%;
+ 	transform: rotate(45deg);
+ 	padding: 20px 12px;
+ 	border-radius: 40px;
+ 	display: inline-block;
+ 	font-size: 0px;
+ 	position: absolute;
+ 	pointer-events: none;
+ }
+ .pill11 {
+ 	padding: 20px 12px;
+ 	border-radius: 40px;
+ 	display: inline-block;
+ 	font-size: 0px;
+ 	position: absolute;
+ 	pointer-events: none;
+ 	background-color: #33CFFF;
+ 	top: 56%;
+ 	left: 47%;
+ 	transform: rotate(-30deg);
+ }
+ .pill1:hover {
+ 	transform: scale(1.5) rotate(330deg);
+ }
+ .pill2:hover {
+ 	transform: scale(1.5) rotate(245deg);
+ }
+ .pill3:hover {
+ 	transform: scale(1.5) rotate(48deg);
+ }
+ .pill4:hover {
+ 	transform: scale(1.5) rotate(101deg);
+ }
+ .pill5:hover {
+ 	transform: scale(1.5) rotate(137deg);
+ }
+ .pill6:hover {
+ 	transform: scale(1.5) rotate(182deg);
+ }
+ .pill7:hover {
+ 	transform: scale(1.5) rotate(37deg);
+ }
+ .pill8:hover {
+ 	transform: scale(1.5) rotate(66deg);
+ }
+ .falling-donut {
+   position: fixed;
+   top: -50px;
+   font-size: 30px;
+   pointer-events: none;
+   animation: fall linear;
+ }
+ 
+ @keyframes fall {
+   to {
+     transform: translateY(110vh);
+     opacity: 0;
+   }
+ }
+ #selling0, #selling1, #selling2 {
+ 	pointer-events: all;
+ }
+ hr {
+ 	color: black
+ }
+ #changelog {
+ 	opacity: 0;
+ 	position: sticky;
+ 	top: 0;
+ 	margin: -50px 0px 0px 0px;
+ 	z-index: 100000;
+ 	background-color:#b47542;
+ 	font-size: 0px;
+ }
+ </style>
+ </head>
+ <body>
+ 	<h1>🍩 Donut Clicker 🍩</h1>
+ 	<div id="donut-display">Donuts: 0</div>
+ 	<br>
+ 	<button class = "addDonut" id="click-btn" style="padding:10px">
+ </button>
+ <div class="inner-circle">
+ 	+1 Donut
+ </div>
+ 
+ <div class="pill1" style="opacity: 0"></div>
+ <div class="pill2" style="opacity: 0"></div>
+ <div class="pill3" style="opacity: 0"></div>
+ <div class="pill4" style="opacity: 0"></div>
+ <div class="pill5" style="opacity: 0"></div>
+ <div class="pill6" style="opacity: 0;"></div>
+ <div class="pill7" style="opacity: 0; "></div>
+ <div class="pill8" style="opacity: 0; "></div>
+ <div class="pill9" style="opacity: 0; background-color: #FF33D4; top: 44%; left: 55%; transform: rotate(60deg);"></div>
+ <div class="pill10" style="opacity: 0; background-color: #FFD133; top: 53%; left: 48%; transform: rotate(90deg);"></div>
+ <div class="pill11" style="opacity: 0; background-color: #8D33FF; top: 47%; left: 54%; transform: rotate(-45deg);"></div>
+ <div class="pill12" style="opacity: 0; background-color: #FF3333; top: 55%; left: 55%; transform: rotate(120deg);"></div>
+ <div class="pill13" style="opacity: 0; background-color: #33FFEC; top: 51%; left: 60%; transform: rotate(-75deg);"></div>
+ <div class="maxrating" style="width:100%">
+ 	Current best donut level: <b class="mr">0</b>
+ </div>
+ <div class="card triple-container">
+ 	<div class="third">
+ 		<h2>🛒 Shop</h2>
+ 		<div id="shop-list"></div>
+ 	</div>
+ 	<div class="third">
+ 		<h2>🧠 Upgrades</h2>
+ 		<div id="upgrade-list"></div>
+ 	</div>
+ 	<div class="third">
+ 		<h2>📈🍩 Donut Stocks</h2>
+ 		<select id="stock-mode" onchange="renderStocks()">
+ 			<option value="normal">Normal Stocks</option>
+ 			<option value="crypto">Crypto Stocks</option>
+ 		</select>
+ 		<div id="stock-list"></div>
+ 	</div>
+ </div>
+ <br>
+ 
+ <button onclick="prestige()" style="background-image: linear-gradient(270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 10%, rgba(255, 123, 0, 1) 19%, rgba(255, 226, 35, 1) 28%, rgba(177, 255, 67, 1) 37%, rgba(107, 212, 97, 1) 46%, rgba(0, 255, 242, 1) 55%, rgba(60, 160, 242, 1) 64%, rgba(115, 108, 242, 1) 73%, rgba(164, 70, 242, 1) 82%, rgba(218, 29, 242, 1) 91%, rgba(255, 0, 242, 1) 100%);">
+ 	<span id="ptn">PRESTIGE 🔒 <span id="ptna"></span></span>
+ 	<br>
+ 	<span id="ptc">Unlocks at Rebirth 50<span id="ptca"></span></span>
+ </button>
+ <button onclick="rebirth()" style="background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 10%, rgba(255, 123, 0, 1) 19%, rgba(255, 226, 35, 1) 28%, rgba(177, 255, 67, 1) 37%, rgba(107, 212, 97, 1) 46%, rgba(0, 255, 242, 1) 55%, rgba(60, 160, 242, 1) 64%, rgba(115, 108, 242, 1) 73%, rgba(164, 70, 242, 1) 82%, rgba(218, 29, 242, 1) 91%, rgba(255, 0, 242, 1) 100%);">
+ 	REBIRTH TO REBIRTH <span id="rbn">1</span>
+ 	<br>
+ 	Cost: <span id="rbc">500000000000</span>🍩
+ </button>
+ <button onclick="reset()" style="color: red; background-color: #55efc4;" id="reset"> 
+ 	DANGER ZONE ⚠ 
+ 	<br>
+ 	RESET YOUR PROGRESS
+ </button>
+ <br>
+ <hr>
+ <button onclick="opens();" id="openbutton" style="opacity: 1;z-index: 999999;pointer-events: all;position: relative;">
+ 	Open Changelog.
+ </button>
+ <div id="changelog">
+ 	<button onclick="closes()" style="z-index: 9999999">
+ 		Close Changelog
+ 	</button>
+ 	<br>
+ 	CHANGELOG:
+ 	<hr>
+ </div>
+ <footer>
+ 	<h6>
+ 		Github: Made by <a href="https://github.com/SmilyNarwhal77">Smily Narwhal</a> adapted from the original <a href="https://nushhw.github.io/M25106/chill">Aura Clicker</a> by <a href="https://github.com/nushhw">Nushhw</a> 
+ 		<br>
+ 		Youtube: Made by <a href="https://youtube.com/@KeeganGaming23">Keegan</a> adapted from the original <a href="https://nushhw.github.io/M25106/chill">Aura Clicker</a> by <a href="https://youtube.com/@XYSG">XYSG</a>  
+ 	</h6>
+ </footer>
+ <script>
+ 	function opens() {
+ 		const changelog = document.getElementById("changelog");
+ 		changelog.style.opacity = "1";
+ 		changelog.style.fontSize = "1rem";
+ 		const openbutton = document.getElementById("openbutton");
+ 		openbutton.style.opacity = "0";
+ 		openbutton.style.zIndex = "0";
+ 		console.log("open");
+ 	};
+ 	function closes() {
+ 		const changelog = document.getElementById("changelog");
+ 		changelog.style.opacity = "0";
+ 		changelog.style.fontSize = "0px";
+ 		const openbutton = document.getElementById("openbutton");
+ 		openbutton.style.opacity = "1";
+ 		openbutton.style.zIndex = "999999";
+ 		console.log("close");
+ 	};
+ 	const entries = [
+ 		{name: "v6.1.2", details: "Changelog added."},
+ 		{name: "v6.1.3", details: "Bug fix: Reset now resets rebirth display."},
+ 		{name: "v6.1.3.1", details: "Changelog reformatted."},
+ 		{name: "v6.2", details: "Prestige added."},
+ 		{name: "v6.3", details: "Changelog moved, buttons to close and open changelog added."},
+ 		{name: "v6.3.1", details: "Changelog margin changed, white space of invisible changelog removed."},
+ 		{name: "v6.4", details: "Prestige temporarily removed, changelog code compacted to save space and make display easier."}
+ 	];
+ 	for (let i = 0; i < entries.length; i++) {
+ 		const eachentry = document.createElement("div");
+ 		eachentry.innerHTML = entries[i].name + "<br>" + entries[i].details + "<hr>";
+ 		const changelogsection = document.getElementById("changelog");
+ 		changelogsection.appendChild(eachentry);
+ 	}
+ 	console.log(entries);
+ 	let generators = [
+ 	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 0.1, scale: 1.05, rating: 1},
+ 	{name: "Glazed Donut", amount: 0, baseCost: 40, donutGain: 0.5, scale: 1.0475, rating: 2},
+ 	{name: "Glazed Donut II", amount: 0, baseCost: 100, donutGain: 1.8, scale: 1.045, rating: 3},
+ 	{name: "Sugar Donut ", amount: 0, baseCost: 300, donutGain: 5, scale: 1.0425, rating: 4},
+ 	{name: "Sugar Donut II", amount: 0, baseCost: 1000, donutGain: 30, scale: 1.04, rating: 5},
+ 	{name: "Vanilla Donut", amount: 0, baseCost: 4000, donutGain: 100, scale: 1.0375, rating: 6},
+ 	{name: "Vanilla Donut II", amount: 0, baseCost: 12000, donutGain: 750, scale: 1.035, rating: 7},
+ 	{name: "Chocolate Donut", amount: 0, baseCost: 50000, donutGain: 4000, scale: 1.0325, rating: 8},
+ 	{name: "Chocolate Donut II", amount: 0, baseCost: 250000, donutGain: 24000, scale: 1.03, rating: 9},
+ 	{name: "Strawberry Donut", amount: 0, baseCost: 1000000, donutGain: 110000, scale: 1.02875, rating: 10},
+ 	{name: "Strawberry Donut II", amount: 0, baseCost: 5000000, donutGain: 700000, scale: 1.0275, rating: 11},
+ 	{name: "Double Chocolate Donut", amount: 0, baseCost: 30000000, donutGain: 4500000, scale: 1.025, rating: 12},
+ 	{name: "Double Chocolate Donut II", amount: 0, baseCost: 200000000, donutGain: 35000000, scale: 1.02275, rating: 13},
+ 	{name: "Christmas Donut", amount: 0, baseCost: 120000000, donutGain: 500000, scale: 1.02075, rating: 14},
+ 	{name: "Christmas Donut II", amount: 0, baseCost: 1500000000, donutGain: 5000000, scale: 1.02, rating: 15},
+ 	{name: "Rainbow Donut", amount: 0, baseCost: 75000000000, donutGain: 100000000, scale: 1.019, rating: 16},
+ 	{name: "Rainbow Donut II", amount: 0, baseCost: 80000000000000, donutGain: 100000000000, scale: 1.018, rating: 17},
+ 	{name: "Blueberry Donut", amount: 0, baseCost: 5000000000000000, donutGain: 5000000000000, scale: 1.0175, rating: 18},
+ 	];
+ 	let donuts = 0
+ 	function spawnFallingDonut() {
+ 		if (donuts < 25) {
+   const donuty = document.createElement('div');
+   donuty.classList.add('falling-donut');
+   donuty.innerHTML = "🍩";
+   donuty.style.width = "2px";
+   donuty.style.height = "3px";
+   console.log("Donut Created.");
+   donuts++;
+   donuty.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+   donuty.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
+   const duration = 1 + Math.random() * 2; // 1–3 seconds
+   donuty.style.animationDuration = duration + 's';
+   document.body.appendChild(donuty);
+   setTimeout(() => {
+     donuty.remove();
+ 	donuts--;
+   }, duration * 1000);} else{donuts -= 0.125;
+ 	console.log("TOO MANY DONUTS SPAWNED!")
+    }
+ }
+ 
+ 	let donut;
+ 	const stored = localStorage.getItem("donut");
+ 
+ donut = (stored !== null && !isNaN(parseInt(stored))) ? parseInt(stored) : 0;
+ let donutPerClick = 1;
+ let donutPerSecond = 0;
+ let cryptoUnlocked = false;
+ let lastClickTimes = [];
+ let maxrating = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+ if (maxrating != 0) {
+ 	maxratings(maxrating)
+ };
+ 	
+ 	let upgrades = [
+ 	{name: "Donut Cart (x2 click)", cost: 1000, bought: false, effect: () => donutPerClick *= 2},
+ 	{name: "Donuts x2", cost: 1500, bought: false, effect: () => generators[0].donutGain *= 2},
+ 	{name: "Donut Bakery (x5 click)", cost: 4000, bought: false, effect: () => donutPerClick *= 5},
+ 	{name: "Donut Crypto Upgrade", cost: 10000, bought: false, effect: () => cryptoUnlocked = true},
+ 	{name: "Donut Boost (Glazed Donuts)", cost: 23000, bought: false, effect: () => {generators[1].donutGain *= 2; generators[2].donutGain *= 2}},
+ 	{name: "Donut Boost II(Sugar Donuts)", cost: 55000, bought: false, effect: () => {generators[3].donutGain *= 1.5; generators[4].donutGain *= 1.5}},
+ 	{name: "Sprinkles I", cost: 100000, bought: false, effect: () => {donutPerClick *= 4; addsprinklesa();addsprinklesh()}},
+ 	{name: "Sprinkles II", cost: 1000000, bought: false, effect: () => {donutPerClick *= 4; addsprinklesb();addsprinklesi()}},
+ 	{name: "Sprinkles III", cost: 20000000, bought: false, effect: () => {donutPerClick *= 4; addsprinklesc();addsprinklesj()}},
+ 	{name: "Sprinkles IV", cost: 100000000, bought: false, effect: () => {donutPerClick *= 8; addsprinklesd(); addsprinklesk();addsprinklesf()}},
+ 	{name: "Sprinkles V", cost: 2000000000, bought: false, effect: () => {donutPerClick *= 12; addsprinklese(); addsprinklesg(); addsprinklesh();addsprinklesl();addsprinklesm()}},
+ 	{name: "Donut Baker", cost: 500000000000, bought: false, effect: () => generators.donutGain *= 5},
+ 	];
+ 	
+ 	let rsf = (localStorage.getItem("Rebirth") !== null && !isNaN(parseInt(localStorage.getItem("Rebirth")))) ? parseInt(localStorage.getItem("Rebirth")) : 0;
+ 	let prestiges = (localStorage.getItem("Prestige") !== null && !isNaN(parseInt(localStorage.getItem("Prestige")))) ? parseInt(localStorage.getItem("Prestige")) : 0;
+ 	let rebirthpoints = (localStorage.getItem("RP") !== null && !isNaN(parseInt(localStorage.getItem("RP")))) ? parseInt(localStorage.getItem("RP")) : rsf;
+ 	if (rsf != 0) {
+ 		rebirthing()
+ 	};
+ 	for (let k = 0; k < 18; k++) {
+ 		let s = generators[k];
+ 		s.amount = (localStorage.getItem(s.name) !== null && !isNaN(parseInt(localStorage.getItem(s.name)))) ? parseInt(localStorage.getItem(s.name)) : 0;
+ 	};
+ 	for (let k = 0; k < 12; k++) {
+ 		let m = upgrades[k];
+ 		m.bought = (localStorage.getItem(m.name) !== null && localStorage.getItem(m.name)) ? localStorage.getItem(m.name) : false;
+ 		if (m.bought == "true") {
+ 			m.effect();
+ 		}
+ 	};
+ 	const stocks = [
+ 	{name: "Donut Corp", price: 100, high: 1000, low: 100, last: 100},
+ 	{name: "Donut Market", price: 2, high: 20, low: 2, last: 2},
+ 	{name: "DonutBank", price: 85, high: 850, low: 85, last: 85},
+ 	{name: "Donut Inc.", price: 120, high: 1200, low: 120, last: 120},
+ 	{name: "Small Donut", price: 15, high: 150, low: 15, last: 15} 
+ 	];
+ 	for (let m = 0; m < 5; m++) {
+ 		const s = stocks[m];
+ 		let v = JSON.parse(localStorage.getItem(s.name));
+ 		if (v !== null) {
+ 			if (v.high !== null && !isNaN(parseInt(v.high))) {
+ 				stocks[m].high = v.high;
+ 			}
+ 			if (v.low !== null && !isNaN(parseInt(v.low))) {
+ 				stocks[m].low = v.low;
+ 			}
+ 			if (v.last !== null && !isNaN(parseInt(v.low))) {
+ 				stocks[m].last = v.last;
+ 			}
+ 		}
+ 	};
+ 	const cryptoStocks = [
+ 	{name: "Doughnut", price: 50000, high: 500000, low: 500, last: 500},
+ 	{name: "Giant Donuttiness", price: 80000, high: 800000, low: 800, last: 800},
+ 	{name: "DonutFactoryVIP", price: 130000, high: 1300000, low: 1300, last: 1300},
+ 	{name: "DonutFactoryVVIP", price: 200000, high: 2000000, low: 2000, last: 2000},
+ 	];
+ 
+ 	const specialStocks = [
+ 		{name: "Doughnut Scented Pens", price: 5000000, high: 60000000, low: 400000, last: 800000},
+ 		{name: "Doughnut Scented Flowers", price: 7500000, high: 90000000, low: 600000, last: 1000000},
+ 	]
+ 
+ 	let stockOwned = Array(stocks.length).fill(0);
+ 	let cryptoOwned = Array(cryptoStocks.length).fill(0);
+ 	let specialOwned = Array(specialStocks.length).fill(0);
+ 	
+ 	document.getElementById("click-btn").onclick = () => {
+ 		const now = Date.now();
+ 		lastClickTimes.push(now);
+ 		lastClickTimes = lastClickTimes.filter(t => now - t < 1000);// last 1 sec
+ 		spawnFallingDonut();
+ 
+ 		// All good
+ 		donut += donutPerClick;
+ 		localStorage.setItem("donut", donut);
+ 		updateUI();
+ 	};
+ 	
+ 	function changetochocolate() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundColor = "#7B3F00";
+ 		thedonut.style.border = 'none';
+ 	}
+ 	
+ 	function changetoglazed() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundColor = "#FFF1DE";
+ 		thedonut.style.border = 'none';
+ 	}
+ 	function changetostrawberry() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundColor = "#FE019A";
+ 		thedonut.style.border = 'none';
+ 	}
+ 	function changetovanilla() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundColor = "#EBB866";
+ 		thedonut.style.border = 'none';
+ 	}
+ 	function changetodoublechocolate() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundColor = "#6E4F43";
+ 		thedonut.style.border = 'none';
+ 	}
+ 	function changetosugar() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundColor = "#946841";
+ 		thedonut.style.border = 'none';
+ 	}
+ 	function changetoblueberry() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.border = 'none';
+ 		thedonut.style.backgroundColor = "transparent";
+ 		thedonut.style.setProperty("background-image", "linear-gradient(70deg, rgba(5, 143, 255, 1) 0%, rgba(2, 24, 121, 1) 100%)", "important");
+ 	}
+ 	function changetochristmas() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.border = 'none';
+ 		thedonut.style.backgroundColor = "transparent";
+ 		thedonut.style.setProperty("background-image", "linear-gradient(90deg, rgba(100, 254, 104, 1) 0%, rgba(246, 117, 121, 1) 100%)", "important");
+ 	}
+ 	function changetorainbow() {
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.border = 'none';
+ 		thedonut.style.backgroundColor = "transparent";
+ 		thedonut.style.setProperty(
+   			"background-image",
+   			"radial-gradient(rgba(255, 255, 255, 1) 0%, rgba(255, 0, 0, 1) 20%, rgba(255, 123, 0, 1) 28%, rgba(255, 226, 35, 1) 36%, rgba(177, 255, 67, 1) 44%, rgba(107, 212, 97, 1) 52%, rgba(0, 255, 242, 1) 60%, rgba(60, 160, 242, 1) 68%, rgba(115, 108, 242, 1) 76%, rgba(164, 70, 242, 1) 84%, rgba(218, 29, 242, 1) 92%, rgba(255, 0, 242, 1) 100%)",
+   			"important"
+ 		);
+ 	}
+ 	function maxratings(n) {
+ 		let mrbeast = document.querySelector(".mr")
+ 		mrbeast.innerHTML = n + "  (" + generators[n - 1].name + ")"
+ 		if (n == 2) {
+ 			changetoglazed();
+ 		} else if (n == 4 || n == 5) {
+ 			changetosugar();
+ 		} else if (n == 6 || n == 7) {
+ 			changetovanilla();
+ 		} else if (n == 8 || n == 9) {
+ 			changetochocolate();
+ 		} else if (n == 10 || n == 11) {
+ 			changetostrawberry();
+ 		} else if (n == 12 || n == 13) {
+ 			changetodoublechocolate();
+ 		} else if (n == 14 || n == 15) {
+ 			changetochristmas();
+ 		} else if (n == 16 || n == 17) {
+ 			changetorainbow();
+ 		} else if (n == 18) {
+ 			changetoblueberry();
+ 		}
+ 	}
+ 	function addsprinklesa() {
+ 		document.querySelectorAll('.pill1').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesb() {
+ 		document.querySelectorAll('.pill2').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesc() {
+ 		document.querySelectorAll('.pill3').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesd() {
+ 		document.querySelectorAll('.pill4').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklese() {
+ 		document.querySelectorAll('.pill5').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesf() {
+ 		document.querySelectorAll('.pill6').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesg() {
+ 		document.querySelectorAll('.pill7').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesh() {
+ 		document.querySelectorAll('.pill8').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesi() {
+ 		document.querySelectorAll('.pill79').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesj() {
+ 		document.querySelectorAll('.pill10').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesk() {
+ 		document.querySelectorAll('.pill11').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesl() {
+ 		document.querySelectorAll('.pill12').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function addsprinklesm() {
+ 		document.querySelectorAll('.pill13').forEach(p => p.style.opacity = '1');
+ 	}
+ 	function buyGen(i) {
+ 		const g = generators[i];
+ 		const cost = Math.round(g.baseCost * Math.pow(g.scale, g.amount));
+ 		if (donut >= cost) {
+ 			donut -= cost;
+ 			g.amount++;
+ 			localStorage.setItem(g.name, g.amount);
+ 			if (g.rating > maxrating) {
+ 				maxrating = g.rating;
+ 				localStorage.setItem("maxrating", maxrating);
+ 				maxratings(i + 1);
+ 				alert("Your new best donut is " + generators[i].name)
+ 			};
+ 			updateDonutPerSecond();
+ 			updateUI(); 
+ 		}
+ 	}
+ 	
+ 	function buyUpgrade(i) {
+ 		const u = upgrades[i];
+ 		if (!u.bought && donut >= u.cost) {
+ 			donut -= u.cost;
+ 			u.bought = true;
+ 			localStorage.setItem(u.name, u.bought);
+ 			u.effect();
+ 			updateDonutPerSecond();
+ 			updateUI();
+ 		};
+ 	}
+ 	
+ 	function updateDonutPerSecond() {
+ 		donutPerSecond = generators.reduce((sum, g) => sum + g.amount * g.donutGain, 0);
+ 	}
+ 	
+ 	function updateUI() {
+ 		document.getElementById("donut-display").textContent =
+ 		`Donut: ${Math.round(donut * 10) / 10} (DPS: ${Math.round(donutPerSecond * 10) / 10})`;
+ 		
+ 		document.querySelector(".inner-circle").textContent = `+${donutPerClick} Donut`;
+ 		
+ 		renderShop();
+ 		renderUpgrades();
+ 		renderStocks();
+ 	}
+ 	
+ 	function renderShop() {
+ 		const shop = document.getElementById("shop-list");
+ 		shop.innerHTML = "";
+ 		generators.forEach((g, i) => {
+ 			const cost = Math.round(g.baseCost * Math.pow(g.scale, g.amount));
+ 			shop.innerHTML += `
+       <div class="item">
+         <div><strong>${g.name}</strong> (${g.amount})<br>+${g.donutGain}/s — Cost: ${cost}🍩</div>
+         <button onclick="buyGen(${i})">Buy</button>
+       </div>`;
+ 		});
+ 	}
+ 	
+ 	function renderUpgrades() {
+ 		const list = document.getElementById("upgrade-list");
+ 		list.innerHTML = "";
+ 		upgrades.forEach((u, i) => {
+ 			if (!u.bought) {
+ 				list.innerHTML += `
+         <div class="upgrade">
+           <div><strong>${u.name}</strong><br>Cost: ${u.cost}🍩</div>
+           <button onclick="buyUpgrade(${i})">Buy</button>
+         </div>`;
+ 			}
+ 		});
+ 	}
+ 	
+ 	function renderStocks() {
+ 		const mode = document.getElementById("stock-mode").value;
+ 		const stockList = document.getElementById("stock-list");
+ 		const list = mode === "normal" ? stocks : cryptoStocks;
+ 		const owned = mode === "normal" ? stockOwned : cryptoOwned;
+ 		
+ 		if (mode === "crypto" && !cryptoUnlocked) {
+ 			stockList.innerHTML = "<p id='buycrypto'>Buy the crypto upgrade first!</p>";
+ 			return;
+ 		}
+ 		
+ 		stockList.innerHTML = "";
+ 		list.forEach((s, i) => {
+ 			const arrow = s.price > s.last ? "⬆️" : s.price < s.last ? "⬇️" : "➡️";
+ 			stockList.innerHTML += `
+       <div class="stock">
+         <div>
+           <strong>${s.name}</strong>: $${s.price} <span class="stock-arrow">${arrow}</span><br>
+           High: $${s.high}🍩 | Low: $${s.low}🍩 | You own: ${owned[i] || 0}
+         </div>
+         <div>
+           <button id="buying${i}" onmousedown="${mode === 'normal' ? `buyStock(${i})` : `buyCrypto(${i})`}">Buy</button>
+           <button id="selling${i}" onmousedown="${mode === 'normal' ? `sellStock(${i})` : `sellCrypto(${i})`}">Sell</button>
+         </div>
+       </div>`;
+ 		});
+ 	}
+ 	function buyStock(i) {
+ 		const s = stocks[i];
+ 		if (donut >= s.price) {
+ 			donut -= s.price;
+ 			stockOwned[i] = (stockOwned[i] || 0) + 1;
+ 			let whole = JSON.stringify(s);
+ 			localStorage.setItem(s.name, whole);
+ 			updateUI();
+ 		}
+ 	}
+ 	function sellStock(i) {
+ 		if (stockOwned[i] > 0) {
+ 			donut += stocks[i].price;
+ 			stockOwned[i]--;
+ 			updateUI();
+ 		}
+ 	}
+ 	
+ 	function buyCrypto(i) {
+ 		const s = cryptoStocks[i];
+ 		if (donut >= s.price) {
+ 			donut -= s.price;
+ 			cryptoOwned[i] = (cryptoOwned[i] || 0) + 1;
+ 			updateUI();
+ 		}
+ 	}
+ 	
+ 	function sellCrypto(i) {
+ 		if (cryptoOwned[i] > 0) {
+ 			donut += cryptoStocks[i].price;
+ 			cryptoOwned[i]--;
+ 			updateUI();
+ 		}
+ 	}
+ 	
+ 	setInterval(() => {
+ 		donut += donutPerSecond / 10;
+ 		document.getElementById("donut-display").textContent =
+ 		`Donut: ${Math.round(donut * 10) / 10} (DPS: ${Math.round(donutPerSecond * 10) / 10})`;
+ 		
+ 		document.getElementById("click-btn").textContent = `+${donutPerClick} Donut`;
+ 		renderStocks();
+ 	}, 100);
+ 	
+ 	setInterval(() => {
+ 		[stocks, cryptoStocks].forEach(list => {
+ 			list.forEach(s => {
+ 				s.last = s.price;
+ 				const change = Math.floor(Math.random() * 15 - 5);
+ 				s.price += change;
+ 				if (s.price < 1) s.price = 1;
+ 				if (s.price > s.high) s.high = s.price;
+ 				if (s.price < s.low) s.low = s.price;
+ 			});
+ 		});
+ 		renderStocks();
+ 	}, 2000);
+ 	updateDonutPerSecond();
+ 	updateUI();
+ 	function reset() {
+ 		let sigma = prompt("ARE YOU SURE YOU WANT TO RESET YOUR PROGRESS?! TYPE YES (NOT CASE SENSITIVE TO CONFIRM!)").toLowerCase()
+ 		if (sigma === "yes") {
+ 		donut = 0;
+ 		donutPerClick = 1;
+ 		donutPerSecond = 0;
+ 		maxrating = 0;
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundImage = "";
+ 		thedonut.style.backgroundColor = "#df8c43";
+ 		thedonut.style.color = "transparent";
+ 		for (let k = 0; k < 18; k++) {
+ 		const s = generators[k];
+ 		s.amount = 0;
+ 		localStorage.clear()
+ 	};
+ 	for (let k = 0; k < 12; k++) {
+ 		let m = upgrades[k];
+ 		m.bought = false;
+ 	};
+ 	generators = [
+ 	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 1, scale: 1.07, rating: 1},
+ 	{name: "Glazed Donut", amount: 0, baseCost: 30, donutGain: 4, scale: 1.05, rating: 2},
+ 	{name: "Glazed Donut II", amount: 0, baseCost: 90, donutGain: 12, scale: 1.045, rating: 3},
+ 	{name: "Sugar Donut ", amount: 0, baseCost: 250, donutGain: 24, scale: 1.05, rating: 4},
+ 	{name: "Sugar Donut II", amount: 0, baseCost: 700, donutGain: 70, scale: 1.04, rating: 5},
+ 	{name: "Vanilla Donut", amount: 0, baseCost: 1800, donutGain: 150, scale: 1.035, rating: 6},
+ 	{name: "Vanilla Donut II", amount: 0, baseCost: 4000, donutGain: 300, scale: 1.035, rating: 7},
+ 	{name: "Chocolate Donut", amount: 0, baseCost: 9000, donutGain: 750, scale: 1.03, rating: 8},
+ 	{name: "Chocolate Donut II", amount: 0, baseCost: 25000, donutGain: 1000, scale: 1.025, rating: 9},
+ 	{name: "Strawberry Donut", amount: 0, baseCost: 75000, donutGain: 2500, scale: 1.02, rating: 10},
+ 	{name: "Strawberry Donut II", amount: 0, baseCost: 250000, donutGain: 10000, scale: 1.03, rating: 11},
+ 	{name: "Double Chocolate Donut", amount: 0, baseCost: 1000000, donutGain: 30000, scale: 1.028, rating: 12},
+ 	{name: "Double Chocolate Donut II", amount: 0, baseCost: 5000000, donutGain: 100000, scale: 1.025, rating: 13},
+ 	{name: "Christmas Donut", amount: 0, baseCost: 120000000, donutGain: 500000, scale: 1.025, rating: 14},
+ 	{name: "Christmas Donut II", amount: 0, baseCost: 1500000000, donutGain: 5000000, scale: 1.0225, rating: 15},
+ 	{name: "Rainbow Donut", amount: 0, baseCost: 5000000000000, donutGain: 100000000, scale: 1.02, rating: 16},
+ 	{name: "Rainbow Donut II", amount: 0, baseCost: 800000000000000, donutGain: 100000000000, scale: 1.0185, rating: 17},
+ 	{name: "Blueberry Donut", amount: 0, baseCost: 50000000000000000, donutGain: 5000000000000, scale: 1.015, rating: 18},
+ 	];
+ 	updateUI();
+ 	let mrbeast = document.querySelector(".mr");
+ 	mrbeast.innerHTML = "0";
+ 	const rebirtharea1 = document.getElementById("rbn");
+ 	rebirtharea1.innerHTML = 1;
+ 	const rebirtharea2 = document.getElementById("rbc");
+ 	rebirtharea2.innerHTML = 500000000000;} else {}
+ 	}
+ 	function rebirth() {
+ 	 let square = rsf + 1;
+ 	 square *= square
+ 		if (donut >= 500000000000 * square) {
+ 		let sigma = prompt("ARE YOU SURE YOU WANT TO REBIRTH?! ALL YOUR STATS WILL BE RESET! TYPE YES (NOT CASE SENSITIVE TO CONFIRM!)").toLowerCase()
+ 		if (sigma === "yes") {
+ 		donut = 0;
+ 		donutPerClick = 1;
+ 		donutPerSecond = 0;
+ 		maxrating = 0;
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundImage = "";
+ 		thedonut.style.backgroundColor = "#df8c43";
+ 		thedonut.style.color = "transparent";
+ 		for (let k = 0; k < 18; k++) {
+ 		const s = generators[k];
+ 		s.amount = 0;
+ 		s.donutGain *= (rsf + 1);
+ 		localStorage.clear()
+ 	};
+ 	for (let k = 0; k < 12; k++) {
+ 		let m = upgrades[k];
+ 		m.bought = false;
+ 	};
+ 	let mrbeast = document.querySelector(".mr");
+ 	mrbeast.innerHTML = "0";} else {};
+ 	rsf++;
+ 	let rst = rsf + 1
+ 	localStorage.setItem("Rebirth", rsf);
+ 	updateUI();
+ 	const rebirtharea1 = document.getElementById("rbn");
+ 	rebirtharea1.innerHTML = rst;
+ 	const rebirtharea2 = document.getElementById("rbc");
+ 	let newsquare = rst ** 2;
+ 	let newcost = newsquare * 500000000000;
+ 	rebirtharea2.innerHTML = newcost;
+ 	rebirthpoints++;
+ 	localStorage.setItem("RP", rebirthpoints);
+ 	localStorage.setItem("Prestige", prestiges);
+ 	}else{
+ 		alert("You do not have enough donuts to rebirth to rebirth " + (rsf + 1) + "!");
+ 	}};
+ 	function rebirthing() {
+ 		donut = 0;
+ 		donutPerClick = 1;
+ 		donutPerSecond = 0;
+ 		maxrating = 0;
+ 		const thedonut = document.getElementById("click-btn");
+ 		thedonut.style.backgroundImage = "";
+ 		thedonut.style.backgroundColor = "#df8c43";
+ 		thedonut.style.color = "transparent";
+ 		for (let k = 0; k < 18; k++) {
+ 		const s = generators[k];
+ 		s.amount = 0;
+ 		localStorage.clear()
+ 	};
+ 	for (let k = 0; k < 12; k++) {
+ 		let m = upgrades[k];
+ 		m.bought = false;
+ 	};
+ 	let mrbeast = document.querySelector(".mr");
+ 	mrbeast.innerHTML = "0";	
+ 	rsf++;
+ 	let rst = rsf + 1
+ 	generators = [
+ 	{name: "Plain Donut", amount: 0, baseCost: 10, donutGain: 1 * rst, scale: 1.07, rating: 1},
+ 	{name: "Glazed Donut", amount: 0, baseCost: 30, donutGain: 4 * rst, scale: 1.05, rating: 2},
+ 	{name: "Glazed Donut II", amount: 0, baseCost: 90, donutGain: 12 * rst, scale: 1.045, rating: 3},
+ 	{name: "Sugar Donut ", amount: 0, baseCost: 250, donutGain: 24 * rst, scale: 1.05, rating: 4},
+ 	{name: "Sugar Donut II", amount: 0, baseCost: 700, donutGain: 70 * rst, scale: 1.04, rating: 5},
+ 	{name: "Vanilla Donut", amount: 0, baseCost: 1800, donutGain: 150 * rst, scale: 1.035, rating: 6},
+ 	{name: "Vanilla Donut II", amount: 0, baseCost: 4000, donutGain: 300 * rst, scale: 1.035, rating: 7},
+ 	{name: "Chocolate Donut", amount: 0, baseCost: 9000, donutGain: 750 * rst, scale: 1.03, rating: 8},
+ 	{name: "Chocolate Donut II", amount: 0, baseCost: 25000, donutGain: 1000 * rst, scale: 1.025, rating: 9},
+ 	{name: "Strawberry Donut", amount: 0, baseCost: 75000, donutGain: 2500 * rst, scale: 1.02, rating: 10},
+ 	{name: "Strawberry Donut II", amount: 0, baseCost: 250000, donutGain: 10000 * rst, scale: 1.03, rating: 11},
+ 	{name: "Double Chocolate Donut", amount: 0, baseCost: 1000000, donutGain: 30000 * rst, scale: 1.028, rating: 12},
+ 	{name: "Double Chocolate Donut II", amount: 0, baseCost: 5000000, donutGain: 100000 * rst, scale: 1.025, rating: 13},
+ 	{name: "Christmas Donut", amount: 0, baseCost: 120000000, donutGain: 500000 * rst, scale: 1.025, rating: 14},
+ 	{name: "Christmas Donut II", amount: 0, baseCost: 1500000000, donutGain: 5000000 * rst, scale: 1.0225, rating: 15},
+ 	{name: "Rainbow Donut", amount: 0, baseCost: 5000000000000, donutGain: 100000000 * rst, scale: 1.02, rating: 16},
+ 	{name: "Rainbow Donut II", amount: 0, baseCost: 800000000000000, donutGain: 100000000000 * rst, scale: 1.0185, rating: 17},
+ 	{name: "Blueberry Donut", amount: 0, baseCost: 50000000000000000, donutGain: 5000000000000 * rst, scale: 1.015, rating: 18},
+ 	];
+ 	const rebirtharea1 = document.getElementById("rbn");
+ 	rebirtharea1.innerHTML = rst;
+ 	const rebirtharea2 = document.getElementById("rbc");
+ 	let newsquare = rst ** 2;
+ 	let newcost = newsquare * 500000000000;
+ 	rebirtharea2.innerHTML = newcost;
+ 	rebirthpoints++;
+ 	localStorage.setItem("RP", rebirthpoints);
+ 	localStorage.setItem("Prestige", prestiges);
+ 	updateUI();};
+ 	let booleans = true;
+ 	function prestige() {
+ 		if (rsf >= 30 && booleans === true) {
+ 			const outerprestigeareaa = document.getElementById("ptn");
+ 			outerprestigeareaa.innerHTML = "PRESTIGE TO PRESTIGE LEVEL";
+ 			const innerprestigeareaa = document.getElementById("ptna");
+ 			innerprestigeareaa.innerHTML = "1";
+ 			const outerprestigeareab = document.getElementById("ptc");
+ 			outerprestigeareab.innerHTML = "REQUIRES: REBIRTH ";
+ 			const innerprestigeareab = document.getElementById("ptca");
+ 			innerprestigeareab.innerHTML = "100";
+ 			booleans = false;
+ 		};	
+ 	}
+ </script>
+ </body>
+ </html>
