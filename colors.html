@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+
+        </title>
+    </head>
+    <body>
+        <div id="luckupgrades">
+
+        </div>
+        <button onclick="rcg(1)">
+            Make
+        </button>
+        <script>
+            function rcg(i) {
+        while (i >= 0) {
+            const bn = document.getElementById("luckupgrades");
+            let red = Math.floor(Math.random() * 255);
+            let blue = Math.floor(Math.random() * 255); 
+            let green = Math.floor(Math.random() * 255);
+            let color = [red, green, blue];
+            const lung = document.createElement("button");
+            lung.style.backgroundColor =  "rgb(" + color + ")";
+            lung.textContent = color;
+            lung.style.color = "transparent";
+            lung.style.zIndex = "9999999";
+            lung.addEventListener('mousedown', () => {
+                if(color[0] >= 40 && color[1] >= 40 && color[2] >= 40) {
+  lung.style.color = 'black';} else{lung.style.color = 'white';}
+});
+lung.addEventListener('mouseout', () => {
+    lung.style.color = "transparent";
+});
+            bn.append(lung);
+            return color;
+            i--;
+        }
+    }
+        </script>
+    </body>
+</html>
