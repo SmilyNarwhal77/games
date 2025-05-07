@@ -12,6 +12,9 @@
         <button onclick="rcg(1)">
             Make
         </button>
+        <button onclick="auto()">
+            Auto
+        </button>
         <script>
             function rcg(i) {
         while (i >= 0) {
@@ -36,6 +39,11 @@ lung.addEventListener('mouseout', () => {
             return color;
             i--;
         }
+    };
+    function auto() {
+        setInterval(() => {
+		rcg(1);
+	}, 1);
     }
         </script>
     </body>
