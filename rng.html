@@ -5,19 +5,92 @@
             RNG Simulator
         </title>
         <style>
-            button {
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
-                border: 1px solid blanchedalmond;
-                border-radius: 20px;
-                margin: 20px;
-                padding: 20px;
-            }
             body {
-                background-color: beige;
-            }
-            div {
-                border: 1px solid black;
-            }
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fdf6e3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+    }
+
+    h1 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    button {
+        background-color: #ffe0b2;
+        color: #333;
+        font-weight: bold;
+        padding: 15px 25px;
+        margin: 10px;
+        border: 1px solid #ffcc80;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+        background-color: #ffcc80;
+    }
+
+    #container, #list, #lucks, #luckupgrades {
+        width: 90%;
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: #fff8e1;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    #luckupgrades div {
+        margin: 10px 0;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background-color: #ccc;
+        margin: 30px 0;
+        width: 100%;
+    }
+
+    @media (max-width: 600px) {
+        button {
+            width: 90%;
+        }
+    }
+            .rarity {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin: 3px 0;
+}
+
+/* Individual rarity colors */
+.common { color: #888; }
+.unusual { color: #00aa00; }
+.rare { color: #0000cc; }
+.epic { color: #aa00aa; }
+.legendary { color: #ff8c00; }
+.mythical { color: #cc00cc; }
+.ultra { color: #ff1493; }
+.super { color: #ff0000; }
+.ultimate { color: #b8860b; }
+.secret { color: #222; background-color: #e0e0e0; }
+.master { color: #1e90ff; }
+.quantum { color: #00ffff; }
+.rebirth { color: #4b0082; }
+.prestige { color: #ff69b4; }
+.mini { color: #808000; }
+.medium { color: #000; font-style: italic; }
         </style>
     </head>
     <body>
@@ -59,9 +132,9 @@
     let ultra = (localStorage.getItem("ultra") !== null && !isNaN(parseInt(localStorage.getItem("ultra")))) ? parseInt(localStorage.getItem("ultra")) : 0;
     let supers = (localStorage.getItem("supers") !== null && !isNaN(parseInt(localStorage.getItem("super")))) ? parseInt(localStorage.getItem("super")) : 0;
     let ultimate = (localStorage.getItem("ultimates") !== null && !isNaN(parseInt(localStorage.getItem("ultimate")))) ? parseInt(localStorage.getItem("ultimate")) : 0;
-    let secret = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
-    let master = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
-    let quantum = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
+    let secret = (localStorage.getItem("secret") !== null && !isNaN(parseInt(localStorage.getItem("secret")))) ? parseInt(localStorage.getItem("secret")) : 0;
+    let master = (localStorage.getItem("master") !== null && !isNaN(parseInt(localStorage.getItem("master")))) ? parseInt(localStorage.getItem("master")) : 0;
+    let quantum = (localStorage.getItem("quantum") !== null && !isNaN(parseInt(localStorage.getItem("quantum")))) ? parseInt(localStorage.getItem("quantum")) : 0;
     let rebirth = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
     let prestige = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
     let best = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
@@ -71,23 +144,24 @@
         const vy = document.getElementById("lucks");
         vy.textContent = luck;
         const vx = document.getElementById("list");
-        vx.textContent = "Commons: " 
-        + common + "\n\nUnusuals: " 
-        + unusual + "\n\nRares: " 
-        + rare + "\n\nEpics: " 
-        + epic + "\n\nLegendaries: " 
-        + legendary + "\n\nMythicals: "
-        + mythical + "\n\nUltras: "
-        + ultra + "\n\nSupers: "
-        + supers + "\n\nUltimates: "
-        + ultimate + "\n\nSecrets: "
-        + secret + "\n\nMasters: "
-        + master + "\n\nQuantums: "
-        + quantum + "\n\nRebirths: "
-        + rebirth + "\n\nPrestige: "
-        + prestige + "\n\nMini: "
-        + best + "\n\nMedium: "
-        + medium;
+        vx.innerHTML = `
+    <span class="rarity common">Commons: ${common}</span><br>
+    <span class="rarity unusual">Unusuals: ${unusual}</span><br>
+    <span class="rarity rare">Rares: ${rare}</span><br>
+    <span class="rarity epic">Epics: ${epic}</span><br>
+    <span class="rarity legendary">Legendaries: ${legendary}</span><br>
+    <span class="rarity mythical">Mythicals: ${mythical}</span><br>
+    <span class="rarity ultra">Ultras: ${ultra}</span><br>
+    <span class="rarity super">Supers: ${supers}</span><br>
+    <span class="rarity ultimate">Ultimates: ${ultimate}</span><br>
+    <span class="rarity secret">Secrets: ${secret}</span><br>
+    <span class="rarity master">Masters: ${master}</span><br>
+    <span class="rarity quantum">Quantums: ${quantum}</span><br>
+    <span class="rarity rebirth">Rebirths: ${rebirth}</span><br>
+    <span class="rarity prestige">Prestige: ${prestige}</span><br>
+    <span class="rarity mini">Mini: ${best}</span><br>
+    <span class="rarity medium">Medium: ${medium}</span><br>
+`;
         localStorage.setItem("common", common);
         localStorage.setItem("unusual", unusual);
         localStorage.setItem("rare", rare);
