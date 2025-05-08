@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ball Duplication Simulator</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      font-family: sans-serif;
+    }
+    #box {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      border: 3px solid white;
+      overflow: hidden;
+    }
+    .ball {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: cyan;
+    }
+  </style>
+</head>
+<body>
+  <div id="box"></div>
+
+  <script>
+    const box = document.getElementById('box');
+    const balls = [];
+
+    function createBall(x, y, dx, dy) {
+      const ball = document.createElement('div');
+      ball.classList.add('ball');
+      box.appendChild(ball);
+
+      return { element: ball, x, y, dx, dy };
+    }
+
+    function updateBall(ball) {
+      ball.x += ball.dx;
+      ball.y += ball.dy;
+
+      const boxRect = box.getBoundingClientRect();
+      const size = 0;
+
+      // Bounce on X wall
+      if (ball.x <= 0 || ball.x + size >= box.clientWidth) {
+        ball.dx *= Math.random() * -1.5;
+        duplicateBall(ball);
+      }
+
+      // Bounce on Y wall
+      if (ball.y <= 0 || ball.y + size >= box.clientHeight) {
+        ball.dy *= Math.random() * -1.5;
+        duplicateBall(ball);
+      }
+
+      //both
+      if (ball.y <= 0 && ball.x <= 0) {ball.x = -1; ball.y = -1;}
+      if (Math.random() * 100 <= 0.5) {
+        duplicateBall(ball);
+      }
+      ball.element.style.transform = `translate(${ball.x}px, ${ball.y}px)`;
+    }
+
+    function duplicateBall(ball) {
+      // Prevent creating too many balls
+      if (balls.length > 500) return;
+
+      const newDx = Math.random() * 1.5;
+      const newDy = Math.random() * 1.5;
+      const newBall = createBall(Math.random() * 100, Math.random() * 100, newDx, newDy);
+      balls.push(newBall);
+    }
+
+    function animate() {
+      balls.forEach(updateBall);
+      requestAnimationFrame(animate);
+    }
+
+    // Spawn the initial ball
+    const initialBall = createBall(200, 200, 0.1, 0.1);
+    balls.push(initialBall);
+    animate();
+  </script>
+</body>
+</html>
