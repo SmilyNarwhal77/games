@@ -12,8 +12,8 @@
         background-color: #fdf6e3;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
+        /*align-items: center;*/
+        /*justify-content: flex-start;*/
         min-height: 100vh;
     }
 
@@ -26,7 +26,7 @@
         background-color: #ffe0b2;
         color: #333;
         font-weight: bold;
-        padding: 15px;
+        padding: 5px;
         margin: 10px;
         border: 1px solid #ffcc80;
         border-radius: 12px;
@@ -40,11 +40,11 @@
     }
 
     #container, #list, #lucks, #luckupgrades {
-        width: 40%;
-        max-width: 700px;
-        margin: 20px auto;
-        padding: 20px;
-        border-radius: 12px;
+        width: 70%;
+        max-width: 800px;
+        margin: 10px auto;
+        padding: 10px;
+        border-radius: 15px;
         background-color: #fff8e1;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
@@ -52,13 +52,18 @@
     #luckupgrades div {
         margin: 10px 0;
     }
-
+    .top-buttons {
+    display: flex;
+    gap: 10px; 
+    margin-top: 5px;
+    justify-content: center;
+}
     hr {
         border: none;
         height: 1px;
         background-color: #ccc;
-        margin: 30px 0;
-        width: 100%;
+        margin: 0 15%;
+        width: 70%;
     }
 
     @media (max-width: 600px) {
@@ -73,8 +78,6 @@
     display: inline-block;
     margin: 3px 0;
 }
-
-/* Individual rarity colors */
 .common { color: #888; }
 .unusual { color: #00aa00; }
 .rare { color: #0000cc; }
@@ -84,22 +87,76 @@
 .ultra { color: #ff1493; }
 .super { color: #ff0000; }
 .ultimate { color: #b8860b; }
-.secret { color: #222; background-color: #e0e0e0; }
-.master { color: #1e90ff; }
-.quantum { color: #00ffff; }
-.rebirth { color: #4b0082; }
-.prestige { color: #ff69b4; }
-.mini { color: #808000; }
-.medium { color: #000; font-style: italic; }
+.weak { color: #222; background-color: #e0e0e0; }
+.regular { color: #1e90ff; }
+.strong { color: #00ffff; }
+.mini { color: #4b0082; }
+.medium { color: #ff69b4; }
+.mega { color: #808000; }
+.massive { color: #944a4a; }
+.basic {color: rgb(180, 180, 82);}
+#entry {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+#changelog {
+    background-color: #00ffff;
+    width: 70%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    align-self: center;
+}
+nav > ul {
+    list-style-type: none;
+    justify-items: left;
+    position: fixed;
+    top: 0px;
+}
+#openbutton {
+    width: 30%;
+    margin-left: 35%;
+}
+nav > ul > li > button {
+    border-radius: 20px;
+    width: 40px;
+    height: 40px; 
+}
         </style>
     </head>
     <body>
-        <button onclick="increaseluck()">
-            Increase Luck
-        </button>
-        <button onclick="luckprocessor()">
-            Roll
-        </button>
+        <nav>
+            <ul>
+                <li>
+                    <button onclick="p1()">
+                        P1
+                    </button>
+                </li>
+                <li>
+                    <button onclick="p2()">
+                        P2 🔒
+                    </button>
+                </li>
+                <li>
+                    <button onclick="p3()">
+                        P3 🔒
+                    </button>
+                </li>
+                <li>
+                    <button onclick="p4()">
+                        P4 🔒
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <div class="top-buttons">
+            <button onclick="increaseluck()">
+                Increase Luck
+            </button>
+            <button onclick="luckprocessor()">
+                Roll
+            </button>
+        </div>
         <div id="container">
         <br>
         </div>
@@ -111,13 +168,107 @@
             <div id="u1">
                 Each click is +2 Luck
                 <br>
-                Costs: 20 Common / 20 Unusual
+                Costs: 20 Luck
                 <button onclick="upgradea()">
                     Buy
                 </button>
             </div>
+            <div id="u2">
+                Each click is +5 Luck
+                <br>
+                Costs: 60 Luck
+                <button onclick="upgradeb()">
+                    Buy
+                </button>
+            </div>
+            <div id="u3">
+                Each click is +10 Luck
+                <br>
+                Costs: 140 Luck
+                <button onclick="upgradec()">
+                    Buy
+                </button>
+            </div>
+            <div id="u4">
+                Each click is +50 Luck
+                <br>
+                Costs: 400 Luck
+                <button onclick="upgraded()">
+                    Buy
+                </button>
+            </div>
+            <div id="u5">
+                Each click is +250 Luck
+                <br>
+                Costs: 2000 Luck
+                <button onclick="upgradee()">
+                    Buy
+                </button>
+            </div>
+            <div id="u6">
+                Each click is +1000 Luck
+                <br>
+                Costs: 10000 Luck
+                <button onclick="upgradef()">
+                    Buy
+                </button>
+            </div>
+            <div id="u7">
+                Each click is +5000 Luck
+                <br>
+                Costs: 40000 Luck
+                <button onclick="upgradeg()">
+                    Buy
+                </button>
+            </div>
+        </div>
+        <button onclick="opens();" id="openbutton" style="opacity: 1;z-index: 999999;pointer-events: all;position: relative;">
+            Open Changelog.
+        </button>
+        <div id="changelog" style="display:none;align-items: center;align-content: center;justify-content: center;opacity: 0;text-align: center;">
+            <button onclick="closes()" style="z-index: 9999999">
+                Close Changelog
+            </button>
+            <br>
+            CHANGELOG:
+            <hr>
         </div>
         <script>
+            function opens() {
+		const changelog = document.getElementById("changelog");
+		changelog.style.opacity = "1";
+		changelog.style.fontSize = "1em";
+        changelog.style.display = "block";
+		const openbutton = document.getElementById("openbutton");
+		openbutton.style.opacity = "0";
+		openbutton.style.zIndex = "0";
+		console.log("open");
+	};
+	function closes() {
+		const changelog = document.getElementById("changelog");
+		changelog.style.opacity = "0";
+		changelog.style.fontSize = "0px";
+        changelog.style.display = "none";
+		const openbutton = document.getElementById("openbutton");
+		openbutton.style.opacity = "1";
+		openbutton.style.zIndex = "999999";
+		console.log("close");
+	};
+	const entries = [
+		{name: "v3.1", details: "Changelog added."},
+		{name: "v3.1.1", details: "Bug fix: Console errors."},
+		{name: "v3.1.2.1", details: "Changelog reformatted."},
+		{name: "v3.2", details: "Changelog moved, buttons to close and open changelog added."},
+		{name: "v3.2.1.1", details: "Changelog margin changed, white space of invisible changelog removed."},
+        {name: "v3.2.2", details: "Parts 1.0 (unusable) added."},
+        {name: "v3.2.2.1", details: "Mode added."},
+	];
+	for (let i = 0; i < entries.length; i++) {
+		const eachentry = document.createElement("div");
+		eachentry.innerHTML = '<div id="entry">' + entries[i].name + "<br>" + entries[i].details + "<hr></div>";
+		const changelogsection = document.getElementById("changelog");
+		changelogsection.appendChild(eachentry);
+	}
     let common = (localStorage.getItem("common") !== null && !isNaN(parseInt(localStorage.getItem("common")))) ? parseInt(localStorage.getItem("common")) : 0;
     let unusual = (localStorage.getItem("unusual") !== null && !isNaN(parseInt(localStorage.getItem("unusual")))) ? parseInt(localStorage.getItem("unusual")) : 0;
     let rare = (localStorage.getItem("rare") !== null && !isNaN(parseInt(localStorage.getItem("rare")))) ? parseInt(localStorage.getItem("rare")) : 0;
@@ -127,18 +278,30 @@
     let ultra = (localStorage.getItem("ultra") !== null && !isNaN(parseInt(localStorage.getItem("ultra")))) ? parseInt(localStorage.getItem("ultra")) : 0;
     let supers = (localStorage.getItem("supers") !== null && !isNaN(parseInt(localStorage.getItem("super")))) ? parseInt(localStorage.getItem("super")) : 0;
     let ultimate = (localStorage.getItem("ultimates") !== null && !isNaN(parseInt(localStorage.getItem("ultimate")))) ? parseInt(localStorage.getItem("ultimate")) : 0;
-    let secret = (localStorage.getItem("secret") !== null && !isNaN(parseInt(localStorage.getItem("secret")))) ? parseInt(localStorage.getItem("secret")) : 0;
-    let master = (localStorage.getItem("master") !== null && !isNaN(parseInt(localStorage.getItem("master")))) ? parseInt(localStorage.getItem("master")) : 0;
-    let quantum = (localStorage.getItem("quantum") !== null && !isNaN(parseInt(localStorage.getItem("quantum")))) ? parseInt(localStorage.getItem("quantum")) : 0;
-    let rebirth = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
-    let prestige = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
-    let best = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
-    let medium = (localStorage.getItem("maxrating") !== null && !isNaN(parseInt(localStorage.getItem("maxrating")))) ? parseInt(localStorage.getItem("maxrating")) : 0;
-    let luck = (localStorage.getItem("luck") !== null && !isNaN(parseInt(localStorage.getItem("luck")))) ? parseInt(localStorage.getItem("luck")) : 0;;
+    let weak = (localStorage.getItem("weak") !== null && !isNaN(parseInt(localStorage.getItem("weak")))) ? parseInt(localStorage.getItem("weak")) : 0;
+    let regular = (localStorage.getItem("regular") !== null && !isNaN(parseInt(localStorage.getItem("regular")))) ? parseInt(localStorage.getItem("regular")) : 0;
+    let strong = (localStorage.getItem("strong") !== null && !isNaN(parseInt(localStorage.getItem("strong")))) ? parseInt(localStorage.getItem("strong")) : 0;
+    let mini = (localStorage.getItem("mini") !== null && !isNaN(parseInt(localStorage.getItem("mini")))) ? parseInt(localStorage.getItem("mini")) : 0;
+    let medium = (localStorage.getItem("medium") !== null && !isNaN(parseInt(localStorage.getItem("medium")))) ? parseInt(localStorage.getItem("medium")) : 0;
+    let mega = (localStorage.getItem("mega") !== null && !isNaN(parseInt(localStorage.getItem("mega")))) ? parseInt(localStorage.getItem("mega")) : 0;
+    let massive = (localStorage.getItem("massive") !== null && !isNaN(parseInt(localStorage.getItem("massive")))) ? parseInt(localStorage.getItem("massive")) : 0;
+    let basic = (localStorage.getItem("basic") !== null && !isNaN(parseInt(localStorage.getItem("basic")))) ? parseInt(localStorage.getItem("basic")) : 0;
+    let simple = (localStorage.getItem("simple") !== null && !isNaN(parseInt(localStorage.getItem("simple")))) ? parseInt(localStorage.getItem("simple")) : 0;
+    let complex = (localStorage.getItem("complex") !== null && !isNaN(parseInt(localStorage.getItem("complex")))) ? parseInt(localStorage.getItem("complex")) : 0;
+    let luck = (localStorage.getItem("luck") !== null && !isNaN(parseInt(localStorage.getItem("luck")))) ? parseInt(localStorage.getItem("luck")) : 1;
+    let mode = (localStorage.getItem("mode") !== null && !isNaN(parseInt(localStorage.getItem("mode")))) ? parseInt(localStorage.getItem("mode")) : 0;
+    let upgrade1 = (localStorage.getItem("u1") !== null && !isNaN(parseInt(localStorage.getItem("u1")))) ? parseInt(localStorage.getItem("u1")) : 0;
+    let upgrade2 = (localStorage.getItem("u2") !== null && !isNaN(parseInt(localStorage.getItem("u2")))) ? parseInt(localStorage.getItem("u2")) : 0;
+    let upgrade3 = (localStorage.getItem("u3") !== null && !isNaN(parseInt(localStorage.getItem("u3")))) ? parseInt(localStorage.getItem("u3")) : 0;
+    let upgrade4 = (localStorage.getItem("u4") !== null && !isNaN(parseInt(localStorage.getItem("u4")))) ? parseInt(localStorage.getItem("u4")) : 0;
+    let upgrade5 = (localStorage.getItem("u5") !== null && !isNaN(parseInt(localStorage.getItem("u5")))) ? parseInt(localStorage.getItem("u5")) : 0;
+    let upgrade6 = (localStorage.getItem("u6") !== null && !isNaN(parseInt(localStorage.getItem("u6")))) ? parseInt(localStorage.getItem("u6")) : 0;
+    let upgrade7 = (localStorage.getItem("u7") !== null && !isNaN(parseInt(localStorage.getItem("u7")))) ? parseInt(localStorage.getItem("u7")) : 0;
     function updateUI() {
         const vy = document.getElementById("lucks");
         vy.textContent = luck;
         const vx = document.getElementById("list");
+        if (mode === 0) {
         vx.innerHTML = `
     <span class="rarity common">Commons: ${common}</span>
     <span class="rarity unusual">Unusuals: ${unusual}</span>
@@ -149,13 +312,16 @@
     <span class="rarity ultra">Ultras: ${ultra}</span>
     <span class="rarity super">Supers: ${supers}</span>
     <span class="rarity ultimate">Ultimates: ${ultimate}</span>
-    <span class="rarity secret">Secrets: ${secret}</span>
-    <span class="rarity master">Masters: ${master}</span>
-    <span class="rarity quantum">Quantums: ${quantum}</span>
-    <span class="rarity rebirth">Rebirths: ${rebirth}</span>
-    <span class="rarity prestige">Prestige: ${prestige}</span>
-    <span class="rarity mini">Mini: ${best}</span>
-    <span class="rarity medium">Medium: ${medium}</span>
+    <span class="rarity weak">Weaks: ${weak}</span>
+    <span class="rarity regular">Regulars: ${regular}</span>
+    <span class="rarity strong">Strongs: ${strong}</span>
+    <span class="rarity mini">Minis: ${mini}</span>
+    <span class="rarity medium">Mediums: ${medium}</span>
+    <span class="rarity mega">Megas: ${mega}</span>
+    <span class="rarity massive">Massives: ${massive}</span>
+    <span class="rarity basic">Basics: ${basic}</span>
+    <span class="rarity simple">Simples: ${simple}</span>
+    <span class="rarity complex">Complexes: ${complex}</span>
 `;
         localStorage.setItem("common", common);
         localStorage.setItem("unusual", unusual);
@@ -166,9 +332,16 @@
         localStorage.setItem("ultra", ultra);
         localStorage.setItem("supers", supers);
         localStorage.setItem("ultimate", ultimate);
-        localStorage.setItem("secret", secret);
-        localStorage.setItem("master", master);
-        localStorage.setItem("quantum", quantum);
+        localStorage.setItem("weak", weak);
+        localStorage.setItem("regular", regular);
+        localStorage.setItem("strong", strong);
+        localStorage.setItem("mini", mini);
+        localStorage.setItem("medium", medium);
+        localStorage.setItem("mega", mega);
+        localStorage.setItem("massive", massive);
+        localStorage.setItem("basic", basic);
+        localStorage.setItem("simple", simple);
+        localStorage.setItem("complex", complex);}
         localStorage.setItem("luck", luck);
     }
     updateUI();
@@ -176,30 +349,152 @@
     function clickbetter(i) {
         luckgainamount = i
     }
+    if (upgrade1 == 1) {
+        clickbetter(2);
+        const upgradecontainer = document.getElementById("luckupgrades");
+        const area = document.getElementById("u1");
+        upgradecontainer.removeChild(area);
+    };
+    if (upgrade2 == 1) {
+        clickbetter(5);
+        const upgradecontainer = document.getElementById("luckupgrades");
+        const area = document.getElementById("u2");
+        upgradecontainer.removeChild(area);
+    };
+    if (upgrade3 == 1) {
+        clickbetter(10);
+        const upgradecontainer = document.getElementById("luckupgrades");
+        const area = document.getElementById("u3");
+        upgradecontainer.removeChild(area);
+    };
+    if (upgrade4 == 1) {
+        clickbetter(50);
+        const upgradecontainer = document.getElementById("luckupgrades");
+        const area = document.getElementById("u4");
+        upgradecontainer.removeChild(area);
+    };
+    if (upgrade5 == 1) {
+        clickbetter(250);
+        const upgradecontainer = document.getElementById("luckupgrades");
+        const area = document.getElementById("u5");
+        upgradecontainer.removeChild(area);
+    };
+    if (upgrade6 == 1) {
+        clickbetter(1000);
+        const upgradecontainer = document.getElementById("luckupgrades");
+        const area = document.getElementById("u6");
+        upgradecontainer.removeChild(area);
+    };
+    if (upgrade7 == 1) {
+        clickbetter(5000);
+        const upgradecontainer = document.getElementById("luckupgrades");
+        const area = document.getElementById("u7");
+        upgradecontainer.removeChild(area);
+    };
     function upgradea() {
-        if (common >= 20) {
-            clickbetter(2);
-            common -= 20;
+        if (luck >= 20) {
+            luck -= 20;
+            if (luckgainamount < 2) {
+                clickbetter(2);
+            };
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u1");
             upgradecontainer.removeChild(area);
+            upgrade1 = 1;
+            localStorage.setItem("u1", upgrade1);
             updateUI();
-        } else if (unusual >= 20) {
-            clickbetter(2);
-            unusual -= 20;
+        }
+    }
+    function upgradeb() {
+        if (luck >= 60) {
+            luck -= 60;
+            if (luckgainamount < 5) {
+                clickbetter(5);
+            };
             const upgradecontainer = document.getElementById("luckupgrades");
-            const area = document.getElementById("u1");
+            const area = document.getElementById("u2");
             upgradecontainer.removeChild(area);
+            upgrade2 = 1;
+            localStorage.setItem("u2", upgrade2);
+            updateUI();
+        }
+    }
+    function upgradec() {
+        if (luck >= 140) {
+            luck -= 140;
+            if (luckgainamount < 10) {
+                clickbetter(10);
+            };
+            const upgradecontainer = document.getElementById("luckupgrades");
+            const area = document.getElementById("u3");
+            upgradecontainer.removeChild(area);
+            upgrade3 = 1;
+            localStorage.setItem("u3", upgrade3);
+            updateUI();
+        }
+    }
+    function upgraded() {
+        if (luck >= 400) {
+            luck -= 400;
+            if (luckgainamount < 50) {
+                clickbetter(50);
+            };
+            const upgradecontainer = document.getElementById("luckupgrades");
+            const area = document.getElementById("u4");
+            upgradecontainer.removeChild(area);
+            upgrade4 = 1;
+            localStorage.setItem("u4", upgrade4);
+            updateUI();
+        }
+    }
+    function upgradee() {
+        if (luck >= 2000) {
+            luck -= 2000;
+            if (luckgainamount < 250) {
+                clickbetter(250);
+            };
+            const upgradecontainer = document.getElementById("luckupgrades");
+            const area = document.getElementById("u5");
+            upgradecontainer.removeChild(area);
+            upgrade5 = 1;
+            localStorage.setItem("u5", upgrade5);
+            updateUI();
+        }
+    }
+    function upgradef() {
+        if (luck >= 10000) {
+            luck -= 10000;
+            if (luckgainamount < 1000) {
+                clickbetter(1000);
+            };
+            const upgradecontainer = document.getElementById("luckupgrades");
+            const area = document.getElementById("u6");
+            upgradecontainer.removeChild(area);
+            upgrade6 = 1;
+            localStorage.setItem("u6", upgrade6);
+            updateUI();
+        }
+    }
+    function upgradeg() {
+        if (luck >= 40000) {
+            luck -= 40000;
+            if (luckgainamount < 5000) {
+                clickbetter(5000);
+            };
+            const upgradecontainer = document.getElementById("luckupgrades");
+            const area = document.getElementById("u7");
+            upgradecontainer.removeChild(area);
+            upgrade7 = 1;
+            localStorage.setItem("u7", upgrade7);
             updateUI();
         }
     }
     function increaseluck() {
-        if (luck < 5000000) {
         luck += luckgainamount;
         luck = Math.floor(luck);
-        updateUI();}
+        updateUI();
     }
-    function redorblue() {
+    /*function redorblue() {
         const a = Math.floor(Math.random() * 2 + 1);
         if (a == 1) {   
             return "blue";
@@ -223,7 +518,7 @@
             return color;
             i--;
         }
-    }
+    }*/
     function rng(i) {
         if (!isNaN(parseInt(i))) {
             let s = parseInt(i);
@@ -233,27 +528,27 @@
     };
 function luckprocessor() {
     const vw = document.getElementById("container");
-    if (rng(50000000) <= luck) {
+    /*if (rng(50000000) <= luck) {
         vw.textContent = "You rolled a medium! Chance: " + luck + " in 5M"
         medium++;
     } else if (rng(10000000) <= luck) {
         vw.textContent = "You rolled a mini! Chance: " + luck + " in 1M"
-        best++;
+        mega++;
     } else if (rng(300000) <= luck) {
-        vw.textContent = "You rolled a prestige! Chance: " + luck + " in 300K";
-        prestige++;
+        vw.textContent = "You rolled a medium! Chance: " + luck + " in 300K";
+        medium++;
     } else if (rng(150000) <= luck) {
-        vw.textContent = "You rolled a rebirth! Chance: " + luck + " in 150K";
-        rebirth++;
+        vw.textContent = "You rolled a mini! Chance: " + luck + " in 150K";
+        mini++;
     } else if (rng(100000) <= luck) {
-        vw.textContent = "You rolled a quantum! Chance: " + luck + " in 100K";
-        quantum++;
+        vw.textContent = "You rolled a strong! Chance: " + luck + " in 100K";
+        strong++;
     } else if (rng(50000) <= luck) {
-        vw.textContent = "You rolled a master! Chance: " + luck + " in 50K";
-        master++;
+        vw.textContent = "You rolled a regular! Chance: " + luck + " in 50K";
+        regular++;
     } else if(rng(30000) <= luck) {
-        vw.textContent = "You rolled a secret! Chance: " + luck + " in 30K";
-        secret++;
+        vw.textContent = "You rolled a weak! Chance: " + luck + " in 30K";
+        weak++;
     } else if(rng(20000) <= luck) {
         vw.textContent = "You rolled an ultimate! Chance: " + luck + " in 20K";
         ultimate++;
@@ -269,22 +564,164 @@ function luckprocessor() {
     } else if(rng(1000) <= luck) {
         vw.textContent = "You rolled a legendary! Chance: " + luck + " in 1000";
         legendary++; 
-    } else if(rng(500) <= luck) {
-        vw.textContent = "You rolled an epic! Chance: " + luck + " in 500";
+    } else*/ if(rng(5 * 10 ** 10) <= luck) {
+        vw.textContent = "You rolled an epic! Chance: " + luck + " in 50B";
+        complex++;
+    } else if(rng(1.2 * 10 ** 10) <= luck) {
+        vw.textContent = "You rolled an rare! Chance: " + luck + " in 12B";
+        simple++;
+    } else if(rng(2.5 * 10 ** 9) <= luck) {
+        vw.textContent = "You rolled a basic! Chance: " + luck + " in 2.5B";
+        basic++;
+    } else if (rng(5 * 10 ** 8) <= luck) {
+        vw.textContent = "You rolled a massive! Chance: " + luck + " in 500M"
+        massive++;
+    } else if (rng(1.5 * 10 ** 8) <= luck) {
+        vw.textContent = "You rolled a mega! Chance: " + luck + " in 150M"
+        mega++;
+    } else if (rng(6 * 10 ** 7) <= luck) {
+        vw.textContent = "You rolled a medium! Chance: " + luck + " in 60M";
+        medium++;
+    } else if (rng(2 * 10 ** 7) <= luck) {
+        vw.textContent = "You rolled a mini! Chance: " + luck + " in 20M";
+        mini++;
+    } else if (rng(5 * 10 ** 6) <= luck) {
+        vw.textContent = "You rolled a strong! Chance: " + luck + " in 5M";
+        strong++;
+    } else if (rng(2 * 10 ** 6) <= luck) {
+        vw.textContent = "You rolled a regular! Chance: " + luck + " in 2M";
+        regular++;
+    } else if(rng(5 * 10 ** 5) <= luck) {
+        vw.textContent = "You rolled a weak! Chance: " + luck + " in 500K";
+        weak++;
+    } else if(rng(10 ** 5) <= luck) {
+        vw.textContent = "You rolled an ultimate! Chance: " + luck + " in 100K";
+        ultimate++;
+    } else if(rng(25000) <= luck) {
+        vw.textContent = "You rolled a super! Chance: " + luck + " in 25K";
+        supers++;
+    } else if(rng(5000) <= luck) {
+        vw.textContent = "You rolled an ultra! Chance: " + luck + " in 5K";
+        ultra++;
+    } else if(rng(1500) <= luck) {
+        vw.textContent = "You rolled a mythical! Chance: " + luck + " in 1.5K";
+        mythical++;
+    } else if(rng(600) <= luck) {
+        vw.textContent = "You rolled a legendary! Chance: " + luck + " in 600";
+        legendary++; 
+    } else if(rng(250) <= luck) {
+        vw.textContent = "You rolled an epic! Chance: " + luck + " in 250";
         epic++;
-    } else if(rng(200) <= luck) {
-        vw.textContent = "You rolled an rare! Chance: " + luck + " in 200";
+    } else if(rng(100) <= luck) {
+        vw.textContent = "You rolled an rare! Chance: " + luck + " in 100";
         rare++;
-    } else if(rng(50) <= luck) {
-        vw.textContent = "You rolled an unusual! Chance: " + luck + " in 50";
+    } else if(rng(25) <= luck) {
+        vw.textContent = "You rolled an unusual! Chance: " + luck + " in 25";
         unusual++;
     } else {
-        vw.textContent = "You rolled a common! Chance: " + luck + " in 2";
+        vw.textContent = "You rolled a common! Chance: " + luck + " in 1";
         common++;
     }
     updateUI();
-}
-function longenid(id, num) { 
+};
+function autoroll() {
+setInterval(() => {const vw = document.getElementById("container");
+    /*if (rng(50000000) <= luck) {
+        vw.textContent = "You rolled a medium! Chance: " + luck + " in 5M"
+        medium++;
+    } else if (rng(10000000) <= luck) {
+        vw.textContent = "You rolled a mini! Chance: " + luck + " in 1M"
+        mega++;
+    } else if (rng(300000) <= luck) {
+        vw.textContent = "You rolled a medium! Chance: " + luck + " in 300K";
+        medium++;
+    } else if (rng(150000) <= luck) {
+        vw.textContent = "You rolled a mini! Chance: " + luck + " in 150K";
+        mini++;
+    } else if (rng(100000) <= luck) {
+        vw.textContent = "You rolled a strong! Chance: " + luck + " in 100K";
+        strong++;
+    } else if (rng(50000) <= luck) {
+        vw.textContent = "You rolled a regular! Chance: " + luck + " in 50K";
+        regular++;
+    } else if(rng(30000) <= luck) {
+        vw.textContent = "You rolled a weak! Chance: " + luck + " in 30K";
+        weak++;
+    } else if(rng(20000) <= luck) {
+        vw.textContent = "You rolled an ultimate! Chance: " + luck + " in 20K";
+        ultimate++;
+    } else if(rng(10000) <= luck) {
+        vw.textContent = "You rolled a super! Chance: " + luck + " in 10K";
+        supers++;
+    } else if(rng(5000) <= luck) {
+        vw.textContent = "You rolled an ultra! Chance: " + luck + " in 5K";
+        ultra++;
+    } else if(rng(2500) <= luck) {
+        vw.textContent = "You rolled a mythical! Chance: " + luck + " in 2.5K";
+        mythical++;
+    } else if(rng(1000) <= luck) {
+        vw.textContent = "You rolled a legendary! Chance: " + luck + " in 1000";
+        legendary++; 
+    } else*/ if(rng(5 * 10 ** 10) <= luck) {
+        vw.textContent = "You rolled an epic! Chance: " + luck + " in 50B";
+        complex++;
+    } else if(rng(1.2 * 10 ** 10) <= luck) {
+        vw.textContent = "You rolled an rare! Chance: " + luck + " in 12B";
+        simple++;
+    } else if(rng(2.5 * 10 ** 9) <= luck) {
+        vw.textContent = "You rolled a basic! Chance: " + luck + " in 2.5B";
+        basic++;
+    } else if (rng(5 * 10 ** 8) <= luck) {
+        vw.textContent = "You rolled a massive! Chance: " + luck + " in 500M"
+        massive++;
+    } else if (rng(1.5 * 10 ** 8) <= luck) {
+        vw.textContent = "You rolled a mega! Chance: " + luck + " in 150M"
+        mega++;
+    } else if (rng(6 * 10 ** 7) <= luck) {
+        vw.textContent = "You rolled a medium! Chance: " + luck + " in 60M";
+        medium++;
+    } else if (rng(2 * 10 ** 7) <= luck) {
+        vw.textContent = "You rolled a mini! Chance: " + luck + " in 20M";
+        mini++;
+    } else if (rng(5 * 10 ** 6) <= luck) {
+        vw.textContent = "You rolled a strong! Chance: " + luck + " in 5M";
+        strong++;
+    } else if (rng(2 * 10 ** 6) <= luck) {
+        vw.textContent = "You rolled a regular! Chance: " + luck + " in 2M";
+        regular++;
+    } else if(rng(5 * 10 ** 5) <= luck) {
+        vw.textContent = "You rolled a weak! Chance: " + luck + " in 500K";
+        weak++;
+    } else if(rng(10 ** 5) <= luck) {
+        vw.textContent = "You rolled an ultimate! Chance: " + luck + " in 100K";
+        ultimate++;
+    } else if(rng(25000) <= luck) {
+        vw.textContent = "You rolled a super! Chance: " + luck + " in 25K";
+        supers++;
+    } else if(rng(5000) <= luck) {
+        vw.textContent = "You rolled an ultra! Chance: " + luck + " in 5K";
+        ultra++;
+    } else if(rng(1500) <= luck) {
+        vw.textContent = "You rolled a mythical! Chance: " + luck + " in 1.5K";
+        mythical++;
+    } else if(rng(600) <= luck) {
+        vw.textContent = "You rolled a legendary! Chance: " + luck + " in 600";
+        legendary++; 
+    } else if(rng(250) <= luck) {
+        vw.textContent = "You rolled an epic! Chance: " + luck + " in 250";
+        epic++;
+    } else if(rng(100) <= luck) {
+        vw.textContent = "You rolled an rare! Chance: " + luck + " in 100";
+        rare++;
+    } else if(rng(25) <= luck) {
+        vw.textContent = "You rolled an unusual! Chance: " + luck + " in 25";
+        unusual++;
+    } else {
+        vw.textContent = "You rolled a common! Chance: " + luck + " in 1";
+        common++;
+    }
+    updateUI();}, 1);}
+/*function longenid(id, num) { 
     if (document.getElementById(id)) {
         const short = document.getElementById(id);
         if (!isNaN(short.style.length)) {
@@ -294,7 +731,7 @@ function longenid(id, num) {
             console.log("Element with id " + id + " was lengthened by " + v + " px");
         }
     }
-};
+};*/
         </script>
     </body>
 </html>
