@@ -262,6 +262,9 @@ nav > ul > li > button {
 		{name: "v3.2.1.1", details: "Changelog margin changed, white space of invisible changelog removed."},
         {name: "v3.2.2", details: "Parts 1.0 (unusable) added."},
         {name: "v3.2.2.1", details: "Mode added."},
+        {name: "v3.2.3", details: "3 New Upgrades added."},
+        {name: "v3.2.4", details: "Basic, Simple, and Complex introduced."},
+        {name: "v3.2.4.1", details: "Minor bug fix: Rolling certain rarities have wrong messages."},
 	];
 	for (let i = 0; i < entries.length; i++) {
 		const eachentry = document.createElement("div");
@@ -663,10 +666,10 @@ setInterval(() => {const vw = document.getElementById("container");
         vw.textContent = "You rolled a legendary! Chance: " + luck + " in 1000";
         legendary++; 
     } else*/ if(rng(5 * 10 ** 10) <= luck) {
-        vw.textContent = "You rolled an epic! Chance: " + luck + " in 50B";
+        vw.textContent = "You rolled a complex! Chance: " + luck + " in 50B";
         complex++;
     } else if(rng(1.2 * 10 ** 10) <= luck) {
-        vw.textContent = "You rolled an rare! Chance: " + luck + " in 12B";
+        vw.textContent = "You rolled a simple! Chance: " + luck + " in 12B";
         simple++;
     } else if(rng(2.5 * 10 ** 9) <= luck) {
         vw.textContent = "You rolled a basic! Chance: " + luck + " in 2.5B";
