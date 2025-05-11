@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A-Frame Walking Simulator with Solid Block</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- Physics system -->
+  <script src="https://cdn.jsdelivr.net/gh/deltaluca/aframe-physics-system/dist/aframe-physics-system.min.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <a-scene physics="gravity: -9.8">
+    <!-- Camera with controls and jumping enabled -->
+    <a-camera id="camera" position="0 1.6 0" wasd-controls="enabled: true" look-controls="pointerLockEnabled: true">
+      <a-cursor></a-cursor>
+    </a-camera>
+    <a-box position="0 1 -3" depth="2" height="2" width="2" color="#f00" dynamic-body="mass: 2; restitution: 0.5;"></a-box>
+    <a-box position="10 10 -3" depth="2" height="2" width="2" color="#f00" dynamic-body="mass: 2; restitution: 0.5;"></a-box>
+    <a-box position="10 7 -3" depth="2" height="20" width="5" color="#fd7" dynamic-body="mass: 2; restitution: 0.5;"></a-box>
+    <!-- Floor -->
+    <a-plane position="0 0 -5" rotation="-90 0 0" width="100" height="100" color="#555" static-body></a-plane>
+
+    <!-- Solid Box -->
+    <a-box position="0 1 -3" depth="2" height="2" width="2" color="#f00" dynamic-body></a-box>
+
+    <!-- Light -->
+    <a-light position="2 4 -3" type="directional" intensity="1"></a-light>
+  </a-scene>
+
+  <script>
+    // Get the camera element
+    const cameraEl = document.querySelector('#camera');
+    let jumping = false;
+    let velocityY = 0;
+    const gravity = -0.1;
+    const jumpStrength = 1;
+
+    // Handle jumping when spacebar is pressed
+    document.addEventListener('keydown', (event) => {
+      if (event.code === 'Space' && !jumping) {
+        jumping = true;
+        velocityY = jumpStrength;
+      }
+    });
+
+    // Update loop for physics
+    function update() {
+      // Apply gravity
+      if (jumping) {
+        velocityY += gravity;
+      }
+
+      // Update camera's Y position
+      const cameraPosition = cameraEl.getAttribute('position');
+      cameraPosition.y += velocityY;
+
+      // Stop falling if we hit the ground (y=1.6 is the camera's height)
+      if (cameraPosition.y <= 1.6) {
+        cameraPosition.y = 1.6;
+        jumping = false;
+        velocityY = 0;
+      }
+
+      // Update camera position
+      cameraEl.setAttribute('position', cameraPosition);
+
+      // Request next frame
+      requestAnimationFrame(update);
+    }
+
+    // Start the update loop
+    update();
+  </script>
+</body>
+</html>
