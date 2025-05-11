@@ -177,55 +177,55 @@
                     </button>
                 </div>
                 <div id="u2">
-                    Each click is +5 Luck
+                    Each click is +40 Luck
                     <br>
-                    Costs: 60 Luck
+                    Costs: 200 Luck
                     <button onclick="upgradeb()">
                         Buy
                     </button>
                 </div>
                 <div id="u3">
-                    Each click is +10 Luck
+                    Each click is +1K Luck
                     <br>
-                    Costs: 140 Luck
+                    Costs: 5K Luck
                     <button onclick="upgradec()">
                         Buy
                     </button>
                 </div>
                 <div id="u4">
-                    Each click is +50 Luck
+                    Each click is +25K Luck
                     <br>
-                    Costs: 400 Luck
+                    Costs: 130K Luck
                     <button onclick="upgraded()">
                         Buy
                     </button>
                 </div>
                 <div id="u5">
-                    Each click is +250 Luck
+                    Each click is +600K Luck
                     <br>
-                    Costs: 2000 Luck
+                    Costs: 3.5M Luck
                     <button onclick="upgradee()">
                         Buy
                     </button>
                 </div>
                 <div id="u6">
-                    Each click is +1000 Luck
+                    Each click is +15M Luck
                     <br>
-                    Costs: 10000 Luck
+                    Costs: 90M Luck
                     <button onclick="upgradef()">
                         Buy
                     </button>
                 </div>
-                <div id="u7" class="locked">
-                    Each click is +5000 Luck
+                <div id="u7">
+                    Each click is +500M Luck
                     <br>
-                    Costs: 40000 Luck
+                    Costs: 3.5B Luck
                     <button onclick="upgradeg()">
                         Buy
                     </button>
                 </div>
                 <div id="u8" class="locked">
-                    Each click is +20K Luck
+                    Each click is +15B Luck
                     <br>
                     Costs: 200K Luck
                     <button onclick="upgradeh()">
@@ -293,8 +293,6 @@
                 <hr>
             </div>
             <script>
-                let f = 0;
-            setInterval(() => {f += 100;console.log(f)}, 100)
                 function opens() {
             const changelog = document.getElementById("changelog");
             changelog.style.opacity = "1";
@@ -333,6 +331,7 @@
             const changelogsection = document.getElementById("changelog");
             changelogsection.appendChild(eachentry);
         }
+        //variables 
         let common = (localStorage.getItem("common") !== null && !isNaN(parseInt(localStorage.getItem("common")))) ? parseInt(localStorage.getItem("common")) : 0;
         let unusual = (localStorage.getItem("unusual") !== null && !isNaN(parseInt(localStorage.getItem("unusual")))) ? parseInt(localStorage.getItem("unusual")) : 0;
         let rare = (localStorage.getItem("rare") !== null && !isNaN(parseInt(localStorage.getItem("rare")))) ? parseInt(localStorage.getItem("rare")) : 0;
@@ -352,6 +351,15 @@
         let basic = (localStorage.getItem("basic") !== null && !isNaN(parseInt(localStorage.getItem("basic")))) ? parseInt(localStorage.getItem("basic")) : 0;
         let simple = (localStorage.getItem("simple") !== null && !isNaN(parseInt(localStorage.getItem("simple")))) ? parseInt(localStorage.getItem("simple")) : 0;
         let complex = (localStorage.getItem("complex") !== null && !isNaN(parseInt(localStorage.getItem("complex")))) ? parseInt(localStorage.getItem("complex")) : 0;
+        let nothingness = (localStorage.getItem("nothingness") !== null && !isNaN(parseInt(localStorage.getItem("nothingness")))) ? parseInt(localStorage.getItem("nothingness")) : 0;
+        let voids = (localStorage.getItem("voids") !== null && !isNaN(parseInt(localStorage.getItem("voids")))) ? parseInt(localStorage.getItem("voids")) : 0;
+        let infinitesimal = (localStorage.getItem("infinitesimal") !== null && !isNaN(parseInt(localStorage.getItem("infinitesimal")))) ? parseInt(localStorage.getItem("infinitesimal")) : 0;
+        let tiny = (localStorage.getItem("tiny") !== null && !isNaN(parseInt(localStorage.getItem("tiny")))) ? parseInt(localStorage.getItem("tiny")) : 0;
+        let large = (localStorage.getItem("large") !== null && !isNaN(parseInt(localStorage.getItem("large")))) ? parseInt(localStorage.getItem("large")) : 0;
+        let huge = (localStorage.getItem("huge") !== null && !isNaN(parseInt(localStorage.getItem("huge")))) ? parseInt(localStorage.getItem("huge")) : 0;
+        let giant = (localStorage.getItem("giant") !== null && !isNaN(parseInt(localStorage.getItem("giant")))) ? parseInt(localStorage.getItem("giant")) : 0;
+        let infinity = (localStorage.getItem("infinity") !== null && !isNaN(parseInt(localStorage.getItem("infinity")))) ? parseInt(localStorage.getItem("infinity")) : 0;
+        let spin = (localStorage.getItem("spin") !== null && !isNaN(parseInt(localStorage.getItem("spin")))) ? parseInt(localStorage.getItem("spin")) : 0;
         let luck = (localStorage.getItem("luck") !== null && !isNaN(parseInt(localStorage.getItem("luck")))) ? parseInt(localStorage.getItem("luck")) : 1;
         let mode = (localStorage.getItem("mode") !== null && !isNaN(parseInt(localStorage.getItem("mode")))) ? parseInt(localStorage.getItem("mode")) : 0;
         let upgrade1 = (localStorage.getItem("u1") !== null && !isNaN(parseInt(localStorage.getItem("u1")))) ? parseInt(localStorage.getItem("u1")) : 0;
@@ -412,7 +420,29 @@
             localStorage.setItem("massive", massive);
             localStorage.setItem("basic", basic);
             localStorage.setItem("simple", simple);
-            localStorage.setItem("complex", complex);}
+            localStorage.setItem("complex", complex);
+        } else if (mode == 1) {
+            vx.innerHTML = `
+            <span class="rarity nothingness">Nothingnesses: ${nothingness}</span>
+        <span class="rarity voids">Voidses: ${voids}</span>
+        <span class="rarity infinitesimals">Infinitesimales: ${infinitesimal}</span>
+        <span class="rarity tiny">Tinies: ${tiny}</span>
+        <span class="rarity large">Larges: ${large}</span>
+        <span class="rarity huge">Huges: ${huge}</span>
+        <span class="rarity giant">Giants: ${giant}</span>
+        <span class="rarity infinity">Infinities: ${infinity}</span>
+        <span class="rarity spin">Spins: ${spin}</span>
+        `;
+        localStorage.setItem("nothingness", nothingness);
+        localStorage.setItem("voids", voids);
+        localStorage.setItem("infinitesimal", infinitesimal);
+        localStorage.setItem("tiny", tiny);
+        localStorage.setItem("large", large);
+        localStorage.setItem("huge", huge);
+        localStorage.setItem("giant", giant);
+        localStorage.setItem("infinity", infinity);
+        localStorage.setItem("spin", spin);
+        }
             localStorage.setItem("luck", luck);
         }
         updateUI();
@@ -420,6 +450,21 @@
         function clickbetter(i) {
             luckgainamount = i
         }
+        /*const upgrades = [
+            {number: 1, cost: 20, click: 2},
+            {number: 2, cost: 200, click: 40},
+            {number: 3, cost: 5000, click: 1000},
+            {number: 4, cost: 20, click: 2},
+            {number: 5, cost: 20, click: 2},
+            {number: 6, cost: 20, click: 2},
+            {number: 7, cost: 20, click: 2},
+            {number: 8, cost: 20, click: 2},
+            {number: 9, cost: 20, click: 2},
+            {number: 10, cost: 20, click: 2},
+            {number: 11, cost: 20, click: 2},
+            {number: 12, cost: 20, click: 2},
+
+        ]*/
         if (upgrade1 == 1) {
             clickbetter(2);
             const upgradecontainer = document.getElementById("luckupgrades");
@@ -427,43 +472,43 @@
             upgradecontainer.removeChild(area);
         };
         if (upgrade2 == 1) {
-            clickbetter(5);
+            clickbetter(40);
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u2");
             upgradecontainer.removeChild(area);
         };
         if (upgrade3 == 1) {
-            clickbetter(10);
+            clickbetter(1000);
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u3");
             upgradecontainer.removeChild(area);
         };
         if (upgrade4 == 1) {
-            clickbetter(50);
+            clickbetter(25 * 10 ** 3);
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u4");
             upgradecontainer.removeChild(area);
         };
         if (upgrade5 == 1) {
-            clickbetter(250);
+            clickbetter(600 * 10 ** 3);
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u5");
             upgradecontainer.removeChild(area);
         };
         if (upgrade6 == 1) {
-            clickbetter(1000);
+            clickbetter(15 * 10 ** 6);
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u6");
             upgradecontainer.removeChild(area);
         };
         if (upgrade7 == 1) {
-            clickbetter(5000);
+            clickbetter(500 * 10 ** 6);
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u7");
             upgradecontainer.removeChild(area);
         };
         if (upgrade8 == 1) {
-            clickbetter(20000);
+            clickbetter(15 * 10 ** 9);
             const upgradecontainer = document.getElementById("luckupgrades");
             const area = document.getElementById("u8");
             upgradecontainer.removeChild(area);
@@ -519,10 +564,10 @@
             }
         }
         function upgradeb() {
-            if (luck >= 60) {
-                luck -= 60;
-                if (luckgainamount < 5) {
-                    clickbetter(5);
+            if (luck >= 200) {
+                luck -= 200;
+                if (luckgainamount < 40) {
+                    clickbetter(40);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u2");
@@ -533,10 +578,10 @@
             }
         }
         function upgradec() {
-            if (luck >= 140) {
-                luck -= 140;
-                if (luckgainamount < 10) {
-                    clickbetter(10);
+            if (luck >= 5000) {
+                luck -= 5000;
+                if (luckgainamount < 1000) {
+                    clickbetter(1000);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u3");
@@ -547,10 +592,10 @@
             }
         }
         function upgraded() {
-            if (luck >= 400) {
-                luck -= 400;
-                if (luckgainamount < 50) {
-                    clickbetter(50);
+            if (luck >= 130 * 10 ** 3) {
+                luck -= 130 * 10 ** 3;
+                if (luckgainamount < 25000) {
+                    clickbetter(25000);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u4");
@@ -561,10 +606,10 @@
             }
         }
         function upgradee() {
-            if (luck >= 2000) {
-                luck -= 2000;
-                if (luckgainamount < 250) {
-                    clickbetter(250);
+            if (luck >= 3.5 * 10 ** 6) {
+                luck -= 3.5 * 10 ** 6;
+                if (luckgainamount < 600 * 10 ** 3) {
+                    clickbetter(600000);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u5");
@@ -575,10 +620,10 @@
             }
         }
         function upgradef() {
-            if (luck >= 10000) {
-                luck -= 10000;
-                if (luckgainamount < 1000) {
-                    clickbetter(1000);
+            if (luck >= 90 * 10 ** 6) {
+                luck -= 90 * 10 ** 6;
+                if (luckgainamount < 15 * 10 ** 6) {
+                    clickbetter(15 * 10 ** 6);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u6");
@@ -589,10 +634,10 @@
             }
         }
         function upgradeg() {
-            if (luck >= 40000) {
-                luck -= 40000;
-                if (luckgainamount < 5000) {
-                    clickbetter(5000);
+            if (luck >= 3.5 * 10 ** 9) {
+                luck -= 3.5 * 10 ** 9;
+                if (luckgainamount < 500 * 10 ** 6) {
+                    clickbetter(500 * 10 ** 6);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u7");
@@ -603,10 +648,10 @@
             }
         }
         function upgradeh() {
-            if (luck >= 220000) {
-                luck -= 220000;
-                if (luckgainamount < 20000) {
-                    clickbetter(20000);
+            if (luck >= 100 * 10 ** 9) {
+                luck -= 100 * 10 ** 9;
+                if (luckgainamount < 15 * 10 ** 9) {
+                    clickbetter(15 * 10 ** 9);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u8");
@@ -617,10 +662,10 @@
             }
         }
         function upgradei() {
-            if (luck >= 6 * 10 ** 5) {
-                luck -= 6 * 10 ** 5;
-                if (luckgainamount < 10 ** 5) {
-                    clickbetter(10 ** 5);
+            if (luck >= 3 * 10 ** 12) {
+                luck -= 3 * 10 ** 12;
+                if (luckgainamount < 450 * 10 ** 9) {
+                    clickbetter(450 * 10 ** 9);
                 };
                 const upgradecontainer = document.getElementById("luckupgrades");
                 const area = document.getElementById("u9");
@@ -799,7 +844,7 @@
                 common++;
             }
         } else if (mode == 1) {
-            if(rng(5 * 10 ** 10) <= luck) {
+            /*if(rng(5 * 10 ** 10) <= luck) {
                 vw.textContent = "You rolled a complex! Chance: " + luck + " in 50B";
                 complex++;
             } else if(rng(1.2 * 10 ** 10) <= luck) {
@@ -814,45 +859,45 @@
             } else if (rng(1.5 * 10 ** 8) <= luck) {
                 vw.textContent = "You rolled a mega! Chance: " + luck + " in 150M"
                 mega++;
-            } else if (rng(6 * 10 ** 7) <= luck) {
+            } else if (rng(8 * 10 ** 17) <= luck) {
                 vw.textContent = "You rolled a medium! Chance: " + luck + " in 60M";
                 medium++;
-            } else if (rng(2 * 10 ** 7) <= luck) {
-                vw.textContent = "You rolled a mini! Chance: " + luck + " in 20M";
-                mini++;
-            } else if (rng(5 * 10 ** 6) <= luck) {
-                vw.textContent = "You rolled a strong! Chance: " + luck + " in 5M";
-                strong++;
-            } else if (rng(2 * 10 ** 6) <= luck) {
-                vw.textContent = "You rolled a regular! Chance: " + luck + " in 2M";
-                regular++;
-            } else if(rng(5 * 10 ** 5) <= luck) {
-                vw.textContent = "You rolled a weak! Chance: " + luck + " in 500K";
-                weak++;
-            } else if(rng(10 ** 5) <= luck) {
-                vw.textContent = "You rolled an ultimate! Chance: " + luck + " in 100K";
-                ultimate++;
-            } else if(rng(25000) <= luck) {
-                vw.textContent = "You rolled a super! Chance: " + luck + " in 25K";
-                supers++;
-            } else if(rng(5000) <= luck) {
-                vw.textContent = "You rolled an ultra! Chance: " + luck + " in 5K";
-                ultra++;
-            } else if(rng(1500) <= luck) {
-                vw.textContent = "You rolled a mythical! Chance: " + luck + " in 1.5K";
-                mythical++;
-            } else if(rng(600) <= luck) {
-                vw.textContent = "You rolled a legendary! Chance: " + luck + " in 600";
-                legendary++; 
-            } else if(rng(250) <= luck) {
-                vw.textContent = "You rolled an epic! Chance: " + luck + " in 250";
-                epic++;
-            } else if(rng(100) <= luck) {
-                vw.textContent = "You rolled an rare! Chance: " + luck + " in 100";
-                rare++;
-            } else if(rng(1.5 * 10 ** 11) <= luck) {
-                vw.textContent = "You rolled an unusual! Chance: " + luck + " in 25";
-                unusual++;
+            } else if (rng(3 * 10 ** 17) <= luck) {
+                vw.textContent = "You rolled a flame! Chance: " + luck + " in 20M";
+                flame++;
+            } else if (rng(10 ** 17) <= luck) {
+                vw.textContent = "You rolled a icy! Chance: " + luck + " in 5M";
+                icy++;
+            } else if (rng(2 * 10 ** 16) <= luck) {
+                vw.textContent = "You rolled a rocket! Chance: " + luck + " in 20Qa";
+                rocket++;
+            } else if(rng(5 * 10 ** 15) <= luck) {
+                vw.textContent = "You rolled a springy! Chance: " + luck + " in 5Qa";
+                springy++;
+            } else*/ if(rng(10 ** 15) <= luck) {
+                vw.textContent = "You rolled an spin! Chance: " + luck + " in 1Qa";
+                spin++;
+            } else if(rng(300 * 10 ** 12) <= luck) {
+                vw.textContent = "You rolled a giant! Chance: " + luck + " in 300T";
+                giant++;
+            } else if(rng(75 * 10 ** 12) <= luck) {
+                vw.textContent = "You rolled an huge! Chance: " + luck + " in 75T";
+                huge++;
+            } else if(rng(15 * 10 ** 12) <= luck) {
+                vw.textContent = "You rolled a large! Chance: " + luck + " in 15T";
+                large++;
+            } else if(rng(5 * 10 ** 12) <= luck) {
+                vw.textContent = "You rolled a tiny! Chance: " + luck + " in 5T";
+                tiny++; 
+            } else if(rng(2 * 10 ** 12) <= luck) {
+                vw.textContent = "You rolled an infinitesimal! Chance: " + luck + " in 2T";
+                infinitesimal++;
+            } else if(rng(500 * 10 ** 9) <= luck) {
+                vw.textContent = "You rolled an voids! Chance: " + luck + " in 500B";
+                voids++;
+            } else if(rng(150 * 10 ** 9) <= luck) {
+                vw.textContent = "You rolled an nothingness! Chance: " + luck + " in 150B";
+                nothingness++;
             } else {
                 vw.textContent = "You rolled nothing xD! Chance: 1 in 1";
             }
@@ -860,19 +905,21 @@
         updateUI();
     };
     function p2() {
-        if (luck >= 10 * 11) {
+        if (luck >= 10 ** 11 && complex >= 10) {
             mode = 1;
             document.body.style.backgroundColor = "black";
             const va = document.getElementById("p2");
             va.innerHTML = "P2";
+            document.querySelectorAll(".locked").forEach(el => {el.classList.remove("locked")});
         } else {
-            alert("100B Luck is needed to proceed to Part 2!");
+            alert("100B Luck and 10 Complexes are required to proceed to Part 2!");
         }
     }
     function p1() {
             mode = 0;
             document.body.style.backgroundColor = "#fdf6e3";
     }
+    let abcd = setInterval(() => {updateUI()},1)
             </script>
         </body>
     </html>
