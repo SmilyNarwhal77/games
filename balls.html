@@ -24,8 +24,8 @@
     }
     .ball {
       position: absolute;
-      width: 10px;
-      height: 10px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: cyan;
     }
@@ -43,43 +43,53 @@
       ball.classList.add('ball');
       box.appendChild(ball);
 
-      return { element: ball, x, y, dx, dy };
+      return {
+        element: ball,
+        x,
+        y,
+        dx,
+        dy,
+        canDuplicate: true
+      };
     }
 
     function updateBall(ball) {
       ball.x += ball.dx;
       ball.y += ball.dy;
 
-      const boxRect = box.getBoundingClientRect();
-      const size = 0;
+      // Clamp ball inside the box
+      ball.x = Math.max(0, Math.min(ball.x, box.clientWidth));
+      ball.y = Math.max(0, Math.min(ball.y, box.clientHeight));
 
-      // Bounce on X wall
-      if (ball.x <= 0 || ball.x + size >= box.clientWidth) {
-        ball.dx *= Math.random() * -1.5;
-        duplicateBall(ball);
+      let bounced = false;
+
+      if (ball.x <= 0 || ball.x >= box.clientWidth) {
+        ball.dx *= -1;
+        bounced = true;
       }
 
-      // Bounce on Y wall
-      if (ball.y <= 0 || ball.y + size >= box.clientHeight) {
-        ball.dy *= Math.random() * -1.5;
-        duplicateBall(ball);
+      if (ball.y <= 0 || ball.y >= box.clientHeight) {
+        ball.dy *= -1;
+        bounced = true;
       }
 
-      //both
-      if (ball.y <= 0 && ball.x <= 0) {ball.x = -1; ball.y = -1;}
-      if (Math.random() * 100 <= 0.5) {
+      if (bounced && ball.canDuplicate) {
         duplicateBall(ball);
+        ball.canDuplicate = false;
+        setTimeout(() => {
+          ball.canDuplicate = true;
+        }, 300); // 300ms cooldown
       }
+
       ball.element.style.transform = `translate(${ball.x}px, ${ball.y}px)`;
     }
 
     function duplicateBall(ball) {
-      // Prevent creating too many balls
       if (balls.length > 500) return;
 
-      const newDx = Math.random() * 1.5;
-      const newDy = Math.random() * 1.5;
-      const newBall = createBall(Math.random() * 100, Math.random() * 100, newDx, newDy);
+      const newDx = (Math.random() * 2 - 1) * 5;
+      const newDy = (Math.random() * 2 - 1) * 5;
+      const newBall = createBall(ball.x, ball.y, newDx, newDy);
       balls.push(newBall);
     }
 
@@ -89,7 +99,7 @@
     }
 
     // Spawn the initial ball
-    const initialBall = createBall(200, 200, 0.1, 0.1);
+    const initialBall = createBall(100, 100, 5, 5);
     balls.push(initialBall);
     animate();
   </script>
