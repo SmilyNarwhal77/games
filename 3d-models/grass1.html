@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A 3D Work-In-Progress</title>
+  <meta name="description" content="Trying to make grass">
+  <style>
+    canvas {
+        width: 70vw;
+        height: 70vh;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <canvas id="myCanvas"></canvas>
+  <script>
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.2, 8000);
+    let renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') });
+    renderer.setSize(window.innerWidth * 0.98, window.innerHeight * 0.97);
+    document.body.appendChild(renderer.domElement);
+    let geometry1 = new THREE.BoxGeometry(0.1, 0.3, 0.1); 
+    let geometry2 = new THREE.BoxGeometry(0.1, 0.5, 0.15); 
+    let geometry3 = new THREE.BoxGeometry(0.1, 0.7, 0.2);
+    let geometry4 = new THREE.BoxGeometry(0.1, 1, 0.3);
+    let material1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    let material2 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    let material3 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    let material4 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    let box1 = new THREE.Mesh(geometry1, material1);
+    let box2 = new THREE.Mesh(geometry2, material2);
+    let box3 = new THREE.Mesh(geometry3, material3);
+    let box4 = new THREE.Mesh(geometry4, material4);
+    box1.position.x = 0; 
+    box2.position.x = 0;
+    box3.position.x = 0;
+    box1.position.y = 1.5;
+    box2.position.y = 1.2; 
+    box3.position.y = 0.7; 
+    box4.position.y = 0;
+    let group = new THREE.Group();
+    group.add(box1);
+    group.add(box2);
+    group.add(box3);
+    group.add(box4);
+    scene.add(group);
+    camera.position.z = 3;
+    camera.position.x = 0.8;
+    camera.position.y = 1;
+    function animate() {
+        requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+      group.rotation.y += 0.01;
+      group.rotation.x += 10;
+    }
+    animate();
+  </script>
+</body>
+</html>
