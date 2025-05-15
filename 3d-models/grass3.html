@@ -13,6 +13,7 @@
 <body>
     <button onclick="grass()">Add grass</button>
     <button onclick="autoplant(1)">Autoplant</button>
+    <button onclick="stopautoplant()">Stop Autoplant</button>
   <canvas id="myCanvas"></canvas>
   <script>
     let i = 0;
@@ -20,7 +21,7 @@
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.2, 8000);
     let renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') });
-    renderer.setSize(window.innerWidth * 0.98, window.innerHeight * 0.97);
+    renderer.setSize(window.innerWidth * 0.98, window.innerHeight * 0.94);
     let controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
