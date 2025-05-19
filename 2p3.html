@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ultimate 2 Player Fighting Game</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; overflow: hidden; background: #111; font-family: sans-serif; }
+    #game {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: linear-gradient(to bottom, #333, #111);
+    }
+    .player {
+      width: 60px;
+      height: 90px;
+      position: absolute;
+      bottom: 0;
+      border-radius: 15px;
+      background-size: cover;
+    }
+    #player1 { background-image: url('data:image/png;base64,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'); }
+    #player2 { background-image: url('https://i.imgur.com/YOUR_BLUE_SKIN.png'); }
+
+    .healthbar, .score {
+      position: absolute;
+      height: 15px;
+      background: limegreen;
+      transition: width 0.2s;
+    }
+    #health1 { top: 20px; left: 20px; width: 200px; }
+    #health2 { top: 20px; right: 20px; width: 200px; background: red; }
+    .score { top: 40px; width: 100px; height: auto; font-size: 18px; color: white; }
+    #score1 { left: 20px; }
+    #score2 { right: 20px; text-align: right; }
+
+    #winner {
+      position: absolute;
+      top: 35%;
+      width: 100%;
+      text-align: center;
+      font-size: 40px;
+      color: white;
+      display: none;
+    }
+
+    .fireball {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      background: orange;
+      border-radius: 50%;
+    }
+
+    .powerup {
+      width: 30px;
+      height: 30px;
+      background: yellow;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .btns {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .btns button {
+      margin: 5px;
+      padding: 15px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #444;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .btns { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <div id="player1" class="player"></div>
+    <div id="player2" class="player"></div>
+    <div id="health1" class="healthbar"></div>
+    <div id="health2" class="healthbar"></div>
+    <div id="score1" class="score">Score: 0</div>
+    <div id="score2" class="score">Score: 0</div>
+    <div id="winner"></div>
+    <div id="ground" style="position:absolute;bottom:0;width:100%;height:30px;background:#222;"></div>
+    <div class="btns">
+      <button onclick="jump(p1)">P1 Jump</button>
+      <button onclick="attack(p1, p2)">P1 Attack</button>
+      <button onclick="shootFireball(p1, true)">P1 Fireball</button>
+      <button onclick="jump(p2)">P2 Jump</button>
+      <button onclick="attack(p2, p1)">P2 Attack</button>
+      <button onclick="shootFireball(p2, false)">P2 Fireball</button>
+    </div>
+  </div>
+
+  <!-- Sounds -->
+  <audio id="hitSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8e3b529b7f.mp3?filename=punch-1-112294.mp3"></audio>
+  <audio id="fireballSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f4a84d1f4c.mp3?filename=fireball-112299.mp3"></audio>
+  <audio id="bgm" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_153ba7dd18.mp3?filename=loopable-action-epic-111883.mp3" autoplay loop></audio>
+
+  <script>
+    const game = document.getElementById("game");
+    const p1El = document.getElementById("player1");
+    const p2El = document.getElementById("player2");
+    const h1 = document.getElementById("health1");
+    const h2 = document.getElementById("health2");
+    const s1 = document.getElementById("score1");
+    const s2 = document.getElementById("score2");
+    const winner = document.getElementById("winner");
+
+    const fireballSound = document.getElementById("fireballSound");
+    const hitSound = document.getElementById("hitSound");
+
+    let p1 = { x: 100, y: 0, vx: 0, vy: 0, health: 100, score: 0, canJump: true, attacking: false, charge: 0 };
+    let p2 = { x: 700, y: 0, vx: 0, vy: 0, health: 100, score: 0, canJump: true, attacking: false, charge: 0 };
+    let gravity = 0.6;
+
+    const keys = {};
+    document.addEventListener("keydown", e => keys[e.key] = true);
+    document.addEventListener("keyup", e => keys[e.key] = false);
+
+    function drawPlayer(el, p) {
+      el.style.left = p.x + "px";
+      el.style.bottom = p.y + "px";
+    }
+
+    function jump(p) {
+      if (p.canJump) {
+        p.vy = 12;
+        p.canJump = false;
+      }
+    }
+
+    function attack(attacker, target) {
+      if (attacker.attacking) return;
+      attacker.attacking = true;
+      setTimeout(() => attacker.attacking = false, 500);
+      if (Math.abs(attacker.x - target.x) < 70 && Math.abs(attacker.y - target.y) < 80) {
+        target.health -= 10;
+        target.vx += attacker.x < target.x ? 4 : -4;
+        hitSound.currentTime = 0; hitSound.play();
+        attacker.charge++;
+      }
+    }
+
+    function shootFireball(p, right) {
+      if (p.charge < 3) return;
+      p.charge = 0;
+      const b = document.createElement("div");
+      b.className = "fireball";
+      b.style.left = (p.x + (right ? 60 : -20)) + "px";
+      b.style.bottom = p.y + "px";
+      game.appendChild(b);
+      let vx = right ? 6 : -6;
+      let interval = setInterval(() => {
+        let x = parseInt(b.style.left);
+        b.style.left = (x + vx) + "px";
+
+        let hit = right ? p2 : p1;
+        if (Math.abs(x - hit.x) < 40 && Math.abs(parseInt(b.style.bottom) - hit.y) < 50) {
+          hit.health -= 15;
+          game.removeChild(b);
+          fireballSound.currentTime = 0;
+          fireballSound.play();
+          clearInterval(interval);
+        }
+        if (x < 0 || x > window.innerWidth) {
+          game.removeChild(b);
+          clearInterval(interval);
+        }
+      }, 30);
+    }
+
+    function regenHealth() {
+      [p1, p2].forEach(p => {
+        if (p.health < 100) p.health += 0.02;
+      });
+    }
+
+    function spawnPowerup() {
+      const pu = document.createElement("div");
+      pu.className = "powerup";
+      pu.style.left = Math.random() * (window.innerWidth - 40) + "px";
+      pu.style.bottom = "30px";
+      game.appendChild(pu);
+
+      const interval = setInterval(() => {
+        [p1, p2].forEach(p => {
+          if (Math.abs(parseInt(pu.style.left) - p.x) < 40) {
+            p.health = Math.min(100, p.health + 20);
+            game.removeChild(pu);
+            clearInterval(interval);
+          }
+        });
+      }, 100);
+    }
+
+    setInterval(spawnPowerup, 10000);
+
+    function update() {
+      // Controls
+      p1.vx = 0;
+      if (keys["a"]) p1.vx = -5;
+      if (keys["d"]) p1.vx = 5;
+      if (keys["w"]) jump(p1);
+      if (keys["s"]) attack(p1, p2);
+      if (keys["e"]) shootFireball(p1, true);
+
+      p2.vx = 0;
+      if (keys["ArrowLeft"]) p2.vx = -5;
+      if (keys["ArrowRight"]) p2.vx = 5;
+      if (keys["ArrowUp"]) jump(p2);
+      if (keys["ArrowDown"]) attack(p2, p1);
+      if (keys["."]) shootFireball(p2, false);
+
+      [p1, p2].forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy -= gravity;
+
+        if (p.y <= 0) {
+          p.y = 0;
+          p.canJump = true;
+        }
+        p.x = Math.max(0, Math.min(window.innerWidth - 60, p.x));
+      });
+
+      drawPlayer(p1El, p1);
+      drawPlayer(p2El, p2);
+      h1.style.width = p1.health * 2 + "px";
+      h2.style.width = p2.health * 2 + "px";
+      s1.innerText = "Score: " + p1.score;
+      s2.innerText = "Score: " + p2.score;
+
+      regenHealth();
+
+      if (p1.health <= 0 || p2.health <= 0) {
+        if (p1.health <= 0) p2.score++;
+        if (p2.health <= 0) p1.score++;
+        p1.health = p2.health = 100;
+        p1.x = 100; p2.x = 700;
+        p1.charge = p2.charge = 0;
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    update();
+  </script>
+</body>
+</html>
