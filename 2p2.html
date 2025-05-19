@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>2 Player Fighting Game</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; background: #111; }
+    #game {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(#222, #111);
+      overflow: hidden;
+    }
+    .player {
+      width: 50px;
+      height: 80px;
+      position: absolute;
+      bottom: 0;
+      border-radius: 10px;
+    }
+    #player1 {
+      background: crimson;
+    }
+    #player2 {
+      background: royalblue;
+    }
+    .healthbar {
+      position: absolute;
+      height: 15px;
+      background: limegreen;
+      transition: width 0.2s;
+    }
+    #health1 {
+      top: 20px;
+      left: 20px;
+      width: 200px;
+    }
+    #health2 {
+      top: 20px;
+      right: 20px;
+      width: 200px;
+    }
+    #ground {
+      position: absolute;
+      bottom: 0;
+      height: 30px;
+      width: 100%;
+      background: #333;
+    }
+    #winner {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 48px;
+      color: white;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <div id="player1" class="player"></div>
+    <div id="player2" class="player"></div>
+    <div id="health1" class="healthbar"></div>
+    <div id="health2" class="healthbar"></div>
+    <div id="ground"></div>
+    <div id="winner"></div>
+    <audio id="bgm" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_153ba7dd18.mp3?filename=loopable-action-epic-111883.mp3" loop autoplay></audio>
+    <audio id="hitSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8e3b529b7f.mp3?filename=punch-1-112294.mp3"></audio>
+  </div>
+
+  <script>
+    const p1El = document.getElementById("player1");
+    const p2El = document.getElementById("player2");
+    const h1 = document.getElementById("health1");
+    const h2 = document.getElementById("health2");
+    const winner = document.getElementById("winner");
+    const hitSound = document.getElementById("hitSound");
+
+    let gravity = 0.7;
+    let groundY = 30;
+
+    let p1 = { x: 100, y: 0, vx: 0, vy: 0, health: 100, canJump: true, attacking: false };
+    let p2 = { x: 700, y: 0, vx: 0, vy: 0, health: 100, canJump: true, attacking: false };
+
+    const keys = {};
+    document.addEventListener("keydown", e => keys[e.key] = true);
+    document.addEventListener("keyup", e => keys[e.key] = false);
+
+    function drawPlayer(el, p) {
+      el.style.left = p.x + "px";
+      el.style.bottom = p.y + "px";
+    }
+
+    function attack(p, opponent, isLeft) {
+      if (p.attacking) return;
+      p.attacking = true;
+      setTimeout(() => p.attacking = false, 500);
+
+      if (Math.abs(p.x - opponent.x) < 60 && Math.abs(p.y - opponent.y) < 80) {
+        opponent.health -= 10;
+        opponent.vx += isLeft ? 6 : -6;
+        hitSound.currentTime = 0;
+        hitSound.play();
+      }
+    }
+
+    function update() {
+      // P1 controls: A/D/W/S
+      p1.vx = 0;
+      if (keys["a"]) p1.vx = -5;
+      if (keys["d"]) p1.vx = 5;
+      if (keys["w"] && p1.canJump) { p1.vy = 12; p1.canJump = false; }
+      if (keys["s"]) attack(p1, p2, true);
+
+      // P2 controls: ←/→/↑/↓
+      p2.vx = 0;
+      if (keys["ArrowLeft"]) p2.vx = -5;
+      if (keys["ArrowRight"]) p2.vx = 5;
+      if (keys["ArrowUp"] && p2.canJump) { p2.vy = 12; p2.canJump = false; }
+      if (keys["ArrowDown"]) attack(p2, p1, false);
+
+      // Physics
+      [p1, p2].forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy -= gravity;
+
+        if (p.y <= 0) {
+          p.y = 0;
+          p.vy = 0;
+          p.canJump = true;
+        }
+
+        p.x = Math.max(0, Math.min(window.innerWidth - 50, p.x));
+      });
+
+      drawPlayer(p1El, p1);
+      drawPlayer(p2El, p2);
+      h1.style.width = p1.health * 2 + "px";
+      h2.style.width = p2.health * 2 + "px";
+
+      // Check win
+      if (p1.health <= 0 || p2.health <= 0) {
+        winner.innerText = p1.health <= 0 ? "Player 2 Wins!" : "Player 1 Wins!";
+        winner.style.display = "block";
+        return;
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    // Initial positioning
+    drawPlayer(p1El, p1);
+    drawPlayer(p2El, p2);
+    update();
+  </script>
+</body>
+</html>
