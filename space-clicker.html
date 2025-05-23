@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Atom Clicker Solar System</title>
+  <meta name="description" content="Clicker game made with anime.js">
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <style>
+    body {
+      background: #000;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 30px;
+    }
+
+    #atomCount {
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+
+    #clickButton {
+      padding: 15px 30px;
+      font-size: 20px;
+      background: #00ffcc;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+
+    #particles {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .particle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: blue;
+      transform: scale(1);
+    }
+
+    /* Solar system */
+    #solarSystem {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      margin: 0 auto;
+      display: none;
+    }
+
+    .planet {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #sun {
+      width: 60px;
+      height: 60px;
+      background: yellow;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 30px 10px orange;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="atomCount">Atoms: 1</div>
+  <button id="clickButton">Click to Multiply</button>
+
+  <div id="particles">
+    <div class="particle"></div>
+  </div>
+
+  <div id="solarSystem">
+    <div id="sun"></div>
+  </div>
+
+  <script>
+    let atoms = 1;
+    let size = 1;
+    let clickCount = 0;
+    let colorIndex = 0;
+    let particleCount = 1;
+
+    const colors = ['blue', 'green', 'orange', 'yellow', 'red'];
+    const atomDisplay = document.getElementById("atomCount");
+    const particlesContainer = document.getElementById("particles");
+    const solarSystem = document.getElementById("solarSystem");
+
+    function animateParticle(particle, newSize, newColor, isBigBang = false) {
+      anime({
+        targets: particle,
+        scale: newSize,
+        backgroundColor: newColor,
+        duration: isBigBang ? 1000 : 400,
+        easing: isBigBang ? 'easeInOutQuad' : 'easeOutExpo',
+        complete: () => {
+          particle.style.backgroundColor = newColor;
+        }
+      });
+
+      if (isBigBang) {
+        anime({
+          targets: particle,
+          scale: [
+            { value: newSize * 2, duration: 300 },
+            { value: newSize, duration: 300 }
+          ],
+          easing: 'easeInOutSine'
+        });
+      }
+    }
+
+    function transitionToSolarSystem() {
+      particlesContainer.style.display = "none";
+      solarSystem.style.display = "block";
+
+      for (let i = 0; i < 8; i++) {
+        const planet = document.createElement("div");
+        planet.className = "planet";
+        planet.style.background = `hsl(${i * 40}, 100%, 60%)`;
+        solarSystem.appendChild(planet);
+
+        anime({
+          targets: planet,
+          rotate: 360,
+          duration: 5000 + i * 1000,
+          loop: true,
+          easing: 'linear',
+          update: anim => {
+            const angle = anim.progress * 3.6;
+            const radius = 60 + i * 30;
+            const rad = angle * (Math.PI / 180);
+            const x = Math.cos(rad) * radius;
+            const y = Math.sin(rad) * radius;
+            planet.style.transform = `translate(${x}px, ${y}px)`;
+          }
+        });
+      }
+    }
+
+    function bigBang() {
+      colorIndex++;
+      const newColor = colors[colorIndex] || 'blue';
+
+      if (colorIndex < colors.length) {
+        document.querySelectorAll('.particle').forEach(particle => {
+          animateParticle(particle, 1, newColor, true);
+        });
+        size = 1;
+      } else {
+        // Reset and add 1 more particle
+        colorIndex = 0;
+        size = 1;
+        particleCount++;
+
+        if (particleCount >= 25) {
+          transitionToSolarSystem();
+          return;
+        }
+
+        particlesContainer.innerHTML = '';
+        for (let i = 0; i < particleCount; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          p.style.backgroundColor = colors[0];
+          particlesContainer.appendChild(p);
+          animateParticle(p, size, colors[0]);
+        }
+      }
+    }
+
+    document.getElementById("clickButton").addEventListener("click", () => {
+      if (particleCount >= 25) return;
+
+      atoms *= 2;
+      size *= 1.5;
+      clickCount++;
+
+      atomDisplay.textContent = `Atoms: ${atoms.toLocaleString()}`;
+
+      document.querySelectorAll('.particle').forEach(p => {
+        animateParticle(p, size, colors[colorIndex]);
+      });
+      if (clickCount >= 5) {
+        clickCount = 0;
+        bigBang();
+      }
+    });
+  </script>
+
+</body>
+</html>
