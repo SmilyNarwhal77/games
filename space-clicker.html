@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Atom Clicker Solar System</title>
-  <meta name="description" content="Clicker game made with anime.js">
+  <title>Atom Clicker to Solar System</title>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
   <style>
     body {
@@ -40,14 +39,13 @@
     }
 
     .particle {
-      width: 50px;
-      height: 50px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background-color: blue;
       transform: scale(1);
     }
 
-    /* Solar system */
     #solarSystem {
       position: relative;
       width: 500px;
@@ -81,90 +79,229 @@
 </head>
 <body>
 
-  <div id="atomCount">Atoms: 1</div>
-  <button id="clickButton">Click to Multiply</button>
+<div id="atomCount">Atoms: 1</div>
+<button id="clickButton">Click to Multiply</button>
 
-  <div id="particles">
-    <div class="particle"></div>
-  </div>
+<div id="particles">
+  <div class="particle"></div>
+</div>
 
-  <div id="solarSystem">
-    <div id="sun"></div>
-  </div>
+<div id="solarSystem"></div>
+
 <script>
-  let solarClicks = 0;
-  let solarStage = 0;
-  const maxPlanets = 8;
-  const solarElements = [];
+function s(num) {
+  const suffixes = [
+    "", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", 
+    "De", "UnDe", "DuDe", "TrDe", "QaDe", "QiDe", "SxDe", "SpDe", "OcDe", "NoDe", 
+    "Vg", "UnVg", "DuVg", "TrVg", "QaVg", "QiVg", "SxVg", "SpVg", "OcVg", "NoVg", 
+    "Tg", "UnTg", "DuTg", "TrTg", "QaTg", "QiTg", "SxTg", "SpTg", "OcTg", "NoTg", 
+    "Qag", "UnQag", "DuQag", "TrQag", "QaQag", "QiQag", "SxQag", "SpQag", "OcQag", "NoQag", 
+    "Qig", "UnQig", "DuQig", "TrQig", "QaQig", "QiQig", "SxQig", "SpQig", "OcQig", "NoQig", 
+    "Sxg", "UnSxg", "DuSxg", "TrSxg", "QaSxg", "QiSxg", "SxSxg", "SpSxg", "OcSxg", "NoSxg", 
+    "Spg", "UnSpg", "DuSpg", "TrSpg", "QaSpg", "QiSpg", "SxSpg", "SpSpg", "OcSpg", "NoSpg", 
+    "Og", "UnOg", "DuOg", "TrOg", "QaOg", "QiOg", "SxOg", "SpOg", "OcOg", "NoOg", 
+    "Ng", "UnNg", "DuNg", "TrNg", "QaNg", "QiNg", "SxNg", "SpNg", "OcNg", "NoNg", 
+    "Ce"
+  ];
+  if (num === 0) return "0";
+  const tier = Math.floor(Math.log10(Math.abs(num)) / 3);
+  if (tier === 0) return num.toString();
+  const suffix = suffixes[tier];
+  const scale = Math.pow(10, tier * 3);
+  const scaled = num / scale;
+  return scaled.toFixed(3).replace(/\.000$/, "") + suffix;
+}
 
-  function createSolarElement(stage) {
-    if (stage === 0) {
-      // Create Sun
-      const sun = document.createElement("div");
-      sun.id = "sun";
-      solarSystem.appendChild(sun);
-      solarElements.push(sun);
-    } else {
-      // Create Planet
-      const i = stage - 1;
-      const planet = document.createElement("div");
-      planet.className = "planet";
-      planet.style.background = `hsl(${i * 40}, 100%, 60%)`;
-      solarSystem.appendChild(planet);
+let atoms = 1, size = 1, clickCount = 0, colorIndex = 0, particleCount = 1;
+const colors = ['blue', 'green', 'orange', 'yellow', 'red'];
+const atomDisplay = document.getElementById("atomCount");
+const particlesContainer = document.getElementById("particles");
+const solarSystem = document.getElementById("solarSystem");
 
-      anime({
-        targets: planet,
-        rotate: 360,
-        duration: 5000 + i * 1000,
-        loop: true,
-        easing: 'linear',
-        update: anim => {
-          const angle = anim.progress * 3.6;
-          const radius = 60 + i * 30;
-          const rad = angle * (Math.PI / 180);
-          const x = Math.cos(rad) * radius;
-          const y = Math.sin(rad) * radius;
-          planet.style.transform = `translate(${x}px, ${y}px)`;
-        }
-      });
-      solarElements.push(planet);
+let solarClicks = 0, solarStage = 0;
+const maxPlanets = 17;
+let planets = [];
+
+function animateParticle(p, newSize, newColor, isBigBang = false) {
+  anime({
+    targets: p,
+    scale: newSize,
+    backgroundColor: newColor,
+    duration: isBigBang ? 1000 : 400,
+    easing: isBigBang ? 'easeInOutQuad' : 'easeOutExpo',
+    complete: () => p.style.backgroundColor = newColor
+  });
+
+  if (isBigBang) {
+    anime({
+      targets: p,
+      scale: [{ value: newSize * 2, duration: 300 }, { value: newSize, duration: 300 }],
+      easing: 'easeInOutSine'
+    });
+  }
+}
+
+function bigBang() {
+  colorIndex++;
+  const newColor = colors[colorIndex] || 'blue';
+  if (colorIndex < colors.length) {
+    document.querySelectorAll('.particle').forEach(p => animateParticle(p, 1, newColor, true));
+    size = 1;
+  } else {
+    colorIndex = 0;
+    size = 1;
+    particleCount++;
+    if (particleCount >= 5) return transitionToSolarSystem();
+    particlesContainer.innerHTML = '';
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.backgroundColor = colors[0];
+      particlesContainer.appendChild(p);
+      animateParticle(p, size, colors[0]);
     }
   }
+}
 
-  function transitionToSolarSystem() {
-    particlesContainer.style.display = "none";
-    solarSystem.style.display = "block";
-    document.getElementById("atomCount").textContent = `Solar System stage: 0/9`;
+function transitionToSolarSystem() {
+  particlesContainer.style.display = "none";
+  solarSystem.style.display = "block";
+  atomDisplay.textContent = `Solar System stage: 0/18`;
+}
+
+function createSolarElement(stage) {
+  if (stage === 0) {
+    const sun = document.createElement("div");
+    sun.id = "sun";
+    solarSystem.appendChild(sun);
+  } else {
+    const i = stage - 1;
+    const planet = document.createElement("div");
+    planet.className = "planet";
+    planet.style.background = `hsl(${i * 20}, 100%, 60%)`;
+    if (i === 5 || i === 8) planet.dataset.comet = "true"; // mark comet
+    solarSystem.appendChild(planet);
+
+    let orbitDirection = (i !== 5 && i !== 10 && i !== 14) ? 1 : -1;
+    let orbitFactor = (i === 5) ? -0.5 : 1;
+    orbitFactor = (i === 8) ? -3.2 : orbitFactor;
+
+    anime({
+      targets: planet,
+      rotate: 360,
+      duration: 5000 + i * 1000,
+      loop: true,
+      easing: 'linear',
+      update: anim => {
+        const angle = anim.progress * 3.6;
+        const radius = 60 + i * 30;
+        const rad = angle * (Math.PI / 180);
+        const x = Math.cos(rad) * radius;
+        const y = Math.sin(rad) * radius * orbitFactor;
+        planet.style.transform = `translate(${x}px, ${y}px)`;
+      }
+    });
+
+    planets.push({ el: planet, index: i });
   }
+}
 
-  document.getElementById("clickButton").addEventListener("click", () => {
-    if (particleCount < 35) {
-      atoms *= 2;
-      size *= 1.5;
-      clickCount++;
+function checkCollisions() {
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
+      const a = planets[i], b = planets[j];
+      if (!a.el || !b.el) continue;
 
-      atomDisplay.textContent = `Atoms: ${atoms.toLocaleString()}`;
+      const rectA = a.el.getBoundingClientRect();
+      const rectB = b.el.getBoundingClientRect();
+      const dx = rectA.x - rectB.x, dy = rectA.y - rectB.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
 
-      document.querySelectorAll('.particle').forEach(p => {
-        animateParticle(p, size, colors[colorIndex]);
-      });
-
-      if (clickCount >= 5) {
-        clickCount = 0;
-        bigBang();
+      if (dist < 25) {
+        mergePlanets(a, b);
+        return;
       }
+    }
+  }
+}
 
-    } else {
-      // Solar system click logic
-      solarClicks++;
-      if (solarClicks >= 5 && solarStage <= maxPlanets) {
-        solarClicks = 0;
-        createSolarElement(solarStage);
-        solarStage++;
-        atomDisplay.textContent = `Solar System stage: ${solarStage}/9`;
-      }
+function mergePlanets(a, b) {
+  const rectA = a.el.getBoundingClientRect();
+  const rectB = b.el.getBoundingClientRect();
+
+  // Midpoint of collision
+  const midX = (rectA.left + rectB.left) / 2;
+  const midY = (rectA.top + rectB.top) / 2;
+
+  // Relative to solarSystem center
+  const centerRect = solarSystem.getBoundingClientRect();
+  const centerX = centerRect.left + centerRect.width / 2;
+  const centerY = centerRect.top + centerRect.height / 2;
+
+  const x = midX - centerX;
+  const y = midY - centerY;
+
+  // Calculate angle and radius
+  const radius = Math.sqrt(x * x + y * y);
+  const angle = Math.atan2(y, x); // Radians
+
+  // Remove old planets
+  a.el.remove();
+  b.el.remove();
+  planets = planets.filter(p => p !== a && p !== b);
+
+  // Create new merged planet
+  const merged = document.createElement("div");
+  merged.className = "planet";
+  merged.style.width = "30px";
+  merged.style.height = "30px";
+  merged.style.background = "white";
+  merged.style.transform = `translate(${x}px, ${y}px)`;
+  solarSystem.appendChild(merged);
+
+  const speed = 3000 + Math.random() * 3000;
+
+  anime({
+    targets: merged,
+    rotate: 360,
+    duration: speed,
+    loop: true,
+    easing: 'linear',
+    update: anim => {
+      const progressAngle = angle + (anim.progress / 100) * 2 * Math.PI;
+      const orbitX = Math.cos(progressAngle) * radius;
+      const orbitY = Math.sin(progressAngle) * radius;
+      merged.style.transform = `translate(${orbitX}px, ${orbitY}px)`;
     }
   });
+
+  planets.push({ el: merged });
+}
+
+
+setInterval(checkCollisions, 100);
+
+document.getElementById("clickButton").addEventListener("click", () => {
+  if (particleCount < 5) {
+    atoms *= 2;
+    size *= 1.5;
+    clickCount++;
+    atomDisplay.textContent = `Atoms: ${s(atoms)}`;
+    document.querySelectorAll('.particle').forEach(p => animateParticle(p, size, colors[colorIndex]));
+    if (clickCount >= 5) {
+      clickCount = 0;
+      bigBang();
+    }
+  } else {
+    solarClicks++;
+    if (solarClicks >= 5 && solarStage <= maxPlanets) {
+      solarClicks = 0;
+      createSolarElement(solarStage);
+      solarStage++;
+      atomDisplay.textContent = `Solar System stage: ${solarStage}/18`;
+    }
+  }
+});
 </script>
 </body>
 </html>
