@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Black Hole Clicker</title>
+  <style>
+  body {
+  background: #000;
+  color: white;
+  font-family: sans-serif;
+  text-align: center;
+  padding-top: 30px;
+}
+
+#atomCount {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+#clickButton {
+  padding: 15px 30px;
+  font-size: 20px;
+  background: #00ffcc;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+#particles {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.particle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: blue;
+  transform: scale(1);
+}
+
+#solarSystem {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  display: none;
+}
+
+.planet {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: yellow;
+  box-shadow: 0 0 30px 10px orange;
+  cursor: pointer;
+}
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+</head>
+<body>
+
+  <div id="atomCount">Atoms: 1</div>
+  <button id="clickButton">Click to Multiply</button>
+
+  <div id="particles">
+    <div class="particle"></div>
+  </div>
+
+  <div id="solarSystem"></div>
+
+  <script>
+  let atoms = 1, size = 1, clickCount = 0, colorIndex = 0, particleCount = 1;
+const colors = ['blue', 'green', 'orange', 'yellow', 'red'];
+const atomDisplay = document.getElementById("atomCount");
+const particlesContainer = document.getElementById("particles");
+const solarSystem = document.getElementById("solarSystem");
+
+let solarClicks = 0, solarStage = 0, maxPlanets = 18;
+let asteroidCount = 0, maxAsteroids = 5000;
+let planets = [];
+
+let sunEl = null;
+let sunSize = 12; // 5x smaller
+let sunGrowthCount = 0;
+const sunMaxSize = sunSize * 50;
+let hasSupernova = false;
+let blackHoleClicks = 0;
+let blackHoleStage = 0;
+let isSupermassive = false;
+
+function s(num) {
+  const suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No",
+    "De", "UnDe", "DuDe", "TrDe", "QaDe", "QiDe", "SxDe", "SpDe", "OcDe", "NoDe",
+    "Vg", "UnVg", "DuVg", "TrVg", "QaVg", "QiVg", "SxVg", "SpVg", "OcVg", "NoVg",
+    "Tg", "UnTg", "DuTg", "TrTg", "QaTg", "QiTg", "SxTg", "SpTg", "OcTg", "NoTg",
+    "Qag", "UnQag", "DuQag", "TrQag", "QaQag", "QiQag", "SxQag", "SpQag", "OcQag", "NoQag",
+    "Qig", "UnQig", "DuQig", "TrQig", "QaQig", "QiQig", "SxQig", "SpQig", "OcQig", "NoQig",
+    "Sxg", "UnSxg", "DuSxg", "TrSxg", "QaSxg", "QiSxg", "SxSxg", "SpSxg", "OcSxg", "NoSxg",
+    "Spg", "UnSpg", "DuSpg", "TrSpg", "QaSpg", "QiSpg", "SxSpg", "SpSpg", "OcSpg", "NoSpg",
+    "Og", "UnOg", "DuOg", "TrOg", "QaOg", "QiOg", "SxOg", "SpOg", "OcOg", "NoOg",
+    "Ng", "UnNg", "DuNg", "TrNg", "QaNg", "QiNg", "SxNg", "SpNg", "OcNg", "NoNg", "Ce"
+  ];
+  if (num === 0) return "0";
+  const tier = Math.floor(Math.log10(Math.abs(num)) / 3);
+  if (tier === 0) return num.toString();
+  const suffix = suffixes[tier] || `e${tier * 3}`;
+  const scale = Math.pow(10, tier * 3);
+  const scaled = num / scale;
+  return scaled.toFixed(3).replace(/\.000$/, "") + suffix;
+}
+function animateParticle(p, newSize, newColor, isBigBang = false) {
+  anime({
+    targets: p,
+    scale: newSize,
+    backgroundColor: newColor,
+    duration: isBigBang ? 1000 : 400,
+    easing: isBigBang ? 'easeInOutQuad' : 'easeOutExpo',
+    complete: () => p.style.backgroundColor = newColor
+  });
+  if (isBigBang) {
+    anime({
+      targets: p,
+      scale: [{ value: newSize * 2, duration: 300 }, { value: newSize, duration: 300 }],
+      easing: 'easeInOutSine'
+    });
+  }
+}
+
+function bigBang() {
+  colorIndex++;
+  const newColor = colors[colorIndex] || 'blue';
+  if (colorIndex < colors.length) {
+    document.querySelectorAll('.particle').forEach(p => animateParticle(p, 1, newColor, true));
+    size = 1;
+  } else {
+    colorIndex = 0;
+    size = 1;
+    particleCount++;
+    if (particleCount >= 5) return transitionToSolarSystem();
+    particlesContainer.innerHTML = '';
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.backgroundColor = colors[0];
+      particlesContainer.appendChild(p);
+      animateParticle(p, size, colors[0]);
+    }
+  }
+}
+
+function transitionToSolarSystem() {
+  particlesContainer.style.display = "none";
+  solarSystem.style.display = "block";
+  atomDisplay.textContent = `Solar System stage: 0/${maxPlanets}`;
+  createSolarElement(0); // sun
+}
+
+function createSolarElement(stage) {
+  if (stage === 0) {
+    const sun = document.createElement("div");
+    sun.id = "sun";
+    sun.style.width = sunSize + "px";
+    sun.style.height = sunSize + "px";
+    solarSystem.appendChild(sun);
+    sunEl = sun;
+  } else {
+    const i = stage - 1;
+    const planet = document.createElement("div");
+    planet.className = "planet";
+    planet.style.background = `hsl(${i * 20}, 100%, 60%)`;
+    solarSystem.appendChild(planet);
+
+    let orbitFactor = Math.random();
+    anime({
+      targets: planet,
+      rotate: 360,
+      duration: 5000 + i * 1000,
+      loop: true,
+      easing: 'linear',
+      update: anim => {
+        const angle = anim.progress * 3.6;
+        const radius = 60 + i * 30;
+        const rad = angle * (Math.PI / 180);
+        const x = Math.cos(rad) * radius;
+        const y = Math.sin(rad) * radius * orbitFactor;
+        planet.style.transform = `translate(${x}px, ${y}px)`;
+      }
+    });
+
+    planets.push({ el: planet, type: "planet", orbitFactor, velocity: 1 + i * 0.1 });
+  }
+}
+function spawnAsteroid() {
+  if (asteroidCount >= maxAsteroids) return;
+
+  const asteroid = document.createElement("div");
+  asteroid.className = "planet";
+  asteroid.style.width = "8px";
+  asteroid.style.height = "8px";
+  asteroid.style.background = "gray";
+
+  solarSystem.appendChild(asteroid);
+
+  const radius = 0 + Math.random() * 150;
+  const angle = Math.random() * Math.PI * 2;
+  const orbitFactor = 0.8 + Math.random() * 0.4;
+  const speed = 8000 + Math.random() * 4000;
+
+  anime({
+    targets: asteroid,
+    rotate: 360,
+    duration: speed,
+    loop: true,
+    easing: 'linear',
+    update: anim => {
+      const progressAngle = angle + (anim.progress / 100) * 2 * Math.PI;
+      const orbitX = Math.cos(progressAngle) * radius;
+      const orbitY = Math.sin(progressAngle) * radius * orbitFactor;
+      asteroid.style.transform = `translate(${orbitX}px, ${orbitY}px)`;
+    }
+  });
+
+  asteroidCount++;
+
+  planets.push({
+    el: asteroid,
+    velocity: 0.3 + Math.random() * 2,
+    orbitFactor: orbitFactor + 0.5 * Math.random(),
+    isComet: false,
+    index: -2,
+    type: "asteroid"
+  });
+}
+function checkCollisions() {
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
+      const a = planets[i], b = planets[j];
+      if (!a.el || !b.el) continue;
+
+      const rectA = a.el.getBoundingClientRect();
+      const rectB = b.el.getBoundingClientRect();
+      const dx = rectA.x - rectB.x;
+      const dy = rectA.y - rectB.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 25) {
+        const bothAsteroids = a.type === "asteroid" && b.type === "asteroid";
+        if (bothAsteroids) continue;
+
+        const isAsteroidMerge = (a.type === "asteroid" && b.type === "planet") || 
+                                (a.type === "planet" && b.type === "asteroid") || 
+                                (a.type === "planet" && b.type === "planet");
+
+        const fast = a.velocity > b.velocity ? a : b;
+        const slow = a.velocity > b.velocity ? b : a;
+
+        if (
+          isAsteroidMerge &&
+          (a.isComet || b.isComet) &&
+          Math.abs(a.velocity - b.velocity) > 1.2 &&
+          slow.type !== "asteroid"
+        ) {
+          if (fast.isComet) {
+            ejectPlanet(slow, dx, dy);
+            return;
+          }
+        }
+
+        mergePlanets(a, b);
+        return;
+      }
+    }
+  }
+}
+function mergePlanets(a, b) {
+  const rectA = a.el.getBoundingClientRect();
+  const rectB = b.el.getBoundingClientRect();
+  const midX = (rectA.left + rectB.left) / 2;
+  const midY = (rectA.top + rectB.top) / 2;
+  const centerRect = solarSystem.getBoundingClientRect();
+  const centerX = centerRect.left + centerRect.width / 2;
+  const centerY = centerRect.top + centerRect.height / 2;
+  const x = midX - centerX;
+  const y = midY - centerY;
+  const radius = Math.sqrt(x * x + y * y);
+  const angle = Math.atan2(y, x);
+  const avgOrbitFactor = (a.orbitFactor + b.orbitFactor) / 2;
+
+  if (a.type === "asteroid") asteroidCount--;
+  if (b.type === "asteroid") asteroidCount--;
+
+  a.el.remove(); b.el.remove();
+  planets = planets.filter(p => p !== a && p !== b);
+
+  const merged = document.createElement("div");
+  merged.className = "planet";
+  merged.style.width = "30px";
+  merged.style.height = "30px";
+  merged.style.background = "white";
+  merged.style.transform = `translate(${x}px, ${y}px)`;
+  solarSystem.appendChild(merged);
+
+  const speed = 3000 + Math.random() * 3000;
+
+  anime({
+    targets: merged,
+    rotate: 360,
+    duration: speed,
+    loop: true,
+    easing: 'linear',
+    update: anim => {
+      const progressAngle = angle + (anim.progress / 100) * 2 * Math.PI;
+      const orbitX = Math.cos(progressAngle) * radius;
+      const orbitY = Math.sin(progressAngle) * radius * avgOrbitFactor;
+      merged.style.transform = `translate(${orbitX}px, ${orbitY}px)`;
+    }
+  });
+
+  planets.push({
+    el: merged,
+    velocity: (a.velocity + b.velocity) / 2,
+    orbitFactor: avgOrbitFactor,
+    isComet: false,
+    index: -1,
+    type: "planet"
+  });
+}
+
+function checkSunAbsorption() {
+  if (!sunEl || hasSupernova) return;
+  const sunRect = sunEl.getBoundingClientRect();
+  for (let i = planets.length - 1; i >= 0; i--) {
+    const p = planets[i];
+    if (!p.el) continue;
+    const rect = p.el.getBoundingClientRect();
+    const dx = rect.x - sunRect.x;
+    const dy = rect.y - sunRect.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < sunSize / 2) {
+      if (p.type === "asteroid") asteroidCount--;
+      p.el.remove();
+      planets.splice(i, 1);
+      sunSize *= 1.01;
+      sunGrowthCount++;
+      sunEl.style.width = `${sunSize}px`;
+      sunEl.style.height = `${sunSize}px`;
+      const red = Math.min(255, 200 + sunGrowthCount);
+      sunEl.style.backgroundColor = `rgb(${red}, ${255 - sunGrowthCount * 2}, 0)`;
+      if (sunSize >= sunMaxSize && !hasSupernova) triggerSupernova();
+    }
+  }
+}
+
+function triggerSupernova() {
+  hasSupernova = true;
+  atomDisplay.textContent = "🌟 SUPERNOVA!";
+  anime({
+    targets: sunEl,
+    scale: [1, 3],
+    backgroundColor: "#fff",
+    duration: 1000,
+    easing: "easeInOutQuad",
+    direction: "alternate",
+    complete: collapseToBlackHole
+  });
+  planets.forEach(p => p.el.remove());
+  planets = [];
+}
+
+function collapseToBlackHole() {
+  sunEl.remove();
+
+  const blackHole = document.createElement("div");
+  blackHole.id = "blackHole";
+  blackHole.className = "planet";
+  blackHole.style.width = "30px";
+  blackHole.style.height = "30px";
+  blackHole.style.background = "#000";
+  blackHole.style.boxShadow = "0 0 10px #333";
+  blackHole.style.borderRadius = "50%";
+  blackHole.style.position = "absolute";
+  blackHole.style.top = "50%";
+  blackHole.style.left = "50%";
+  blackHole.style.transform = "translate(-50%, -50%)";
+  blackHole.style.cursor = "pointer";
+
+  solarSystem.appendChild(blackHole);
+  sunEl = blackHole;
+
+  atomDisplay.textContent = "🕳️ Black Hole Created - Click to Grow";
+  blackHole.addEventListener("click", growBlackHole);
+}
+
+
+function growBlackHole() {
+  if (!sunEl) return; // safety check
+
+  if (isSupermassive) {
+    spawnOrbitingSystem();
+    return;
+  }
+
+  blackHoleClicks++;
+  const scale = 1 + blackHoleClicks * 0.05;
+
+  // 👇 Protect access to sunEl
+  sunEl.style.width = `${30 * scale}px`;
+  sunEl.style.height = `${30 * scale}px`;
+
+  atomDisplay.textContent = `🕳️ Growing Black Hole: Stage ${blackHoleStage + 1}/9`;
+
+  if (blackHoleClicks >= 30) {
+    blackHoleClicks = 0;
+    blackHoleStage++;
+    if (blackHoleStage >= 9) {
+      isSupermassive = true;
+      atomDisplay.textContent = "🌌 SUPERMASSIVE BLACK HOLE! Click to spawn solar systems!";
+    }
+  }
+}
+
+function spawnOrbitingSystem() {
+  const planet = document.createElement("div");
+  planet.className = "planet";
+  planet.style.background = "white";
+  planet.style.width = "12px";
+  planet.style.height = "12px";
+  solarSystem.appendChild(planet);
+
+  const radius = 80 + Math.random() * 150;
+  const angle = Math.random() * Math.PI * 2;
+  const orbitFactor = 0.8 + Math.random() * 0.5;
+  const speed = 6000 + Math.random() * 3000;
+
+  anime({
+    targets: planet,
+    rotate: 360,
+    duration: speed,
+    loop: true,
+    easing: 'linear',
+    update: anim => {
+      const progressAngle = angle + (anim.progress / 100) * 2 * Math.PI;
+      const orbitX = Math.cos(progressAngle) * radius;
+      const orbitY = Math.sin(progressAngle) * radius * orbitFactor;
+      planet.style.transform = `translate(${orbitX}px, ${orbitY}px)`;
+    }
+  });
+}
+
+document.getElementById("clickButton").addEventListener("click", () => {
+  if (particleCount < 5) {
+    atoms *= 2;
+    size *= 1.5;
+    clickCount++;
+    atomDisplay.textContent = `Atoms: ${s(atoms)}`;
+    document.querySelectorAll('.particle').forEach(p => animateParticle(p, size, colors[colorIndex]));
+    if (clickCount >= 5) {
+      clickCount = 0;
+      bigBang();
+    }
+  } else {
+    if (solarStage <= maxPlanets) {
+      solarClicks++;
+      if (solarClicks >= 5) {
+        solarClicks = 0;
+        createSolarElement(solarStage);
+        solarStage++;
+        atomDisplay.textContent = `Solar System stage: ${solarStage}/${maxPlanets}`;
+      }
+    }
+    if (solarStage > maxPlanets && atomDisplay.textContent !== "🕳️ Black Hole Created - Click to Grow") {spawnAsteroid();}
+  }
+});
+
+setInterval(checkSunAbsorption, 200);
+setInterval(checkCollisions, 200); // ✅ make sure this is here!
+
+</script>
+</body>
+</html>
