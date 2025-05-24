@@ -12,12 +12,10 @@
       text-align: center;
       padding-top: 30px;
     }
-
     #atomCount {
       font-size: 30px;
       margin-bottom: 30px;
     }
-
     #clickButton {
       padding: 15px 30px;
       font-size: 20px;
@@ -28,7 +26,6 @@
       cursor: pointer;
       margin-bottom: 30px;
     }
-
     #particles {
       display: flex;
       justify-content: center;
@@ -37,7 +34,6 @@
       max-width: 600px;
       margin: 0 auto;
     }
-
     .particle {
       width: 10px;
       height: 10px;
@@ -45,7 +41,6 @@
       background-color: blue;
       transform: scale(1);
     }
-
     #solarSystem {
       position: relative;
       width: 500px;
@@ -53,7 +48,6 @@
       margin: 0 auto;
       display: none;
     }
-
     .planet {
       width: 20px;
       height: 20px;
@@ -63,7 +57,6 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
-
     #sun {
       width: 60px;
       height: 60px;
@@ -90,18 +83,16 @@
 
 <script>
 function s(num) {
-  const suffixes = [
-    "", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", 
-    "De", "UnDe", "DuDe", "TrDe", "QaDe", "QiDe", "SxDe", "SpDe", "OcDe", "NoDe", 
-    "Vg", "UnVg", "DuVg", "TrVg", "QaVg", "QiVg", "SxVg", "SpVg", "OcVg", "NoVg", 
-    "Tg", "UnTg", "DuTg", "TrTg", "QaTg", "QiTg", "SxTg", "SpTg", "OcTg", "NoTg", 
-    "Qag", "UnQag", "DuQag", "TrQag", "QaQag", "QiQag", "SxQag", "SpQag", "OcQag", "NoQag", 
-    "Qig", "UnQig", "DuQig", "TrQig", "QaQig", "QiQig", "SxQig", "SpQig", "OcQig", "NoQig", 
-    "Sxg", "UnSxg", "DuSxg", "TrSxg", "QaSxg", "QiSxg", "SxSxg", "SpSxg", "OcSxg", "NoSxg", 
-    "Spg", "UnSpg", "DuSpg", "TrSpg", "QaSpg", "QiSpg", "SxSpg", "SpSpg", "OcSpg", "NoSpg", 
-    "Og", "UnOg", "DuOg", "TrOg", "QaOg", "QiOg", "SxOg", "SpOg", "OcOg", "NoOg", 
-    "Ng", "UnNg", "DuNg", "TrNg", "QaNg", "QiNg", "SxNg", "SpNg", "OcNg", "NoNg", 
-    "Ce"
+  const suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No",
+    "De", "UnDe", "DuDe", "TrDe", "QaDe", "QiDe", "SxDe", "SpDe", "OcDe", "NoDe",
+    "Vg", "UnVg", "DuVg", "TrVg", "QaVg", "QiVg", "SxVg", "SpVg", "OcVg", "NoVg",
+    "Tg", "UnTg", "DuTg", "TrTg", "QaTg", "QiTg", "SxTg", "SpTg", "OcTg", "NoTg",
+    "Qag", "UnQag", "DuQag", "TrQag", "QaQag", "QiQag", "SxQag", "SpQag", "OcQag", "NoQag",
+    "Qig", "UnQig", "DuQig", "TrQig", "QaQig", "QiQig", "SxQig", "SpQig", "OcQig", "NoQig",
+    "Sxg", "UnSxg", "DuSxg", "TrSxg", "QaSxg", "QiSxg", "SxSxg", "SpSxg", "OcSxg", "NoSxg",
+    "Spg", "UnSpg", "DuSpg", "TrSpg", "QaSpg", "QiSpg", "SxSpg", "SpSpg", "OcSpg", "NoSpg",
+    "Og", "UnOg", "DuOg", "TrOg", "QaOg", "QiOg", "SxOg", "SpOg", "OcOg", "NoOg",
+    "Ng", "UnNg", "DuNg", "TrNg", "QaNg", "QiNg", "SxNg", "SpNg", "OcNg", "NoNg", "Ce"
   ];
   if (num === 0) return "0";
   const tier = Math.floor(Math.log10(Math.abs(num)) / 3);
@@ -119,7 +110,9 @@ const particlesContainer = document.getElementById("particles");
 const solarSystem = document.getElementById("solarSystem");
 
 let solarClicks = 0, solarStage = 0;
-const maxPlanets = 17;
+const maxPlanets = 18;
+let asteroidCount = 0;
+const maxAsteroids = 50;
 let planets = [];
 
 function animateParticle(p, newSize, newColor, isBigBang = false) {
@@ -179,12 +172,10 @@ function createSolarElement(stage) {
     const planet = document.createElement("div");
     planet.className = "planet";
     planet.style.background = `hsl(${i * 20}, 100%, 60%)`;
-    if (i === 5 || i === 8) planet.dataset.comet = "true"; // mark comet
+    if (i === 5 || i === 8) planet.dataset.comet = "true";
     solarSystem.appendChild(planet);
 
-    let orbitDirection = (i !== 5 && i !== 10 && i !== 14) ? 1 : -1;
-    let orbitFactor = (i === 5) ? -0.5 : 1;
-    orbitFactor = (i === 8) ? -3.2 : orbitFactor;
+    let orbitFactor = (i === 5) ? -0.5 : (i === 8) ? -3.2 : 1;
 
     anime({
       targets: planet,
@@ -202,8 +193,57 @@ function createSolarElement(stage) {
       }
     });
 
-    planets.push({ el: planet, index: i });
+    planets.push({
+      el: planet,
+      index: i,
+      isComet: i === 5 || i === 8,
+      velocity: 1 + i * 0.2,
+      orbitFactor: orbitFactor,
+      type: "planet"
+    });
   }
+}
+
+function spawnAsteroid() {
+  if (asteroidCount >= maxAsteroids) return;
+
+  const asteroid = document.createElement("div");
+  asteroid.className = "planet";
+  asteroid.style.width = "8px";
+  asteroid.style.height = "8px";
+  asteroid.style.background = "gray";
+
+  solarSystem.appendChild(asteroid);
+
+  const radius = 60 + Math.random() * 220;
+  const angle = Math.random() * Math.PI * 2;
+  const orbitFactor = 0.8 + Math.random() * 0.4;
+  const speed = 8000 + Math.random() * 4000;
+
+  anime({
+    targets: asteroid,
+    rotate: 360,
+    duration: speed,
+    loop: true,
+    easing: 'linear',
+    update: anim => {
+      const progressAngle = angle + (anim.progress / 100) * 2 * Math.PI;
+      const orbitX = Math.cos(progressAngle) * radius;
+      const orbitY = Math.sin(progressAngle) * radius * orbitFactor;
+      asteroid.style.transform = `translate(${orbitX}px, ${orbitY}px)`;
+    }
+  });
+
+  asteroidCount++;
+
+  planets.push({
+    el: asteroid,
+    velocity: 0.3 + Math.random() * 2,
+    orbitFactor: orbitFactor + 0.5 * Math.random(),
+    isComet: false,
+    index: -2,
+    type: "asteroid"
+  });
 }
 
 function checkCollisions() {
@@ -218,6 +258,26 @@ function checkCollisions() {
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist < 25) {
+        const bothAsteroids = a.type === "asteroid" && b.type === "asteroid";
+        if (bothAsteroids) continue; // no asteroid + asteroid merge
+
+        // allow asteroid + planet merge (and any other planet combo)
+        const fast = a.velocity > b.velocity ? a : b;
+        const slow = a.velocity > b.velocity ? b : a;
+
+        // Only planets/comets can eject others
+        if (
+          (a.isComet || b.isComet) &&
+          Math.abs(a.velocity - b.velocity) > 1.2 &&
+          slow.type !== "asteroid" // ← don't eject asteroids
+        ) {
+          if (fast.isComet) {
+            ejectPlanet(slow, dx, dy);
+            return;
+          }
+        }
+
+        // Merge any valid combination: asteroid + planet, planet + planet
         mergePlanets(a, b);
         return;
       }
@@ -225,32 +285,45 @@ function checkCollisions() {
   }
 }
 
+
+function ejectPlanet(planetObj, dx, dy) {
+  const el = planetObj.el;
+  if (planetObj.type === "asteroid") asteroidCount--;
+  planets = planets.filter(p => p !== planetObj);
+
+  const angle = Math.atan2(dy, dx);
+  const force = 1000;
+
+  const x = Math.cos(angle) * force;
+  const y = Math.sin(angle) * force;
+
+  anime({
+    targets: el,
+    translateX: x,
+    translateY: y,
+    duration: 2000,
+    easing: 'easeOutCubic',
+    complete: () => el.remove()
+  });
+}
+
 function mergePlanets(a, b) {
   const rectA = a.el.getBoundingClientRect();
   const rectB = b.el.getBoundingClientRect();
-
-  // Midpoint of collision
   const midX = (rectA.left + rectB.left) / 2;
   const midY = (rectA.top + rectB.top) / 2;
-
-  // Relative to solarSystem center
   const centerRect = solarSystem.getBoundingClientRect();
   const centerX = centerRect.left + centerRect.width / 2;
   const centerY = centerRect.top + centerRect.height / 2;
-
   const x = midX - centerX;
   const y = midY - centerY;
-
-  // Calculate angle and radius
   const radius = Math.sqrt(x * x + y * y);
-  const angle = Math.atan2(y, x); // Radians
+  const angle = Math.atan2(y, x);
+  const avgOrbitFactor = (a.orbitFactor + b.orbitFactor) / 2;
 
-  // Remove old planets
-  a.el.remove();
-  b.el.remove();
+  a.el.remove(); b.el.remove();
   planets = planets.filter(p => p !== a && p !== b);
 
-  // Create new merged planet
   const merged = document.createElement("div");
   merged.className = "planet";
   merged.style.width = "30px";
@@ -270,14 +343,20 @@ function mergePlanets(a, b) {
     update: anim => {
       const progressAngle = angle + (anim.progress / 100) * 2 * Math.PI;
       const orbitX = Math.cos(progressAngle) * radius;
-      const orbitY = Math.sin(progressAngle) * radius;
+      const orbitY = Math.sin(progressAngle) * radius * avgOrbitFactor;
       merged.style.transform = `translate(${orbitX}px, ${orbitY}px)`;
     }
   });
 
-  planets.push({ el: merged });
+  planets.push({
+    el: merged,
+    velocity: (a.velocity + b.velocity) / 2,
+    orbitFactor: avgOrbitFactor,
+    isComet: false,
+    index: -1,
+    type: "planet"
+  });
 }
-
 
 setInterval(checkCollisions, 100);
 
@@ -293,15 +372,23 @@ document.getElementById("clickButton").addEventListener("click", () => {
       bigBang();
     }
   } else {
-    solarClicks++;
-    if (solarClicks >= 5 && solarStage <= maxPlanets) {
-      solarClicks = 0;
-      createSolarElement(solarStage);
-      solarStage++;
-      atomDisplay.textContent = `Solar System stage: ${solarStage}/18`;
+    if (solarStage <= maxPlanets) {
+      solarClicks++;
+      if (solarClicks >= 5) {
+        solarClicks = 0;
+        createSolarElement(solarStage);
+        solarStage++;
+        atomDisplay.textContent = `Solar System stage: ${solarStage}/${maxPlanets + 1}`;
+      }
+    }
+
+    // Spawn asteroids only when solar system is complete
+    if (solarStage > maxPlanets) {
+      spawnAsteroid();
     }
   }
 });
+
 </script>
 </body>
 </html>
