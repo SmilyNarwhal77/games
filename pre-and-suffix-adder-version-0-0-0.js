@@ -7,6 +7,7 @@ function generateBigSuffixes() {
   let k = 3;
   for(let tyod = 0; tyod < thousandyearsofdeath.length; tyod++) {
 k = 3;
+      k += tyod * 3000;
 let uvz = k;
   for (let h = 0; h < hundreds.length; h++) {
       
