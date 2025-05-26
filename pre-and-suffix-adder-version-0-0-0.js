@@ -22,16 +22,22 @@ let uvz = k;
           k += 3 * u;
         let name;
         if (t === 0 && h === 0) {
-          if (u === 0) {
-            name = "K";
-          } else if (u === 1) {
-            name = "M";
-          } else if (u === 2) {
-            name = "B";
-          } else if (u === 3) {
-            name = "T";
-          } else {
-            name = units[u] + tens[t] + hundreds[h] + thousandyearsofdeath[tyod];
+          switch(u) {
+            case 0:
+              name = "K";
+              break;
+            case 1:
+              name = "M";
+              break;
+            case 2:
+              name = "B";
+              break;
+            case 3:
+              name = "T";
+              break;
+            default:
+              name = units[u] + tens[t] + hundreds[h] + thousandyearsofdeath[tyod];
+              break;
           }
         } else {
           name = units[u] + tens[t] + hundreds[h] + thousandyearsofdeath[tyod];
@@ -48,15 +54,16 @@ let uvz = k;
 k = uvz;}
   return suffixes;
 }
-function s(whateveryouwanttoputbetweenthesetwobracketsiadviseyoutoputanumberandiamalwaysright) {
-  const stuffineedbutidontbothertodomanuallyimsureyougetwhatimeanright = generateBigSuffixes();
-  if (whateveryouwanttoputbetweenthesetwobracketsiadviseyoutoputanumberandiamalwaysright === 0) return "0";
-  const tier = Math.floor(Math.log10(Math.abs(whateveryouwanttoputbetweenthesetwobracketsiadviseyoutoputanumberandiamalwaysright)) / 3);
-  if (tier === 0) return whateveryouwanttoputbetweenthesetwobracketsiadviseyoutoputanumberandiamalwaysright.toString();
-  const partofstuffineedbutidontbothertodomanuallyimsureyougetwhatimeanright = stuffineedbutidontbothertodomanuallyimsureyougetwhatimeanright[tier];
-  const quitesmallthingthatcamefromcalculationsifimnotwrongandihopeiamnotbecauseuhidk = Math.pow(10, tier * 3);
-  const endproducthopethisisgoodplsplspls = whateveryouwanttoputbetweenthesetwobracketsiadviseyoutoputanumberandiamalwaysright / quitesmallthingthatcamefromcalculationsifimnotwrongandihopeiamnotbecauseuhidk;
-  return endproducthopethisisgoodplsplspls.toFixed(3).replace(/\.000$/, "") + partofstuffineedbutidontbothertodomanuallyimsureyougetwhatimeanright;
+function s(num) {
+  const suffixes = generateBigSuffixes();
+  if (num === 0) return "0";
+  const tier = Math.floor(Math.log10(Math.abs(num)) / 3);
+  const maxTier = suffixes.length - 1;
+
+  const safeTier = Math.min(tier, maxTier);
+  const scaled = num / Math.pow(10, safeTier * 3);
+  const suffix = tier < suffixes.length
+    ? suffixes[safeTier]
+    : `(e${tier * 3})`;
+  return scaled.toFixed(3).replace(/\.000$/, "") + suffix;
 }
-//plsplsplsthisbetterworkorillblowuplikeauranium-235atomicbombokgooditworksatleastfornow:)
-console.log(s(55555555555555555 ** 55));
