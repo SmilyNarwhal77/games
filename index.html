@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en-GB">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZX8EWD8SB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MZX8EWD8SB');
+    </script>
     <meta charset="utf-8" />
     <title>My Tools</title>
     <style>
@@ -63,14 +71,14 @@
         color: #6c63ff;
       }
 
-      .simulators-container {
+      .simulators-container, .clickers-container, .others-container, .3d-container {
         display: flex;
         gap: 40px;
         justify-content: center;
         flex-wrap: wrap;
       }
 
-      .simulator {
+      .simulator, .clicker, .other, .3d {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -81,12 +89,19 @@
   <body>
     <div class="section">
       <div class="section-title">Clickers</div>
-      <div class="simulator">
+      <div class="clicker">
         <div class="icon">🍩</div>
         <a href="/donuts.html">Donut Clicker</a>
       </div>
+      <div class="clicker">
+        <div class="icon">🚀</div>
+        <a href="/space-clicker.html">Space Clicker I</a>
+      </div>
+      <div class="clicker">
+        <div class="icon">🌍</div>
+        <a href="/space-clicker-ii.html">Space Clicker II</a>
+      </div>
     </div>
-
     <div class="section">
       <div class="section-title">Simulators</div>
       <div class="simulators-container">
@@ -96,7 +111,16 @@
         </div>
         <div class="simulator">
           <div class="icon">⚾</div>
-          <a href="/ball.html">Ball Bouncing Simulator</a>
+          <a href="/balls.html">Ball Bouncing Simulator</a>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">3D Games and Models</div>
+      <div class="3d-container">
+        <div class="3d">
+          <div class="icon">🎁</div>
+          <a href="/tycoongame.html">3D Roblox Tycoon Game</a>
         </div>
       </div>
     </div>
