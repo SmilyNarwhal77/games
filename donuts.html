@@ -872,7 +872,8 @@
  	updateDonutPerSecond();
  	updateUI();
  	function reset() {
- 		let sigma = prompt("ARE YOU SURE YOU WANT TO RESET YOUR PROGRESS?! TYPE YES (NOT CASE SENSITIVE TO CONFIRM!)").toLowerCase()
+ 		let sigma = prompt("ARE YOU SURE YOU WANT TO RESET YOUR PROGRESS?! TYPE YES (NOT CASE SENSITIVE TO CONFIRM!)").toLowerCase();
+   if (!sigma) return
  		if (sigma === "yes") {
  		donut = 0;
  		donutPerClick = 1;
